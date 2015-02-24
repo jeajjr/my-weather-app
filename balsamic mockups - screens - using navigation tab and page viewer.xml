@@ -1,0 +1,505 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1897" measuredH="2118" mockupW="1753" mockupH="1538">
+  <controls>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::Canvas" x="496" y="580" w="444" h="761" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Canvas" x="497" y="580" w="443" h="27" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Canvas" x="497" y="601" w="443" h="70" measuredW="100" measuredH="70" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="42" controlTypeID="com.balsamiq.mockups::Title" x="556" y="621" w="-1" h="-1" measuredW="246" measuredH="31" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Syracuse%2C%20NY%2C%20USA</text>
+      </controlProperties>
+    </control>
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::SubTitle" x="863" y="621" w="-1" h="-1" measuredW="62" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>-12%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::HRule" x="511" y="621" w="25" h="-1" measuredW="100" measuredH="10" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::HRule" x="511" y="631" w="25" h="-1" measuredW="100" measuredH="10" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::HRule" x="511" y="641" w="25" h="-1" measuredW="100" measuredH="10" zOrder="7" locked="false" isInGroup="-1"/>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::SubTitle" x="700" y="757" w="-1" h="-1" measuredW="186" measuredH="75" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>72</size>
+        <text>-12%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::SubTitle" x="754" y="832" w="-1" h="-1" measuredW="132" measuredH="27" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%27-5%BAC/%27-15%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Icon" x="532" y="717" w="-1" h="-1" measuredW="128" measuredH="128" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CloudIcon%7Cxxlarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::SubTitle" x="533" y="846" w="-1" h="-1" measuredW="114" measuredH="19" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>overcast%20clouds</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::SubTitle" x="511" y="918" w="-1" h="-1" measuredW="158" measuredH="27" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Humidity%3A%2092%25</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::SubTitle" x="509" y="945" w="-1" h="-1" measuredW="174" measuredH="27" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wind%3A%201%20mph%2C%20NE</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::SubTitle" x="511" y="972" w="-1" h="-1" measuredW="204" measuredH="27" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pressure%3A%201028%20mb</text>
+      </controlProperties>
+    </control>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::Canvas" x="144" y="590" w="288" h="740" measuredW="100" measuredH="70" zOrder="15" locked="false" isInGroup="-1"/>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::HRule" x="159" y="650" w="258" h="-1" measuredW="100" measuredH="10" zOrder="16" locked="false" isInGroup="-1"/>
+    <control controlID="71" controlTypeID="com.balsamiq.mockups::Title" x="159" y="610" w="-1" h="-1" measuredW="148" measuredH="31" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>My%20weather</text>
+      </controlProperties>
+    </control>
+    <control controlID="72" controlTypeID="com.balsamiq.mockups::Title" x="159" y="660" w="-1" h="-1" measuredW="86" measuredH="23" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>20</size>
+        <text>My%20cities%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="73" controlTypeID="com.balsamiq.mockups::Title" x="181" y="696" w="-1" h="-1" measuredW="213" measuredH="27" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>24</size>
+        <text>Syracuse%2C%20NY%2C%20USA</text>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::Title" x="181" y="738" w="-1" h="-1" measuredW="236" measuredH="27" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Sao%20Carlos%2C%20SP%2C%20Brazil</text>
+      </controlProperties>
+    </control>
+    <control controlID="75" controlTypeID="com.balsamiq.mockups::Title" x="181" y="780" w="-1" h="-1" measuredW="204" measuredH="27" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Manage%20my%20cities...</text>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::HRule" x="159" y="811" w="258" h="-1" measuredW="100" measuredH="10" zOrder="22" locked="false" isInGroup="-1"/>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Title" x="159" y="833" w="-1" h="-1" measuredW="133" measuredH="27" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Preferences</text>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Icon" x="385" y="834" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GearIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Title" x="159" y="876" w="-1" h="-1" measuredW="158" measuredH="27" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>About%20this%20app</text>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Canvas" x="154" y="1357" w="444" h="761" measuredW="100" measuredH="70" zOrder="26" locked="false" isInGroup="-1"/>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Canvas" x="155" y="1357" w="443" h="27" measuredW="100" measuredH="70" zOrder="27" locked="false" isInGroup="-1"/>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Canvas" x="155" y="1378" w="443" h="70" measuredW="100" measuredH="70" zOrder="28" locked="false" isInGroup="-1"/>
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::Title" x="211" y="1398" w="-1" h="-1" measuredW="155" measuredH="31" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Preferences</text>
+      </controlProperties>
+    </control>
+    <control controlID="88" controlTypeID="com.balsamiq.mockups::Icon" x="169" y="1397" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>BackSpaceIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1457" w="-1" h="-1" measuredW="76" measuredH="27" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Unities</text>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::Switch" x="345" y="1492" w="-1" h="-1" measuredW="49" measuredH="28" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16777215</color>
+      </controlProperties>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1493" w="-1" h="-1" measuredW="88" measuredH="27" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6710886</color>
+        <size>24</size>
+        <text>Imperial</text>
+      </controlProperties>
+    </control>
+    <control controlID="95" controlTypeID="com.balsamiq.mockups::Title" x="480" y="1493" w="-1" h="-1" measuredW="69" measuredH="27" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Metric</text>
+      </controlProperties>
+    </control>
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::SubTitle" x="783" y="704" w="-1" h="-1" measuredW="144" measuredH="19" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>updated%20at%2010%3A30pm</text>
+      </controlProperties>
+    </control>
+    <control controlID="98" controlTypeID="com.balsamiq.mockups::HRule" x="169" y="1526" w="414" h="-1" measuredW="100" measuredH="10" zOrder="36" locked="false" isInGroup="-1"/>
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1536" w="-1" h="-1" measuredW="129" measuredH="27" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Hour%20format</text>
+      </controlProperties>
+    </control>
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::Switch" x="345" y="1571" w="-1" h="-1" measuredW="49" measuredH="28" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16777215</color>
+      </controlProperties>
+    </control>
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1572" w="-1" h="-1" measuredW="86" measuredH="27" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6710886</color>
+        <size>24</size>
+        <text>24%20hour</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Title" x="480" y="1572" w="-1" h="-1" measuredW="80" measuredH="27" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>12%20hour</text>
+      </controlProperties>
+    </control>
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::HRule" x="169" y="1609" w="414" h="-1" measuredW="100" measuredH="10" zOrder="41" locked="false" isInGroup="-1"/>
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1619" w="-1" h="-1" measuredW="129" measuredH="27" zOrder="42" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>Date%20format</text>
+      </controlProperties>
+    </control>
+    <control controlID="109" controlTypeID="com.balsamiq.mockups::Switch" x="345" y="1654" w="-1" h="-1" measuredW="49" measuredH="28" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>16777215</color>
+      </controlProperties>
+    </control>
+    <control controlID="110" controlTypeID="com.balsamiq.mockups::Title" x="176" y="1655" w="-1" h="-1" measuredW="82" measuredH="27" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>6710886</color>
+        <size>24</size>
+        <text>DD/MM</text>
+      </controlProperties>
+    </control>
+    <control controlID="111" controlTypeID="com.balsamiq.mockups::Title" x="480" y="1655" w="-1" h="-1" measuredW="82" measuredH="27" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>MM/DD</text>
+      </controlProperties>
+    </control>
+    <control controlID="112" controlTypeID="com.balsamiq.mockups::Canvas" x="496" y="669" w="444" h="27" measuredW="100" measuredH="70" zOrder="46" locked="false" isInGroup="-1"/>
+    <control controlID="113" controlTypeID="com.balsamiq.mockups::SubTitle" x="669" y="673" w="-1" h="-1" measuredW="92" measuredH="19" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>RIGHT%20NOW</text>
+      </controlProperties>
+    </control>
+    <control controlID="114" controlTypeID="com.balsamiq.mockups::Canvas" x="976" y="580" w="444" h="761" measuredW="100" measuredH="70" zOrder="48" locked="false" isInGroup="-1"/>
+    <control controlID="115" controlTypeID="com.balsamiq.mockups::Canvas" x="977" y="580" w="443" h="27" measuredW="100" measuredH="70" zOrder="49" locked="false" isInGroup="-1"/>
+    <control controlID="116" controlTypeID="com.balsamiq.mockups::Canvas" x="977" y="601" w="443" h="70" measuredW="100" measuredH="70" zOrder="50" locked="false" isInGroup="-1"/>
+    <control controlID="117" controlTypeID="com.balsamiq.mockups::Title" x="1036" y="621" w="-1" h="-1" measuredW="246" measuredH="31" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Syracuse%2C%20NY%2C%20USA</text>
+      </controlProperties>
+    </control>
+    <control controlID="118" controlTypeID="com.balsamiq.mockups::SubTitle" x="1343" y="621" w="-1" h="-1" measuredW="62" measuredH="27" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>-12%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="119" controlTypeID="com.balsamiq.mockups::HRule" x="991" y="621" w="25" h="-1" measuredW="100" measuredH="10" zOrder="53" locked="false" isInGroup="-1"/>
+    <control controlID="120" controlTypeID="com.balsamiq.mockups::HRule" x="991" y="631" w="25" h="-1" measuredW="100" measuredH="10" zOrder="54" locked="false" isInGroup="-1"/>
+    <control controlID="121" controlTypeID="com.balsamiq.mockups::HRule" x="991" y="641" w="25" h="-1" measuredW="100" measuredH="10" zOrder="55" locked="false" isInGroup="-1"/>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::SubTitle" x="1263" y="704" w="-1" h="-1" measuredW="144" measuredH="19" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>updated%20at%2010%3A30pm</text>
+      </controlProperties>
+    </control>
+    <control controlID="136" controlTypeID="com.balsamiq.mockups::Canvas" x="976" y="669" w="444" h="27" measuredW="100" measuredH="70" zOrder="57" locked="false" isInGroup="-1"/>
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::SubTitle" x="1136" y="673" w="-1" h="-1" measuredW="161" measuredH="19" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>3%20HOURS%20FORECAST</text>
+      </controlProperties>
+    </control>
+    <control controlID="138" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="889" w="-1" h="-1" measuredW="117" measuredH="63" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-1%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::Icon" x="1255" y="802" w="-1" h="-1" measuredW="128" measuredH="128" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CloudIcon%7Cxxlarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::SubTitle" x="1255" y="914" w="-1" h="-1" measuredW="114" measuredH="19" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>overcast%20clouds</text>
+      </controlProperties>
+    </control>
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::SubTitle" x="1232" y="961" w="-1" h="-1" measuredW="158" measuredH="27" zOrder="63" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Humidity%3A%2092%25</text>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="com.balsamiq.mockups::SubTitle" x="1216" y="988" w="-1" h="-1" measuredW="174" measuredH="27" zOrder="64" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wind%3A%201%20mph%2C%20NE</text>
+      </controlProperties>
+    </control>
+    <control controlID="144" controlTypeID="com.balsamiq.mockups::SubTitle" x="1186" y="1015" w="-1" h="-1" measuredW="204" measuredH="27" zOrder="65" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pressure%3A%201028%20mb</text>
+      </controlProperties>
+    </control>
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="967" w="-1" h="-1" measuredW="130" measuredH="63" zOrder="66" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-6%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Canvas" x="983" y="787" w="416" h="268" measuredW="100" measuredH="70" zOrder="59" locked="false" isInGroup="-1"/>
+    <control controlID="155" controlTypeID="com.balsamiq.mockups::SubTitle" x="991" y="727" w="-1" h="-1" measuredW="173" measuredH="63" zOrder="67" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>02/25</text>
+      </controlProperties>
+    </control>
+    <control controlID="156" controlTypeID="com.balsamiq.mockups::Canvas" x="983" y="1063" w="416" h="268" measuredW="100" measuredH="70" zOrder="68" locked="false" isInGroup="-1"/>
+    <control controlID="157" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="1165" w="-1" h="-1" measuredW="130" measuredH="63" zOrder="69" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-3%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="158" controlTypeID="com.balsamiq.mockups::Icon" x="1255" y="1078" w="-1" h="-1" measuredW="128" measuredH="128" zOrder="70" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CloudIcon%7Cxxlarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="159" controlTypeID="com.balsamiq.mockups::SubTitle" x="1255" y="1190" w="-1" h="-1" measuredW="114" measuredH="19" zOrder="71" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>overcast%20clouds</text>
+      </controlProperties>
+    </control>
+    <control controlID="160" controlTypeID="com.balsamiq.mockups::SubTitle" x="1232" y="1237" w="-1" h="-1" measuredW="158" measuredH="27" zOrder="72" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Humidity%3A%2090%25</text>
+      </controlProperties>
+    </control>
+    <control controlID="161" controlTypeID="com.balsamiq.mockups::SubTitle" x="1196" y="1261" w="-1" h="-1" measuredW="194" measuredH="27" zOrder="73" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wind%3A%205%20mph%2C%20NNE</text>
+      </controlProperties>
+    </control>
+    <control controlID="162" controlTypeID="com.balsamiq.mockups::SubTitle" x="1186" y="1291" w="-1" h="-1" measuredW="204" measuredH="27" zOrder="74" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pressure%3A%201030%20mb</text>
+      </controlProperties>
+    </control>
+    <control controlID="163" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="1243" w="-1" h="-1" measuredW="153" measuredH="63" zOrder="75" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-10%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="165" controlTypeID="com.balsamiq.mockups::Icon" x="511" y="1079" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="76" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>ShiftIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="166" controlTypeID="com.balsamiq.mockups::Icon" x="511" y="1113" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="77" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DownArrowIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="167" controlTypeID="com.balsamiq.mockups::SubTitle" x="511" y="1046" w="-1" h="-1" measuredW="43" measuredH="27" zOrder="78" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sun</text>
+      </controlProperties>
+    </control>
+    <control controlID="168" controlTypeID="com.balsamiq.mockups::SubTitle" x="543" y="1078" w="-1" h="-1" measuredW="86" measuredH="27" zOrder="79" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>6%3A43AM</text>
+      </controlProperties>
+    </control>
+    <control controlID="169" controlTypeID="com.balsamiq.mockups::SubTitle" x="543" y="1112" w="-1" h="-1" measuredW="84" measuredH="27" zOrder="80" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>5%3A32AM</text>
+      </controlProperties>
+    </control>
+    <control controlID="170" controlTypeID="com.balsamiq.mockups::SubTitle" x="511" y="1157" w="-1" h="-1" measuredW="143" measuredH="27" zOrder="81" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Last%203%20hours%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="171" controlTypeID="com.balsamiq.mockups::SubTitle" x="543" y="1191" w="-1" h="-1" measuredW="166" measuredH="27" zOrder="82" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>0%20inches%20of%20rain</text>
+      </controlProperties>
+    </control>
+    <control controlID="172" controlTypeID="com.balsamiq.mockups::SubTitle" x="543" y="1229" w="-1" h="-1" measuredW="196" measuredH="27" zOrder="83" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1.5%20inches%20of%20snow</text>
+      </controlProperties>
+    </control>
+    <control controlID="174" controlTypeID="com.balsamiq.mockups::Icon" x="511" y="1230" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="84" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AsteriskIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="175" controlTypeID="com.balsamiq.mockups::Icon" x="511" y="1192" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="85" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SpinningIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="176" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="796" w="-1" h="-1" measuredW="220" measuredH="27" zOrder="86" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>12%3A00PM%20to%2015%3A00PM</text>
+      </controlProperties>
+    </control>
+    <control controlID="177" controlTypeID="com.balsamiq.mockups::SubTitle" x="992" y="1078" w="-1" h="-1" measuredW="219" measuredH="27" zOrder="87" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>24</size>
+        <text>15%3A00PM%20to%2018%3A00PM</text>
+      </controlProperties>
+    </control>
+    <control controlID="178" controlTypeID="com.balsamiq.mockups::Canvas" x="1453" y="580" w="444" h="761" measuredW="100" measuredH="70" zOrder="88" locked="false" isInGroup="-1"/>
+    <control controlID="179" controlTypeID="com.balsamiq.mockups::Canvas" x="1454" y="580" w="443" h="27" measuredW="100" measuredH="70" zOrder="89" locked="false" isInGroup="-1"/>
+    <control controlID="180" controlTypeID="com.balsamiq.mockups::Canvas" x="1454" y="601" w="443" h="70" measuredW="100" measuredH="70" zOrder="90" locked="false" isInGroup="-1"/>
+    <control controlID="181" controlTypeID="com.balsamiq.mockups::Title" x="1513" y="621" w="-1" h="-1" measuredW="246" measuredH="31" zOrder="91" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Syracuse%2C%20NY%2C%20USA</text>
+      </controlProperties>
+    </control>
+    <control controlID="182" controlTypeID="com.balsamiq.mockups::SubTitle" x="1820" y="621" w="-1" h="-1" measuredW="62" measuredH="27" zOrder="92" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>-12%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="183" controlTypeID="com.balsamiq.mockups::HRule" x="1468" y="621" w="25" h="-1" measuredW="100" measuredH="10" zOrder="93" locked="false" isInGroup="-1"/>
+    <control controlID="184" controlTypeID="com.balsamiq.mockups::HRule" x="1468" y="631" w="25" h="-1" measuredW="100" measuredH="10" zOrder="94" locked="false" isInGroup="-1"/>
+    <control controlID="185" controlTypeID="com.balsamiq.mockups::HRule" x="1468" y="641" w="25" h="-1" measuredW="100" measuredH="10" zOrder="95" locked="false" isInGroup="-1"/>
+    <control controlID="186" controlTypeID="com.balsamiq.mockups::SubTitle" x="1740" y="704" w="-1" h="-1" measuredW="144" measuredH="19" zOrder="96" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>updated%20at%2010%3A30pm</text>
+      </controlProperties>
+    </control>
+    <control controlID="187" controlTypeID="com.balsamiq.mockups::Canvas" x="1453" y="669" w="444" h="27" measuredW="100" measuredH="70" zOrder="97" locked="false" isInGroup="-1"/>
+    <control controlID="188" controlTypeID="com.balsamiq.mockups::SubTitle" x="1613" y="673" w="-1" h="-1" measuredW="149" measuredH="19" zOrder="98" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>16%20DAYS%20FORECAST</text>
+      </controlProperties>
+    </control>
+    <control controlID="189" controlTypeID="com.balsamiq.mockups::Canvas" x="1457" y="745" w="416" h="409" measuredW="100" measuredH="70" zOrder="99" locked="false" isInGroup="-1"/>
+    <control controlID="190" controlTypeID="com.balsamiq.mockups::SubTitle" x="1739" y="825" w="-1" h="-1" measuredW="117" measuredH="63" zOrder="100" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-1%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="191" controlTypeID="com.balsamiq.mockups::Icon" x="1474" y="800" w="-1" h="-1" measuredW="128" measuredH="128" zOrder="101" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CloudIcon%7Cxxlarge</icon>
+      </controlProperties>
+    </control>
+    <control controlID="192" controlTypeID="com.balsamiq.mockups::SubTitle" x="1474" y="912" w="-1" h="-1" measuredW="114" measuredH="19" zOrder="102" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>overcast%20clouds</text>
+      </controlProperties>
+    </control>
+    <control controlID="193" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="948" w="-1" h="-1" measuredW="158" measuredH="27" zOrder="103" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Humidity%3A%2092%25</text>
+      </controlProperties>
+    </control>
+    <control controlID="194" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="973" w="-1" h="-1" measuredW="174" measuredH="27" zOrder="104" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wind%3A%201%20mph%2C%20NE</text>
+      </controlProperties>
+    </control>
+    <control controlID="195" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="998" w="-1" h="-1" measuredW="204" measuredH="27" zOrder="105" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pressure%3A%201028%20mb</text>
+      </controlProperties>
+    </control>
+    <control controlID="196" controlTypeID="com.balsamiq.mockups::SubTitle" x="1710" y="890" w="-1" h="-1" measuredW="150" measuredH="63" zOrder="106" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>-15%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="197" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="754" w="-1" h="-1" measuredW="115" measuredH="43" zOrder="107" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>40</size>
+        <text>02/25</text>
+      </controlProperties>
+    </control>
+    <control controlID="208" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="1037" w="-1" h="-1" measuredW="193" measuredH="23" zOrder="108" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>20</size>
+        <text>Average%20temperature%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="209" controlTypeID="com.balsamiq.mockups::SubTitle" x="1474" y="1070" w="-1" h="-1" measuredW="66" measuredH="21" zOrder="109" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Morning</text>
+      </controlProperties>
+    </control>
+    <control controlID="210" controlTypeID="com.balsamiq.mockups::SubTitle" x="1466" y="1092" w="-1" h="-1" measuredW="85" measuredH="43" zOrder="110" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>40</size>
+        <text>-5%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="211" controlTypeID="com.balsamiq.mockups::SubTitle" x="1630" y="1068" w="-1" h="-1" measuredW="67" measuredH="21" zOrder="111" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Evening</text>
+      </controlProperties>
+    </control>
+    <control controlID="212" controlTypeID="com.balsamiq.mockups::SubTitle" x="1622" y="1090" w="-1" h="-1" measuredW="88" measuredH="43" zOrder="112" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>40</size>
+        <text>-2%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="213" controlTypeID="com.balsamiq.mockups::SubTitle" x="1774" y="1068" w="-1" h="-1" measuredW="44" measuredH="21" zOrder="113" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Night</text>
+      </controlProperties>
+    </control>
+    <control controlID="214" controlTypeID="com.balsamiq.mockups::SubTitle" x="1766" y="1090" w="-1" h="-1" measuredW="103" measuredH="43" zOrder="114" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>40</size>
+        <text>-12%BAC</text>
+      </controlProperties>
+    </control>
+    <control controlID="216" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1399" y="718" w="-1" h="620" measuredW="16" measuredH="100" zOrder="115" locked="false" isInGroup="-1"/>
+    <control controlID="217" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1875" y="718" w="-1" h="620" measuredW="16" measuredH="100" zOrder="116" locked="false" isInGroup="-1"/>
+  </controls>
+</mockup>
