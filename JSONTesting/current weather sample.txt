@@ -1,0 +1,9 @@
+{
+"coord":{"lon":-47.89,"lat":-22.01},
+"sys":{"message":0.0088,"country":"Brazil","sunrise":1424768753,"sunset":1424814211},
+"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}],
+"base":"cmc stations",
+"main":{"temp":293.534,"temp_min":293.534,"temp_max":293.534,"pressure":948.2,"sea_level":1026.91,"grnd_level":948.2,"humidity":85},
+"wind":{"speed":2.21,"deg":139.501},
+"clouds":{"all":48},
+"dt":1424755544,"id":0,"name":"São Carlos","cod":200}
