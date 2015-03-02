@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Humidity: 85%"
-                android:id="@+id/textView3"
+                android:id="@+id/textViewCurrHumidity"
                 android:layout_gravity="right"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp" />
@@ -77,7 +77,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Wind: 1 mph, NE"
                 android:layout_gravity="right"
-                android:id="@+id/textView4"
+                android:id="@+id/textViewCurrWind"
                 android:layout_marginRight="5dp" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Pressure: 1028 mb"
                 android:layout_gravity="right"
-                android:id="@+id/textView5"
+                android:id="@+id/textViewCurrPressure"
                 android:layout_marginRight="5dp" />
 
             </LinearLayout>
