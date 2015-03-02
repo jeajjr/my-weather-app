@@ -1,4 +1,4 @@
-package com.homespotter.weatherinternshipproject;
+package com.homespotter.weatherinternshipproject.data;
 
 /**
  * This class stores the String index of the HashMaps that hold the city

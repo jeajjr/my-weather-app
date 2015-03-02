@@ -1,4 +1,4 @@
-package com.homespotter.weatherinternshipproject;
+package com.homespotter.weatherinternshipproject.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;

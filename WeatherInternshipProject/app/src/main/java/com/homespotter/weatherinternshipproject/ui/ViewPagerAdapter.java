@@ -1,4 +1,4 @@
-package com.homespotter.weatherinternshipproject;
+package com.homespotter.weatherinternshipproject.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +17,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new CurrentConditionsFragment();
+        return new FragmentCurrentConditions();
     }
 
     @Override

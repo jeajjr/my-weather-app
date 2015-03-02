@@ -1,6 +1,4 @@
-package com.homespotter.weatherinternshipproject;
-
-import android.util.Log;
+package com.homespotter.weatherinternshipproject.data;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,7 +59,7 @@ public class DataParser {
 			return null;
 		}
 		
-		try { currentConditions.weatherInfo.put(WeatherParameters.pressure, jObject.getJSONObject("main").getDouble("temp_max")); } catch (JSONException e) {
+		try { currentConditions.weatherInfo.put(WeatherParameters.pressure, jObject.getJSONObject("main").getDouble("pressure")); } catch (JSONException e) {
 		}
 		// wind data
 		try { currentConditions.weatherInfo.put(WeatherParameters.windSpeed, jObject.getJSONObject("wind").getDouble("speed")); } catch (JSONException e) {}
@@ -77,17 +75,17 @@ public class DataParser {
 		// snow data
 		try { currentConditions.weatherInfo.put(WeatherParameters.snowPrecipitation, jObject.getJSONObject("snow").getInt("3h")); } catch (JSONException e) {}
 
-        /*
+
 		// store when data was received
 		currentConditions.weatherInfo.put(WeatherParameters.dateReceived, Calendar.getInstance());
-		((Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived)).setTimeInMillis(jObject.getInt("dt") * 1000L);
+        try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived)).setTimeInMillis(jObject.getInt("dt") * 1000L); } catch (JSONException e) {}
 
 		currentConditions.weatherInfo.put(WeatherParameters.sunrise, Calendar.getInstance());
-		((Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise)).setTimeInMillis(jObject.getJSONObject("sys").getInt("sunrise") * 1000L);
+        try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise)).setTimeInMillis(jObject.getJSONObject("sys").getInt("sunrise") * 1000L); } catch (JSONException e) {}
 		
 		currentConditions.weatherInfo.put(WeatherParameters.sunset, Calendar.getInstance());
-		((Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset)).setTimeInMillis(jObject.getJSONObject("sys").getInt("sunset") * 1000L);
-*/
+        try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset)).setTimeInMillis(jObject.getJSONObject("sys").getInt("sunset") * 1000L); } catch (JSONException e) {}
+
 		return currentConditions;
 	}
 	

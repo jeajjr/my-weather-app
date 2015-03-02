@@ -1,4 +1,6 @@
-package com.homespotter.weatherinternshipproject;
+package com.homespotter.weatherinternshipproject.data;
+
+import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -7,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WeatherClient {
+    private static WeatherClient instance = null;
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
 	
 	private static String CURRENT_COND_URL = "weather?q=";
@@ -16,8 +19,20 @@ public class WeatherClient {
 	private static String SIXTEEN_DAYS_FORECAST_URL = "forecast/daily?q=";
 	private static String COUNT_URL = "&cnt=";
 	private static int COUNT = 10;
-	
-	public static String getCurrentConditionsData(String location) {
+
+    // Using singleton pattern to guarantee a single instance
+    public static WeatherClient getInstance() {
+        if (instance == null) {
+            instance = new WeatherClient();
+        }
+        return instance;
+    }
+
+    private WeatherClient() {
+    }
+
+
+    public static String getCurrentConditionsData(String location) {
 		return sendRequest(BASE_URL + CURRENT_COND_URL + location);
 	}
 	
