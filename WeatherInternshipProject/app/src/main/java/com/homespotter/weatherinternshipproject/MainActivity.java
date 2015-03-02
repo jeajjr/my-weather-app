@@ -7,7 +7,17 @@ import android.os.Bundle;
 /**
  * Weather app template project.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements DataProvider {
+
+    @Override
+    public String getCityName() {
+        return "Syracuse, NY";
+    }
+
+    @Override
+    public String getTemperatureUnit() {
+        return "C";
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
