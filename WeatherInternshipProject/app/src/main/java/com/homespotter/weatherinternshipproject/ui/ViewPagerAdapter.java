@@ -17,12 +17,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new FragmentCurrentConditions();
+        switch (position) {
+            case 0:
+                return new FragmentCurrentConditions();
+            case 1:
+                return new FragmentThreeHoursForecast();
+        }
+        return null;
     }
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     /**
@@ -36,6 +42,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 name = "current conditions";
+                break;
+            case 1:
+                name = "3 hours forecast";
                 break;
             default:
                 name = "current conditions";

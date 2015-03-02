@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="12:00pm to 15:00pm"
-        android:id="@+id/textView12"/>
+        android:text="03/25, 12:00pm"
+        android:id="@+id/textViewPeriod"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,14 +29,15 @@
                 android:text="-6ºC"
                 android:textSize="50sp"
                 android:layout_marginTop="15dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/textViewTemperature" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Humidity: 85%"
-                android:id="@+id/textViewCurrHumidity"
+                android:id="@+id/textViewHumidity"
                 android:layout_marginTop="15dp"/>
 
             <TextView
@@ -44,14 +45,14 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Wind: 1 mph, NE"
-                android:id="@+id/textViewCurrWind"/>
+                android:id="@+id/textViewWind"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Pressure: 1028 mb"
-                android:id="@+id/textViewCurrPressure"/>
+                android:id="@+id/textViewPressure"/>
 
         </LinearLayout>
 
@@ -64,7 +65,7 @@
             <ImageView
                 android:layout_width="100sp"
                 android:layout_height="100sp"
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewIcon"
                 android:src="@drawable/sun"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
@@ -75,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:text="Clear skies"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:id="@+id/textViewDescription" />
 
         </LinearLayout>
     </LinearLayout>
