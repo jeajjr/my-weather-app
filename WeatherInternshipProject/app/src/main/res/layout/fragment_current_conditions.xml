@@ -141,8 +141,8 @@
 
     <GridLayout
         android:orientation="vertical"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
