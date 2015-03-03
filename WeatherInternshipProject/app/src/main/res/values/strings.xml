@@ -8,5 +8,8 @@
     <string name="weather_pressure">Pressure</string>
     <string name="weather_last_three_hours">Last 3 hours</string>
     <string name="warning_loading">Loading</string>
+    <string name="title_activity_activity_start">StartActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

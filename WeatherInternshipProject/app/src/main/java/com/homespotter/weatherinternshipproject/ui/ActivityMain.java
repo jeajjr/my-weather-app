@@ -26,7 +26,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     FragmentCurrentConditions fragmentCurrentConditions = null;
     FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
 
-    String cityName = "syracuse,united states of america";
+    String cityName;
 
     /*
         Methods of DataProviderInterface
@@ -125,6 +125,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cityName = getIntent().getExtras().getString("cityName");
+
+        Log.d(TAG, "received city: " + cityName);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 

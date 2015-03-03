@@ -86,6 +86,4 @@ public class FragmentThreeHoursForecast extends Fragment {
 
         return v;
     }
-
-
 }
