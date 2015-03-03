@@ -26,7 +26,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     FragmentCurrentConditions fragmentCurrentConditions = null;
     FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
 
-    String cityName = "sao carlos, brazil";
+    String cityName = "syracuse,united states of america";
 
     /*
         Methods of DataProviderInterface
@@ -43,6 +43,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     @Override
     public void setThreeHoursForecastFragment(FragmentThreeHoursForecast fragmentThreeHoursForecast) {
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
+
+        // If threeHoursForecast is already fetched, send it to fragment
+        if (threeHoursForecast != null)
+            fragmentThreeHoursForecast.setConditions(threeHoursForecast);
     }
 
     @Override
@@ -69,14 +73,12 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             public void run() {
                 Log.d(TAG, "Getting current conditions");
 
+                //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
+
                 String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName);
 
                 Log.d(TAG, "Parsing current conditions");
                 currentConditions = DataParser.parseCurrentConditions(currentData);
-
-                Log.d(TAG, "before sleep");
-                try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
-                Log.d(TAG, "after sleep");
 
                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
                 if (fragmentCurrentConditions != null) {
@@ -84,6 +86,31 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         @Override
                         public void run() {
                             fragmentCurrentConditions.setConditions(currentConditions);
+                        }
+                    });
+                }
+            }
+        }.start();
+    }
+
+    public void fetchThreeHoursForecast() {
+        new Thread() {
+            public void run() {
+                Log.d(TAG, "Getting 3 hour forecast");
+
+                try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
+
+                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName);
+
+                Log.d(TAG, "Parsing current conditions");
+                threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+
+                // If fragmentCurrentConditions has been created and is waiting for the data, send it
+                if (fragmentCurrentConditions != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fragmentThreeHoursForecast.setConditions(threeHoursForecast);
                         }
                     });
                 }
@@ -105,5 +132,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         mViewPager.setAdapter(viewPagerAdapter);
 
         fetchCurrentConditions();
+        fetchThreeHoursForecast();
     }
 }

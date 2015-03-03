@@ -2,13 +2,16 @@ package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.homespotter.weatherinternshipproject.R;
@@ -43,6 +46,8 @@ public class FragmentCurrentConditions extends Fragment {
     TextView sunrise;
     TextView sunset;
     TextView lastHours;
+
+    FrameLayout mainLayout;
 
     // Loading dialog
     ProgressDialog progressDialog;
@@ -79,6 +84,10 @@ public class FragmentCurrentConditions extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_current_conditions, container, false);
 
+        // fade list while loading
+        mainLayout = (FrameLayout) v.findViewById(R.id.layout);
+        mainLayout.getForeground().setAlpha(200);
+
         // show progress dialog while data is being fetched
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage(getResources().getString(R.string.warning_loading));
@@ -106,6 +115,8 @@ public class FragmentCurrentConditions extends Fragment {
 
     private void updateScreenData() {
         Log.d(TAG, "updateScreenData");
+
+        progressDialog.show();
 
         String temperatureUnit = dataProvider.getTemperatureUnit();
 
@@ -170,7 +181,7 @@ public class FragmentCurrentConditions extends Fragment {
         sunset.setText(sf.format(sunsetCal.getTime()));
 
         String lastHoursText = getResources().getString(R.string.weather_last_three_hours);
-        Double rain = (Double) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
+        Integer rain = (Integer) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
         if (rain != null) {
             if (temperatureUnit.compareTo("F") == 0)
                 lastHoursText += String.format("%.1f", rain*0.03937) + " inches";
@@ -178,7 +189,7 @@ public class FragmentCurrentConditions extends Fragment {
                 lastHoursText += rain + " mm";
         }
         else {
-            Double snow = (Double) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
+            Integer snow = (Integer) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
             if (snow != null) {
                 if (temperatureUnit.compareTo("F") == 0)
                     lastHoursText += String.format("%.1f", snow*0.03937) + " inches";
@@ -192,6 +203,7 @@ public class FragmentCurrentConditions extends Fragment {
         lastHours.setText(lastHoursText);
 
         progressDialog.dismiss();
+        mainLayout.getForeground().setAlpha(0);
         Log.d(TAG, "updateScreenData done");
     }
 }

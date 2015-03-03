@@ -71,13 +71,20 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
         public void bindForecastData (Map<String, ?> data) {
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
+                    String temperatureUnit = "C"; //TODO
                     //icon;
-/*
+
                     Calendar time = (Calendar) data.get(WeatherParameters.forecastDate);
-                    SimpleDateFormat sf = new SimpleDateFormat("dd:MM, hh:mm aa");
+                    SimpleDateFormat sf = new SimpleDateFormat("dd/MM, hh:mm aa");
                     period.setText(sf.format(time.getTime()));
+
+                    Double temperatureDouble = (Double) data.get(WeatherParameters.temperature);
+                    if (temperatureUnit.compareTo("F") == 0)
+                        temperatureDouble = (temperatureDouble - 273.15)*1.8 + 32.0;
+                    else
+                        temperatureDouble -= 273.15;
+                    temperature.setText(String.format("%.0f", temperatureDouble) + "º" + temperatureUnit);
                     /*
-                    temperature = (TextView) v.findViewById(R.id.textViewTemperature);
                     description = (TextView) v.findViewById(R.id.textViewDescription);
                     humidity = (TextView) v.findViewById(R.id.textViewHumidity);
                     wind = (TextView) v.findViewById(R.id.textViewWind);

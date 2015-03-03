@@ -1,84 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    card_view:cardUseCompatPadding="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="03/25, 12:00pm"
-        android:id="@+id/textViewPeriod"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-6ºC"
-                android:textSize="50sp"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/textViewTemperature" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Humidity: 85%"
-                android:id="@+id/textViewHumidity"
-                android:layout_marginTop="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Wind: 1 mph, NE"
-                android:id="@+id/textViewWind"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Pressure: 1028 mb"
-                android:id="@+id/textViewPressure"/>
-
-        </LinearLayout>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="03/25, 12:00pm"
+            android:id="@+id/textViewPeriod"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="100sp"
-                android:layout_height="100sp"
-                android:id="@+id/imageViewIcon"
-                android:src="@drawable/sun"
-                android:layout_gravity="center_horizontal"
-                android:background="@android:color/transparent"
-                android:layout_marginTop="20dp" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear skies"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_gravity="center"
-                android:id="@+id/textViewDescription" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-6ºC"
+                    android:textSize="50sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/textViewTemperature" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Humidity: 85%"
+                    android:id="@+id/textViewHumidity"
+                    android:layout_marginTop="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Wind: 1 mph, NE"
+                    android:id="@+id/textViewWind"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Pressure: 1028 mb"
+                    android:id="@+id/textViewPressure"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:id="@+id/imageViewIcon"
+                    android:src="@drawable/sun"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear skies"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_gravity="center"
+                    android:id="@+id/textViewDescription" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    </android.support.v7.widget.CardView>

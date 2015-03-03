@@ -1,11 +1,13 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/layout"
     tools:context="com.homespotter.weatherinternshipproject.ui.FragmentCurrentConditions"
-    android:background="#ffffffff">
+    android:background="#ffffffff"
+    android:foreground="@drawable/fading_rectangle" >
 
 
     <ScrollView
@@ -167,4 +169,4 @@
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</FrameLayout>
