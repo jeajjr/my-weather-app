@@ -64,37 +64,26 @@ public class FragmentCurrentConditions extends Fragment {
 
     }
 
+    public void setConditions (CurrentConditions currentConditions) {
+        Log.d(TAG, "setConditions");
+
+        Log.d(TAG, (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
+        this.currentConditions = currentConditions;
+
+        updateScreenData();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_current_conditions, container, false);
 
-        if (dataProvider.checkInternetAccess()) {
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage(getResources().getString(R.string.warning_loading));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-            new Thread() {
-                public void run() {
-                    Log.d(TAG, "Getting current conditions for " + dataProvider.getCityName());
-                    String currentData = WeatherClient.getInstance().getCurrentConditionsData(dataProvider.getCityName());
-
-                    Log.d(TAG, "Parsing current conditions");
-                    currentConditions = DataParser.parseCurrentConditions(currentData);
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            updateScreenData();
-                        }
-                    });
-                }
-            }.start();
-        }
-        else {
-            Log.d(TAG, "no internet connection");
-        }
+        // show progress dialog while data is being fetched
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         updatedTime = (TextView) v.findViewById(R.id.textViewCurrUpdated);
         icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
@@ -109,6 +98,9 @@ public class FragmentCurrentConditions extends Fragment {
         sunset = (TextView) v.findViewById(R.id.textViewCurrSunset);
         lastHours = (TextView) v.findViewById(R.id.textViewCurrLastHours);
 
+        dataProvider.setCurrentConditionsFragment(this);
+
+        Log.d(TAG, "done onCreateView");
         return v;
     }
 
@@ -120,7 +112,7 @@ public class FragmentCurrentConditions extends Fragment {
         //updatedTime.setText(currentConditions.weatherInfo.get());
         //icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
 
-        description.setText(currentConditions.weatherInfo.get(WeatherParameters.weatherDescription).toString());
+        description.setText( (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
 
         Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
         if (temperatureUnit.compareTo("F") == 0)
@@ -165,9 +157,10 @@ public class FragmentCurrentConditions extends Fragment {
 
         wind.setText(windInfo);
 
-        humidity.setText(getResources().getString(R.string.weather_humidity) + ": " + currentConditions.weatherInfo.get(WeatherParameters.humidity).toString() + "%");
+        int humidityInt = (int) currentConditions.weatherInfo.get(WeatherParameters.humidity);
+        humidity.setText(getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");
 
-        pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + currentConditions.weatherInfo.get(WeatherParameters.pressure).toString() + " mb");
+        pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + currentConditions.weatherInfo.get(WeatherParameters.pressure) + " mb");
 
         Calendar sunriseCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise);
         SimpleDateFormat sf = new SimpleDateFormat("hh:mm aa");
