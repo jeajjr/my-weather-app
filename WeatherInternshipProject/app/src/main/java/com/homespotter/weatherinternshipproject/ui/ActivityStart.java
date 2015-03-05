@@ -22,6 +22,7 @@ public class ActivityStart extends ActionBarActivity {
         // If no file directory was found, a new city must be added. Otherwise, open
         // forecast of main city.
         String cityName = FilesHandler.getInstance().getSavedCity(getApplicationContext());
+
         if (cityName == null) {
             Log.d(TAG, "no city saved");
             // intent to find city

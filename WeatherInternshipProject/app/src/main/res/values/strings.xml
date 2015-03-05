@@ -11,5 +11,9 @@
     <string name="title_activity_activity_start">StartActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="update_updated">Updated</string>
+    <string name="update_time_less_than_one_minute_ago">Updated less than one minute ago</string>
+    <string name="update_time_minutes_ago">minutes ago</string>
+    <string name="update_time_hours_ago">hours ago</string>
 
 </resources>

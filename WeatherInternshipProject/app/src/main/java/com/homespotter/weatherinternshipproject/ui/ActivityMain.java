@@ -34,6 +34,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private final String TEMPERATURE_UNIT_IMPERIAL = "F";
     private final String TEMPERATURE_UNIT_METRIC = "C";
 
+
+
     /*
         Methods of DataProviderInterface
      */

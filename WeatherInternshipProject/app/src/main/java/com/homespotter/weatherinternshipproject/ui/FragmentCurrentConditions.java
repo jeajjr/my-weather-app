@@ -2,8 +2,8 @@ package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.homespotter.weatherinternshipproject.R;
 import com.homespotter.weatherinternshipproject.data.CurrentConditions;
-import com.homespotter.weatherinternshipproject.data.DataParser;
-import com.homespotter.weatherinternshipproject.data.WeatherClient;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
 import java.text.SimpleDateFormat;
@@ -52,6 +49,19 @@ public class FragmentCurrentConditions extends Fragment {
     // Loading dialog
     ProgressDialog progressDialog;
 
+    // Schedule a refresh for the last update tag
+    private int refreshInterval = 60 * 1000; // 60 seconds refresh
+    private Handler refreshHandler;
+    private boolean handlerScheduled = false;
+    Runnable refresherRunnable = new Runnable() {
+        @Override
+        public void run() {
+            refreshLastUpdateTag();
+            refreshHandler.postDelayed(refresherRunnable, refreshInterval);
+            Log.d(TAG, "last update tag updated");
+        }
+    };
+
     public FragmentCurrentConditions() {
         // Required empty public constructor
     }
@@ -64,25 +74,12 @@ public class FragmentCurrentConditions extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    public void setConditions (CurrentConditions currentConditions) {
-        Log.d(TAG, "setConditions");
-
-        Log.d(TAG, (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
-        this.currentConditions = currentConditions;
-
-        updateScreenData();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_current_conditions, container, false);
+
+        refreshHandler = new Handler();
 
         // fade list while loading
         mainLayout = (FrameLayout) v.findViewById(R.id.layout);
@@ -113,12 +110,49 @@ public class FragmentCurrentConditions extends Fragment {
         return v;
     }
 
+    private void scheduleRefresh() {
+        refresherRunnable.run();
+    }
+
+    public void setConditions (CurrentConditions currentConditions) {
+        Log.d(TAG, "setConditions");
+
+        Log.d(TAG, (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
+        this.currentConditions = currentConditions;
+
+        updateScreenData();
+    }
+
+    private void refreshLastUpdateTag() {
+        Calendar updatedTimeCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived);
+        Calendar now = Calendar.getInstance();
+        long difference =  now.getTimeInMillis() - updatedTimeCal.getTimeInMillis();
+        difference /= 1000; // difference is now in seconds
+
+        String timeStamp = "";
+        if (difference < 60)
+            timeStamp = getResources().getString(R.string.update_time_less_than_one_minute_ago);
+        else if ((difference /= 60) < 60) // difference is now in minutes
+            timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
+                    getResources().getString(R.string.update_time_minutes_ago);
+        else if ((difference /= 60) < 24) // difference is now in hours
+            timeStamp = getResources().getString(R.string.update_updated) + " " + difference +  " " +
+                    getResources().getString(R.string.update_time_hours_ago);
+
+        updatedTime.setText(timeStamp);
+    }
     private void updateScreenData() {
         Log.d(TAG, "updateScreenData");
 
+        if (!handlerScheduled) {
+            scheduleRefresh();
+            handlerScheduled = true;
+        }
+
         progressDialog.show();
 
-        //updatedTime.setText(currentConditions.weatherInfo.get());
+        refreshLastUpdateTag();
+
         //icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
 
         description.setText( (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));

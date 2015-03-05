@@ -78,7 +78,7 @@ public class DataParser {
 
 		// store when data was received
 		currentConditions.weatherInfo.put(WeatherParameters.dateReceived, Calendar.getInstance());
-        try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived)).setTimeInMillis(jObject.getInt("dt") * 1000L); } catch (JSONException e) {}
+        //try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived)).setTimeInMillis(jObject.getInt("dt") * 1000L); } catch (JSONException e) {}
 
 		currentConditions.weatherInfo.put(WeatherParameters.sunrise, Calendar.getInstance());
         try { ((Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise)).setTimeInMillis(jObject.getJSONObject("sys").getInt("sunrise") * 1000L); } catch (JSONException e) {}
