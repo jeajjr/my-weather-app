@@ -118,60 +118,38 @@ public class FragmentCurrentConditions extends Fragment {
 
         progressDialog.show();
 
-        String temperatureUnit = dataProvider.getTemperatureUnit();
-
         //updatedTime.setText(currentConditions.weatherInfo.get());
         //icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
 
         description.setText( (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
 
         Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
-        if (temperatureUnit.compareTo("F") == 0)
-            temperature = (temperature - 273.15)*1.8 + 32.0;
-        else
-            temperature -= 273.15;
-        currentTemperature.setText(String.format("%.0f", temperature) + "º" + temperatureUnit);
+        currentTemperature.setText(String.format("%.0f", temperature) + "º" + currentConditions.temperatureUnit);
 
         Double temperatureMax = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMax);
-        if (temperatureUnit.compareTo("F") == 0)
-            temperatureMax = (temperatureMax - 273.15)*1.8 + 32.0;
-        else
-            temperatureMax -= 273.15;
-        maxTemperature.setText(String.format("%.0f", temperatureMax) + "º" + temperatureUnit);
+        maxTemperature.setText(String.format("%.0f", temperatureMax) + "º" + currentConditions.temperatureUnit);
 
         Double temperatureMin = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMin);
-        if (temperatureUnit.compareTo("F") == 0)
-            temperatureMin = (temperatureMin - 273.15)*1.8 + 32.0;
-        else
-            temperatureMin -= 273.15;
-        minTemperature.setText(String.format("%.0f", temperatureMin) + "º" + temperatureUnit);
+        minTemperature.setText(String.format("%.0f", temperatureMin) + "º" + currentConditions.temperatureUnit);
 
         Double windSpeed = (Double) currentConditions.weatherInfo.get(WeatherParameters.windSpeed);
         Double windDirection = (Double) currentConditions.weatherInfo.get(WeatherParameters.windDegrees);
         Double windGusts = (Double) currentConditions.weatherInfo.get(WeatherParameters.windGusts);
 
         String windInfo = getResources().getString(R.string.weather_wind) + ": ";
-        if (temperatureUnit.compareTo("F") == 0)
-            windInfo += String.format("%.0f", windSpeed) + " mph";
-        else
-            windInfo += String.format("%.0f", windSpeed*1.609) + " km/h";
-
+        windInfo += String.format("%.0f", windSpeed) + " " + currentConditions.speedUnit;
         windInfo += ", " + String.format("%.0f", windDirection) + "º";
-
         // Some locations may not support detailed information
         if (windGusts != null) {
-            if (temperatureUnit.compareTo("F") == 0)
-                windInfo += String.format("%.0f", windGusts) + " mph";
-            else
-                windInfo += String.format("%.0f", windGusts * 1.609) + " km/h";
+            windInfo += ", " + String.format("%.0f", windGusts) + " " + currentConditions.speedUnit;
         }
-
         wind.setText(windInfo);
 
         int humidityInt = (int) currentConditions.weatherInfo.get(WeatherParameters.humidity);
         humidity.setText(getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");
 
-        pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + currentConditions.weatherInfo.get(WeatherParameters.pressure) + " mb");
+        pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + String.format("%.1f",
+                currentConditions.weatherInfo.get(WeatherParameters.pressure)) + " mb");
 
         Calendar sunriseCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise);
         SimpleDateFormat sf = new SimpleDateFormat("hh:mm aa");
@@ -183,18 +161,12 @@ public class FragmentCurrentConditions extends Fragment {
         String lastHoursText = getResources().getString(R.string.weather_last_three_hours);
         Integer rain = (Integer) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
         if (rain != null) {
-            if (temperatureUnit.compareTo("F") == 0)
-                lastHoursText += String.format("%.1f", rain*0.03937) + " inches";
-            else
-                lastHoursText += rain + " mm";
+            lastHoursText += rain + " mm";
         }
         else {
             Integer snow = (Integer) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
             if (snow != null) {
-                if (temperatureUnit.compareTo("F") == 0)
-                    lastHoursText += String.format("%.1f", snow*0.03937) + " inches";
-                else
-                    lastHoursText += snow + " mm";
+                lastHoursText += snow + " mm";
             }
             else {
                 lastHoursText = "";

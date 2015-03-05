@@ -78,7 +78,7 @@
                     android:textSize="40dp"
                     android:text="-5ºC"
                     android:id="@+id/textViewCurrMaxTemperature"
-                    android:textColor="@android:color/holo_blue_dark"
+                    android:textColor="@android:color/holo_red_light"
                     android:layout_gravity="right" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:textSize="40dp"
                     android:text="-15ºC"
                     android:id="@+id/textViewCurrMinTemperature"
-                    android:textColor="@android:color/holo_red_light"
+                    android:textColor="@android:color/holo_blue_dark"
                     android:layout_gravity="right" />
                 </LinearLayout>
             </LinearLayout>

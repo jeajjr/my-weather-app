@@ -1,6 +1,5 @@
 package com.homespotter.weatherinternshipproject.ui;
 
-import com.homespotter.weatherinternshipproject.data.CurrentConditions;
 
 /**
  * This interface should be implemented by the Activity and will ease the
@@ -10,10 +9,6 @@ import com.homespotter.weatherinternshipproject.data.CurrentConditions;
  * path to send and received information.
  */
 public interface DataProviderInterface {
-    public String getCityName();
-    public String getTemperatureUnit();
-    public boolean checkInternetAccess();
-
     public void setCurrentConditionsFragment(FragmentCurrentConditions fragmentCurrentConditions);
     public void setThreeHoursForecastFragment(FragmentThreeHoursForecast fragmentThreeHoursForecast);
 }

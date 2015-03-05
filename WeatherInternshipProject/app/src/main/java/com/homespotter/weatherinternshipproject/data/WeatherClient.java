@@ -9,16 +9,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WeatherClient {
+    // Class instance
     private static WeatherClient instance = null;
+
+    // Requests URLs
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
-	
 	private static String CURRENT_COND_URL = "weather?q=";
-	
 	private static String FIVE_DAYS_FORECAST_URL = "forecast?q=";
-	
 	private static String SIXTEEN_DAYS_FORECAST_URL = "forecast/daily?q=";
 	private static String COUNT_URL = "&cnt=";
 	private static int COUNT = 10;
+    private static String METRIC_UNITS_URL = "&units=metric";
+    private static String IMPERIAL_UNITS_URL = "&units=imperial";
+
+    // Units options
+    public static int METRIC_UNITS = 0;
+    public static int IMPERIAL_UNITS = 1;
 
     // Using singleton pattern to guarantee a single instance
     public static WeatherClient getInstance() {
@@ -31,24 +37,22 @@ public class WeatherClient {
     private WeatherClient() {
     }
 
+    public static String getCurrentConditionsData(String location, int units) {
+        return sendRequest(BASE_URL + CURRENT_COND_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+    }
 
-    public static String getCurrentConditionsData(String location) {
-		return sendRequest(BASE_URL + CURRENT_COND_URL + location);
-	}
-	
-	public static String getFiveDaysForecastData (String location) {
-		return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location);
-	}
-	
-	public static String getSixteenDaysForecastData (String location) {
-		return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT);
-	}
-	
+    public static String getFiveDaysForecastData (String location, int units) {
+        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+    }
+
+    public static String getSixteenDaysForecastData (String location, int units) {
+        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+    }
+
 	public static String sendRequest (String requestString) {
 		HttpURLConnection con = null;
 		InputStream is = null;
 
-System.out.println(requestString);
 		try {
 			con = (HttpURLConnection) ( new URL(requestString)).openConnection();
 			con.setRequestMethod("GET");

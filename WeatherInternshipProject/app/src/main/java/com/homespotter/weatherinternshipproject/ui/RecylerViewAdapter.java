@@ -38,7 +38,8 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
     private MultipleWeatherForecast dataSet;
     private int forecastType;
 
-    public RecylerViewAdapter(DataProviderInterface dataProvider, MultipleWeatherForecast dataSet, int forecastType) {
+    public RecylerViewAdapter(Context context, DataProviderInterface dataProvider, MultipleWeatherForecast dataSet, int forecastType) {
+        this.context = context;
         this.dataProvider = dataProvider;
         this.dataSet = dataSet;
         this.forecastType = forecastType;
@@ -71,7 +72,6 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
         public void bindForecastData (Map<String, ?> data) {
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
-                    String temperatureUnit = "C"; //TODO
                     //icon;
 
                     Calendar time = (Calendar) data.get(WeatherParameters.forecastDate);
@@ -79,17 +79,29 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
                     period.setText(sf.format(time.getTime()));
 
                     Double temperatureDouble = (Double) data.get(WeatherParameters.temperature);
-                    if (temperatureUnit.compareTo("F") == 0)
-                        temperatureDouble = (temperatureDouble - 273.15)*1.8 + 32.0;
-                    else
-                        temperatureDouble -= 273.15;
-                    temperature.setText(String.format("%.0f", temperatureDouble) + "º" + temperatureUnit);
-                    /*
-                    description = (TextView) v.findViewById(R.id.textViewDescription);
-                    humidity = (TextView) v.findViewById(R.id.textViewHumidity);
-                    wind = (TextView) v.findViewById(R.id.textViewWind);
-                    pressure
-                    */
+                    temperature.setText(String.format("%.0f", temperatureDouble) + "º" + dataSet.temperatureUnit);
+
+                    description.setText((String) data.get(WeatherParameters.weatherDescription));
+
+                    int humidityInt = (Integer) data.get(WeatherParameters.humidity);
+                    humidity.setText(context.getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");
+
+                    Double windSpeed = (Double) data.get(WeatherParameters.windSpeed);
+                    Double windDirection = (Double) data.get(WeatherParameters.windDegrees);
+                    Double windGusts = (Double) data.get(WeatherParameters.windGusts);
+
+                    String windInfo = context.getResources().getString(R.string.weather_wind) + ": ";
+                    windInfo += String.format("%.0f", windSpeed) + " " + dataSet.speedUnit;
+                    windInfo += ", " + String.format("%.0f", windDirection) + "º";
+                    // Some locations may not support detailed information
+                    if (windGusts != null) {
+                        windInfo += ", " + String.format("%.0f", windGusts) + " " + dataSet.speedUnit;
+                    }
+                    wind.setText(windInfo);
+
+                    pressure.setText(context.getResources().getString(R.string.weather_pressure) + ": " +
+                            data.get(WeatherParameters.pressure) + " mb");
+
                     break;
             }
         }

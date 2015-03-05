@@ -49,7 +49,7 @@ public class FragmentThreeHoursForecast extends Fragment {
     }
 
     public void createRecyclerViewAdapter() {
-        recylerViewAdapter = new RecylerViewAdapter(dataProvider, multipleWeatherForecast, RecylerViewAdapter.THREE_HOUR_FORECAST);
+        recylerViewAdapter = new RecylerViewAdapter(getActivity(), dataProvider, multipleWeatherForecast, RecylerViewAdapter.THREE_HOUR_FORECAST);
         recyclerView.setAdapter(recylerViewAdapter);
 
         progressDialog.dismiss();

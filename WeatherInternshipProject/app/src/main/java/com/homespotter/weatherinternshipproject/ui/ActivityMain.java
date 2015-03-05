@@ -19,14 +19,20 @@ import com.homespotter.weatherinternshipproject.data.WeatherClient;
 public class ActivityMain extends ActionBarActivity implements DataProviderInterface {
     private final static String TAG = "ActivityMain";
 
-    CurrentConditions currentConditions = null;
-    MultipleWeatherForecast threeHoursForecast = null;
-    MultipleWeatherForecast dailyForecast = null;
+    private CurrentConditions currentConditions = null;
+    private MultipleWeatherForecast threeHoursForecast = null;
+    private MultipleWeatherForecast dailyForecast = null;
 
-    FragmentCurrentConditions fragmentCurrentConditions = null;
-    FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
+    private FragmentCurrentConditions fragmentCurrentConditions = null;
+    private FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
 
-    String cityName;
+    private String cityName;
+
+    private int units;
+    private final String SPEED_UNIT_IMPERIAL= "mph";
+    private final String SPEED_UNIT_METRIC = "km/h";
+    private final String TEMPERATURE_UNIT_IMPERIAL = "F";
+    private final String TEMPERATURE_UNIT_METRIC = "C";
 
     /*
         Methods of DataProviderInterface
@@ -49,17 +55,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fragmentThreeHoursForecast.setConditions(threeHoursForecast);
     }
 
-    @Override
-    public String getCityName() {
-        return "Syracuse, NY";
-    }
-
-    @Override
-    public String getTemperatureUnit() {
-        return "C";
-    }
-
-    @Override
     public boolean checkInternetAccess() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return (cm.getActiveNetworkInfo() != null);
@@ -75,10 +70,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName);
+                String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, units);
 
                 Log.d(TAG, "Parsing current conditions");
                 currentConditions = DataParser.parseCurrentConditions(currentData);
+                currentConditions.temperatureUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                currentConditions.speedUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
 
                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
                 if (fragmentCurrentConditions != null) {
@@ -98,12 +97,16 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             public void run() {
                 Log.d(TAG, "Getting 3 hour forecast");
 
-                try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
+                //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName);
+                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, units);
 
                 Log.d(TAG, "Parsing current conditions");
                 threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+                threeHoursForecast.temperatureUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                threeHoursForecast.speedUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
 
                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
                 if (fragmentCurrentConditions != null) {
@@ -127,8 +130,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         setContentView(R.layout.activity_main);
 
         cityName = getIntent().getExtras().getString("cityName");
-
-        Log.d(TAG, "received city: " + cityName);
+        units = WeatherClient.METRIC_UNITS;
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 

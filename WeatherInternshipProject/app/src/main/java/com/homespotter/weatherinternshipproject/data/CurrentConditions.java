@@ -14,8 +14,10 @@ import java.util.HashMap;
 public class CurrentConditions {
 	public HashMap<String, Object> locationInfo;
 	public HashMap<String, Object>  weatherInfo;
-	
-	public CurrentConditions() {
+    public String temperatureUnit;
+    public String speedUnit;
+
+    public CurrentConditions() {
 		locationInfo = new HashMap<String, Object>();
 		weatherInfo = new HashMap<String, Object>();
 	}

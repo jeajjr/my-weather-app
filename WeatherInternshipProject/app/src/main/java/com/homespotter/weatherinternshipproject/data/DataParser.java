@@ -46,8 +46,8 @@ public class DataParser {
 			// main data
 			currentConditions.weatherInfo.put(WeatherParameters.temperature, jObject.getJSONObject("main").getDouble("temp"));
 			currentConditions.weatherInfo.put(WeatherParameters.humidity, jObject.getJSONObject("main").getInt("humidity"));
-			currentConditions.weatherInfo.put(WeatherParameters.temperatureMin, jObject.getJSONObject("main").getDouble("temp_max"));
-			currentConditions.weatherInfo.put(WeatherParameters.temperatureMax,jObject.getJSONObject("main").getDouble("temp_min"));
+			currentConditions.weatherInfo.put(WeatherParameters.temperatureMin, jObject.getJSONObject("main").getDouble("temp_min"));
+			currentConditions.weatherInfo.put(WeatherParameters.temperatureMax,jObject.getJSONObject("main").getDouble("temp_max"));
 			
 			// weather data
 			currentConditions.weatherInfo.put(WeatherParameters.weatherID, jObject.getJSONArray("weather").getJSONObject(0).getInt("id"));
@@ -221,8 +221,7 @@ public class DataParser {
 				weatherInstance.put(WeatherParameters.weatherGroup, weatherJSONArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("main"));
 				weatherInstance.put(WeatherParameters.weatherDescription, weatherJSONArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("description"));
 				weatherInstance.put(WeatherParameters.weatherIconID, weatherJSONArray.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("icon"));
-			
-				
+
 				// wind data
 				try { weatherInstance.put(WeatherParameters.windSpeed, weatherJSONArray.getJSONObject(i).getJSONObject("wind").getDouble("speed")); } catch (JSONException e) {}
 				try { weatherInstance.put(WeatherParameters.windDegrees, weatherJSONArray.getJSONObject(i).getJSONObject("wind").getDouble("deg")); } catch (JSONException e) {}

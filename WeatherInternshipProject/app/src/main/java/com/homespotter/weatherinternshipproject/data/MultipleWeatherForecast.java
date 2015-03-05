@@ -17,7 +17,9 @@ import java.util.HashMap;
 public class MultipleWeatherForecast {
 	public HashMap<String, Object> locationInfo;
 	public ArrayList<HashMap<String, ?>> weatherInfoList;
-	
+	public String temperatureUnit;
+    public String speedUnit;
+
 	public MultipleWeatherForecast() {
 		locationInfo = new HashMap<String, Object>();
 		weatherInfoList = new ArrayList<HashMap<String, ?>>();
