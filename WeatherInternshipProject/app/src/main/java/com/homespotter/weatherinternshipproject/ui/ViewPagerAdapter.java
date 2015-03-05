@@ -1,8 +1,11 @@
 package com.homespotter.weatherinternshipproject.ui;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.homespotter.weatherinternshipproject.R;
 
 import java.util.Locale;
 
@@ -10,9 +13,13 @@ import java.util.Locale;
  * Created by José Ernesto on 01/03/2015.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
+    FragmentManager fm;
+    Context context;
 
-    public ViewPagerAdapter (FragmentManager fm) {
+    public ViewPagerAdapter (FragmentManager fm, Context context) {
         super(fm);
+        this.fm = fm;
+        this.context = context;
     }
 
     @Override
@@ -31,9 +38,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return 2;
     }
 
-    /**
-     * Just for future customization.
-     */
     @Override
     public CharSequence getPageTitle(int position) {
         Locale l = Locale.getDefault();
@@ -41,13 +45,16 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                name = "current conditions";
+                name = context.getResources().getString(R.string.tab_title_current_conditions);
                 break;
             case 1:
-                name = "3 hours forecast";
+                name = context.getResources().getString(R.string.tab_title_three_hours_forecast);
+                break;
+            case 2:
+                name = context.getResources().getString(R.string.tab_title_daily_forecast);
                 break;
             default:
-                name = "current conditions";
+                name = context.getResources().getString(R.string.tab_title_current_conditions);
                 break;
         }
         return name.toUpperCase(l);

@@ -29,12 +29,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private String cityName;
 
     private int units;
-    private final String SPEED_UNIT_IMPERIAL= "mph";
+    private final String SPEED_UNIT_IMPERIAL = "mph";
     private final String SPEED_UNIT_METRIC = "km/h";
     private final String TEMPERATURE_UNIT_IMPERIAL = "F";
     private final String TEMPERATURE_UNIT_METRIC = "C";
-
-
 
     /*
         Methods of DataProviderInterface
@@ -134,7 +132,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         cityName = getIntent().getExtras().getString("cityName");
         units = WeatherClient.METRIC_UNITS;
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
         ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(viewPagerAdapter);
