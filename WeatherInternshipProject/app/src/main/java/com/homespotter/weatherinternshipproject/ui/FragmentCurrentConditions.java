@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +75,11 @@ public class FragmentCurrentConditions extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -129,18 +135,21 @@ public class FragmentCurrentConditions extends Fragment {
         long difference =  now.getTimeInMillis() - updatedTimeCal.getTimeInMillis();
         difference /= 1000; // difference is now in seconds
 
-        String timeStamp = "";
-        if (difference < 60)
-            timeStamp = getResources().getString(R.string.update_time_less_than_one_minute_ago);
-        else if ((difference /= 60) < 60) // difference is now in minutes
-            timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
-                    getResources().getString(R.string.update_time_minutes_ago);
-        else if ((difference /= 60) < 24) // difference is now in hours
-            timeStamp = getResources().getString(R.string.update_updated) + " " + difference +  " " +
-                    getResources().getString(R.string.update_time_hours_ago);
+        if (isAdded()) {
+            String timeStamp = "";
+            if (difference < 60)
+                timeStamp = getResources().getString(R.string.update_time_less_than_one_minute_ago);
+            else if ((difference /= 60) < 60) // difference is now in minutes
+                timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
+                        getResources().getString(R.string.update_time_minutes_ago);
+            else if ((difference /= 60) < 24) // difference is now in hours
+                timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
+                        getResources().getString(R.string.update_time_hours_ago);
 
-        updatedTime.setText(timeStamp);
+            updatedTime.setText(timeStamp);
+        }
     }
+
     private void updateScreenData() {
         Log.d(TAG, "updateScreenData");
 
