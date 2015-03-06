@@ -14,7 +14,8 @@ public class WeatherClient {
 
     // Requests URLs
 	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
-	private static String CURRENT_COND_URL = "weather?q=";
+    private static String FIND_URL = "find?q=";
+    private static String CURRENT_COND_URL = "weather?q=";
 	private static String FIVE_DAYS_FORECAST_URL = "forecast?q=";
 	private static String SIXTEEN_DAYS_FORECAST_URL = "forecast/daily?q=";
 	private static String COUNT_URL = "&cnt=";
@@ -37,19 +38,22 @@ public class WeatherClient {
     private WeatherClient() {
     }
 
-    public static String getCurrentConditionsData(String location, int units) {
+    public String findCity(String city) {
+        return sendRequest(BASE_URL + FIND_URL + city );
+    }
+    public String getCurrentConditionsData(String location, int units) {
         return sendRequest(BASE_URL + CURRENT_COND_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-    public static String getFiveDaysForecastData (String location, int units) {
+    public String getFiveDaysForecastData (String location, int units) {
         return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-    public static String getSixteenDaysForecastData (String location, int units) {
+    public String getSixteenDaysForecastData (String location, int units) {
         return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-	public static String sendRequest (String requestString) {
+	public String sendRequest (String requestString) {
 		HttpURLConnection con = null;
 		InputStream is = null;
 

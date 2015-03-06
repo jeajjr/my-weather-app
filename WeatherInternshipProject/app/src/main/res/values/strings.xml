@@ -10,6 +10,10 @@
     <string name="weather_pressure">Pressure</string>
     <string name="weather_last_three_hours">Last 3 hours</string>
     <string name="warning_loading">Loading</string>
+    <string name="warning_network_unavailable">Network service unavailable. Check your internet connection and try again.</string>
+    <string name="warning_error_request">An error occurred when accessing the server. Check your internet connection and try again later.</string>
+    <string name="warning_city_not_found_with_name">No city found with name </string>
+    <string name="dialog_search_results">Search results:</string>
     <string name="title_activity_activity_start">StartActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -17,5 +21,10 @@
     <string name="update_time_less_than_one_minute_ago">Updated less than one minute ago</string>
     <string name="update_time_minutes_ago">minutes ago</string>
     <string name="update_time_hours_ago">hours ago</string>
+    <string name="start_dialog_title">Add new city</string>
+    <string name="start_dialog_message">It seems that you haven\'t set a location yet. Type the city name and state or country below:</string>
+    <string name="start_dialog_search">Search</string>
+    <string name="start_dialog_search_hint">Minneapolis, MN</string>
+    <string name="start_dialog_city_empty">Type a city name on the search box</string>
 
 </resources>

@@ -1,5 +1,8 @@
 package com.homespotter.weatherinternshipproject.data;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import org.json.*;
@@ -17,7 +20,48 @@ import org.json.*;
  */
 public class DataParser {
     private static String TAG = "DataParser";
-	
+
+    /**
+     * Parse a city search request data.
+     * @param data: data received from the city search JSON request.
+     * @return: a ArrayList<String> containing the city names found on
+     * the request.
+     */
+    public static ArrayList<String> parseCitySearchResults(String data) {
+        ArrayList<String> cityList = new ArrayList<String>();
+
+        // JSON object
+        JSONObject jObject;
+
+        try {
+            jObject = new JSONObject(data);
+
+            int cnt = jObject.getInt("count");
+            Log.d(TAG, "city count: " + cnt);
+
+            JSONArray citiesJSONArray = jObject.getJSONArray("list");
+
+            // iterate through the entire weather list
+            for (int i = 0; i < cnt; i++) {
+                String completeCityName;
+
+                // get city name
+                completeCityName = citiesJSONArray.getJSONObject(i).getString("name");
+
+                // get country name
+                completeCityName += ", " + citiesJSONArray.getJSONObject(i).getJSONObject("sys").getString("country");
+
+                Log.d(TAG, "got city: " + completeCityName);
+
+                cityList.add(completeCityName);
+            }
+
+        } catch (JSONException e) {
+            return null;
+        }
+
+        return cityList;
+    }
 	/**
 	 * Parse a current weather request data.
 	 * @param data: data received from the current conditions JSON request.
@@ -34,8 +78,7 @@ public class DataParser {
 		/* If an exception is thrown in the creationg of the JSONObject or
 		 * while parsing the basic information, the data is broken or useless.
 		 */
-		try { 
-			
+		try {
 			jObject = new JSONObject(data);
 
 			// City location information
@@ -115,7 +158,6 @@ public class DataParser {
 			fiveDaysForecast.locationInfo.put(WeatherParameters.countryName, jObject.getJSONObject("city").getString("country"));
 			
 			int cnt = jObject.getInt("cnt");
-			System.out.println(cnt);
 			
 			JSONArray weatherJSONArray = jObject.getJSONArray("list");
 			

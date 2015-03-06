@@ -1,6 +1,7 @@
 package com.homespotter.weatherinternshipproject.data;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,8 @@ import java.util.Arrays;
  * This class will be responsible for handling files saved on the device's internal store.
  */
 public class FilesHandler {
+    private static final String TAG = "FilesHandler";
+
     private static FilesHandler instance;
 
     private static String CITY_FILE = "city.txt";
@@ -28,6 +31,18 @@ public class FilesHandler {
     }
 
     private FilesHandler() {
+    }
+
+    public void removeSavedCity(Context context) {
+        try {
+            File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
+
+            f.delete();
+            Log.d(TAG, "deleted city file");
+
+        } catch (Exception e) {
+            return;
+        }
     }
 
     public void setCityName(Context context, String cityName) {
