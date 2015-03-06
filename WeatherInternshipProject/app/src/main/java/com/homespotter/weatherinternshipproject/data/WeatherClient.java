@@ -20,12 +20,9 @@ public class WeatherClient {
 	private static String SIXTEEN_DAYS_FORECAST_URL = "forecast/daily?q=";
 	private static String COUNT_URL = "&cnt=";
 	private static int COUNT = 10;
+
     private static String METRIC_UNITS_URL = "&units=metric";
     private static String IMPERIAL_UNITS_URL = "&units=imperial";
-
-    // Units options
-    public static int METRIC_UNITS = 0;
-    public static int IMPERIAL_UNITS = 1;
 
     // Using singleton pattern to guarantee a single instance
     public static WeatherClient getInstance() {
@@ -42,15 +39,15 @@ public class WeatherClient {
         return sendRequest(BASE_URL + FIND_URL + city );
     }
     public String getCurrentConditionsData(String location, int units) {
-        return sendRequest(BASE_URL + CURRENT_COND_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + CURRENT_COND_URL + location + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
     public String getFiveDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
     public String getSixteenDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + (units == IMPERIAL_UNITS ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
 	public String sendRequest (String requestString) {

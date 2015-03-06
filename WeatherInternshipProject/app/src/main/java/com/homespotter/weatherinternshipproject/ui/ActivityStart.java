@@ -132,6 +132,7 @@ public class ActivityStart extends ActionBarActivity {
     public void callMainActivity() {
         Intent intent = new Intent(this, ActivityMain.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

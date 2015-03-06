@@ -13,6 +13,7 @@ import com.homespotter.weatherinternshipproject.data.CurrentConditions;
 import com.homespotter.weatherinternshipproject.data.DataParser;
 import com.homespotter.weatherinternshipproject.data.FilesHandler;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
+import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
 
 /**
@@ -30,7 +31,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private String cityName;
 
-    private int units;
+    private SettingsProfile settingsProfile;
+
     private final String SPEED_UNIT_IMPERIAL = "mph";
     private final String SPEED_UNIT_METRIC = "km/h";
     private final String TEMPERATURE_UNIT_IMPERIAL = "F";
@@ -73,13 +75,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                     //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                    String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, units);
+
+                    String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
 
                     Log.d(TAG, "Parsing current conditions");
                     currentConditions = DataParser.parseCurrentConditions(currentData);
-                    currentConditions.temperatureUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                    currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                             TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                    currentConditions.speedUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                    currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                             SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
 
                     // If fragmentCurrentConditions has been created and is waiting for the data, send it
@@ -106,13 +109,13 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, units);
+                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, settingsProfile.getUnits());
 
                 Log.d(TAG, "Parsing current conditions");
                 threeHoursForecast = DataParser.parseFiveDaysForecast(data);
-                threeHoursForecast.temperatureUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                         TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                threeHoursForecast.speedUnit = (units == WeatherClient.IMPERIAL_UNITS) ?
+                threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                         SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
 
                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
@@ -140,9 +143,15 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         setContentView(R.layout.activity_main);
 
         // this activity is only called when there is a saved city, so there is no need to check it
-        cityName = FilesHandler.getInstance().getSavedCity(getApplicationContext());
-        units = WeatherClient.METRIC_UNITS;
+        cityName = FilesHandler.getInstance().getSavedCity(this);
+        settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
 
+        if (settingsProfile == null) {
+            Log.d(TAG, "settingsProfile null");
+        }
+        else {
+            Log.d(TAG, "settingsProfile not null");
+        }
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
         ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
