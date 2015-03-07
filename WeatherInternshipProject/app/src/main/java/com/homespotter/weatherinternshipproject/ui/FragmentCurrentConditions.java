@@ -202,15 +202,15 @@ public class FragmentCurrentConditions extends Fragment {
         Calendar sunsetCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset);
         sunset.setText(sf.format(sunsetCal.getTime()));
 
-        String lastHoursText = getResources().getString(R.string.weather_last_three_hours);
+        String lastHoursText = getResources().getString(R.string.weather_last_three_hours) + ": ";
         Integer rain = (Integer) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
         if (rain != null) {
-            lastHoursText += rain + " mm";
+            lastHoursText += rain + " mm of rain";
         }
         else {
             Integer snow = (Integer) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
             if (snow != null) {
-                lastHoursText += snow + " mm";
+                lastHoursText += snow + " mm of snow";
             }
             else {
                 lastHoursText = "";

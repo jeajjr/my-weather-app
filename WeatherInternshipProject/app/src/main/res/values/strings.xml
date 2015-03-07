@@ -26,5 +26,8 @@
     <string name="start_dialog_search">Search</string>
     <string name="start_dialog_search_hint">Minneapolis, MN</string>
     <string name="start_dialog_city_empty">Type a city name on the search box</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+
 
 </resources>

@@ -15,12 +15,15 @@ import java.util.Locale;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     FragmentManager fm;
     Context context;
+    int currentPage;
 
     public ViewPagerAdapter (FragmentManager fm, Context context) {
         super(fm);
         this.fm = fm;
         this.context = context;
     }
+
+
 
     @Override
     public Fragment getItem(int position) {

@@ -1,11 +1,21 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.ConnectivityManager;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homespotter.weatherinternshipproject.R;
@@ -21,6 +31,8 @@ import com.homespotter.weatherinternshipproject.data.WeatherClient;
  */
 public class ActivityMain extends ActionBarActivity implements DataProviderInterface {
     private final static String TAG = "ActivityMain";
+
+    DrawerLayout drawerLayout;
 
     private CurrentConditions currentConditions = null;
     private MultipleWeatherForecast threeHoursForecast = null;
@@ -159,5 +171,31 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         fetchCurrentConditions();
         fetchThreeHoursForecast();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.open_drawer,
+                R.string.close_drawer);
+
+        drawerLayout.setDrawerListener(drawerToggle);
+        // only open navigation drawer via button on toolbar
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        ImageView drawerButton = (ImageView) findViewById(R.id.imageViewDrawerButton);
+        drawerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        TextView toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
+        toolboxTitle.setText(cityName);
     }
 }

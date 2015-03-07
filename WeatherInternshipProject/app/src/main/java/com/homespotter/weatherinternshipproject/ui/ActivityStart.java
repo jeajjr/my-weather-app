@@ -115,7 +115,7 @@ public class ActivityStart extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     // Save selected city and open its weather forecast
-                    FilesHandler.getInstance().setCityName(getApplicationContext(), citySearched);
+                    FilesHandler.getInstance().setCityName(getApplicationContext(), cityList.get(position));
                     callMainActivity();
                 }
             });
