@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.homespotter.weatherinternshipproject.R;
+import com.homespotter.weatherinternshipproject.data.DataParser;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
@@ -72,7 +73,8 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
         public void bindForecastData (Map<String, ?> data) {
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
-                    //icon;
+
+                    icon.setImageResource(DataParser.getIconResource((String) data.get(WeatherParameters.weatherIconID)));
 
                     Calendar time = (Calendar) data.get(WeatherParameters.forecastDate);
                     SimpleDateFormat sf = new SimpleDateFormat("dd/MM, hh:mm aa");
@@ -81,7 +83,7 @@ public class RecylerViewAdapter extends RecyclerView.Adapter<RecylerViewAdapter.
                     Double temperatureDouble = (Double) data.get(WeatherParameters.temperature);
                     temperature.setText(String.format("%.0f", temperatureDouble) + "º" + dataSet.temperatureUnit);
 
-                    description.setText((String) data.get(WeatherParameters.weatherDescription));
+                    description.setText(((String) data.get(WeatherParameters.weatherDescription)).toUpperCase());
 
                     int humidityInt = (Integer) data.get(WeatherParameters.humidity);
                     humidity.setText(context.getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");

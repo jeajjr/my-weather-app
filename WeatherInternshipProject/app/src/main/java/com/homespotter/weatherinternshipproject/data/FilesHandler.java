@@ -45,10 +45,12 @@ public class FilesHandler {
                 settingsProfile = new SettingsProfile();
                 setSettingProfile(context, settingsProfile);
 
-                return settingsProfile;
+                Log.d(TAG, "setting file does not exist");
             }
             else {
-                FileInputStream fin = new FileInputStream(context.getFilesDir().getAbsolutePath() + CITY_FILE);
+                Log.d(TAG, "setting file exists: " + f.length());
+
+                FileInputStream fin = new FileInputStream(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
                 ObjectInputStream ois = new ObjectInputStream(fin);
 
                 settingsProfile = (SettingsProfile) ois.readObject();
@@ -68,8 +70,11 @@ public class FilesHandler {
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
 
-            if (!f.exists())
+            if (!f.exists()) {
                 f.createNewFile();
+
+            }
+
 
             FileOutputStream fout = new FileOutputStream(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
             ObjectOutputStream oos = new ObjectOutputStream(fout);

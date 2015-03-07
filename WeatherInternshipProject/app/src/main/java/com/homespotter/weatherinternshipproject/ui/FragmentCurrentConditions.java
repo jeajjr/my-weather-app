@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.homespotter.weatherinternshipproject.R;
 import com.homespotter.weatherinternshipproject.data.CurrentConditions;
+import com.homespotter.weatherinternshipproject.data.DataParser;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
 import java.text.SimpleDateFormat;
@@ -162,9 +163,9 @@ public class FragmentCurrentConditions extends Fragment {
 
         refreshLastUpdateTag();
 
-        //icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
+        icon.setImageResource(DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
 
-        description.setText( (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
+        description.setText( ((String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription)).toUpperCase());
 
         Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
         currentTemperature.setText(String.format("%.0f", temperature) + "º" + currentConditions.temperatureUnit);
