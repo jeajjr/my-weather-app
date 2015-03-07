@@ -31,6 +31,21 @@ public class SettingsProfile implements Serializable {
         this.hourFormat = hourFormat;
     }
 
+    @Override
+    public String toString() {
+        String toString = "";
+
+        toString += ( units == UNIT_IMPERIAL) ? "imperial" : "metric";
+        toString += ", ";
+
+        toString += ( dateFormat == DATE_FORMAT_MM_DD) ? "MM/DD" : "DD/MM";
+        toString += ", ";
+
+        toString += ( hourFormat == HOUR_FORMAT_12) ? "12 hour" : "24 hour";
+
+        return toString;
+    }
+
     public int getUnits() {
         return units;
     }

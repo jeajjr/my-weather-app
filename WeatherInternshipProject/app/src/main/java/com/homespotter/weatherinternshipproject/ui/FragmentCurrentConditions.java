@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.homespotter.weatherinternshipproject.R;
 import com.homespotter.weatherinternshipproject.data.CurrentConditions;
 import com.homespotter.weatherinternshipproject.data.DataParser;
+import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +29,7 @@ public class FragmentCurrentConditions extends Fragment {
 
     // pack of weather data
     CurrentConditions currentConditions;
+    SettingsProfile settingsProfile;
 
     // data provider (roughly, the activity)
     DataProviderInterface dataProvider;
@@ -78,6 +80,14 @@ public class FragmentCurrentConditions extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // show progress dialog while data is being fetched
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        dataProvider.setCurrentConditionsFragment(this);
     }
 
     @Override
@@ -92,12 +102,6 @@ public class FragmentCurrentConditions extends Fragment {
         mainLayout = (FrameLayout) v.findViewById(R.id.layout);
         mainLayout.getForeground().setAlpha(200);
 
-        // show progress dialog while data is being fetched
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
         updatedTime = (TextView) v.findViewById(R.id.textViewCurrUpdated);
         icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
         description = (TextView) v.findViewById(R.id.textViewCurrDescription);
@@ -111,7 +115,7 @@ public class FragmentCurrentConditions extends Fragment {
         sunset = (TextView) v.findViewById(R.id.textViewCurrSunset);
         lastHours = (TextView) v.findViewById(R.id.textViewCurrLastHours);
 
-        dataProvider.setCurrentConditionsFragment(this);
+
 
         Log.d(TAG, "done onCreateView");
         return v;
@@ -121,11 +125,12 @@ public class FragmentCurrentConditions extends Fragment {
         refresherRunnable.run();
     }
 
-    public void setConditions (CurrentConditions currentConditions) {
+    public void setConditions (CurrentConditions currentConditions, SettingsProfile settingsProfile) {
         Log.d(TAG, "setConditions");
 
         Log.d(TAG, (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
         this.currentConditions = currentConditions;
+        this.settingsProfile = settingsProfile;
 
         updateScreenData();
     }
@@ -196,7 +201,13 @@ public class FragmentCurrentConditions extends Fragment {
                 currentConditions.weatherInfo.get(WeatherParameters.pressure)) + " mb");
 
         Calendar sunriseCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise);
-        SimpleDateFormat sf = new SimpleDateFormat("hh:mm aa");
+        SimpleDateFormat sf;
+
+        if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
+            sf = new SimpleDateFormat("hh:mm aa");
+        else
+            sf = new SimpleDateFormat("kk:mm");
+
         sunrise.setText(sf.format(sunriseCal.getTime()));
 
         Calendar sunsetCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset);

@@ -36,6 +36,7 @@ public class FilesHandler {
     }
 
     public SettingsProfile getSettingProfile(Context context) {
+        Log.d(TAG, "getSettingProfile");
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
             SettingsProfile settingsProfile;
@@ -48,12 +49,12 @@ public class FilesHandler {
                 Log.d(TAG, "setting file does not exist");
             }
             else {
-                Log.d(TAG, "setting file exists: " + f.length());
-
                 FileInputStream fin = new FileInputStream(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
                 ObjectInputStream ois = new ObjectInputStream(fin);
 
                 settingsProfile = (SettingsProfile) ois.readObject();
+
+                Log.d(TAG, "setting file exists: " + settingsProfile);
 
                 ois.close();
                 fin.close();
@@ -67,20 +68,20 @@ public class FilesHandler {
     }
 
     public void setSettingProfile(Context context, SettingsProfile settingsProfile) {
+        Log.d(TAG, "setSettingProfile");
+
         try {
-            File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
+            File f = new File(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
 
             if (!f.exists()) {
                 f.createNewFile();
-
             }
-
 
             FileOutputStream fout = new FileOutputStream(context.getFilesDir().getAbsolutePath() + SETTINGS_FILE);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
 
             oos.writeObject(settingsProfile);
-            Log.d(TAG, "settingsProfile saved");
+            Log.d(TAG, "settingsProfile saved: " + settingsProfile);
 
             oos.close();
             fout.close();
@@ -89,7 +90,8 @@ public class FilesHandler {
         }
     }
 
-    public void removeSavedCity(Context context) {
+    public void removeSavedCities(Context context) {
+        Log.d(TAG, "removeSavedCities");
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
 
@@ -102,6 +104,16 @@ public class FilesHandler {
     }
 
     public void setCityName(Context context, String cityName) {
+        Log.d(TAG, "setCityName");
+
+        ArrayList<String> cityList = new ArrayList<String>();
+        cityList.add(cityName);
+        setCityName(context, cityList);
+    }
+
+    public void setCityName(Context context, ArrayList<String> cityList) {
+        Log.d(TAG, "setCityName");
+
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
 
@@ -110,7 +122,7 @@ public class FilesHandler {
 
             FileOutputStream fout = new FileOutputStream(context.getFilesDir().getAbsolutePath() + CITY_FILE);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
-            oos.writeObject(cityName);
+            oos.writeObject(cityList);
 
             oos.close();
             fout.close();
@@ -119,8 +131,22 @@ public class FilesHandler {
         }
     }
 
-    public String getSavedCity(Context context) {
-        String cityName = null;
+    public String getFirstSavedCity(Context context) {
+        Log.d(TAG, "getFirstSavedCity");
+
+        ArrayList<String> cityList = getSavedCities(context);
+
+        if (cityList != null)
+            return cityList.get(0);
+        else
+            return null;
+    }
+
+    public ArrayList<String> getSavedCities(Context context) {
+        Log.d(TAG, "getSavedCities");
+
+        ArrayList<String> cityList = null;
+
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
 
@@ -129,13 +155,14 @@ public class FilesHandler {
 
             FileInputStream fin = new FileInputStream(context.getFilesDir().getAbsolutePath() + CITY_FILE);
             ObjectInputStream ois = new ObjectInputStream(fin);
-            cityName = (String) ois.readObject();
+
+            cityList = (ArrayList<String>) ois.readObject();
 
             ois.close();
             fin.close();
         } catch (Exception e) {
             return null;
         }
-        return cityName;
+        return cityList;
     }
 }

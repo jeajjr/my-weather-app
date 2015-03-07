@@ -137,6 +137,8 @@ public class ActivityStart extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
@@ -146,12 +148,12 @@ public class ActivityStart extends ActionBarActivity {
         progressDialog.setCancelable(false);
 
         //TODO: remove
-        FilesHandler.getInstance().removeSavedCity(this);
+//        FilesHandler.getInstance().removeSavedCities(this);
 
 
         // If no file directory was found, a new city must be added. Otherwise, open
         // forecast of main city.
-        String cityName = FilesHandler.getInstance().getSavedCity(this);
+        String cityName = FilesHandler.getInstance().getFirstSavedCity(this);
 
         if (cityName == null) {
             Log.d(TAG, "no city saved");

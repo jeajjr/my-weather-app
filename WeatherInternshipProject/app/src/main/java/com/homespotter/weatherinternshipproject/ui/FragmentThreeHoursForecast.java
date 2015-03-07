@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,7 @@ import android.widget.FrameLayout;
 
 import com.homespotter.weatherinternshipproject.R;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
-import com.homespotter.weatherinternshipproject.data.WeatherParameters;
-
-import java.util.HashMap;
+import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,12 +24,13 @@ public class FragmentThreeHoursForecast extends Fragment {
     public static final String TAG = "FragmentThreeHoursForecast";
 
     private RecyclerView recyclerView;
-    private RecylerViewAdapter recylerViewAdapter;
+    private AdapterForecastRecyclerView adapterForecastRecyclerView;
 
     FrameLayout mainLayout;
 
     private DataProviderInterface dataProvider;
     private MultipleWeatherForecast multipleWeatherForecast;
+    private SettingsProfile settingsProfile;
 
     private ProgressDialog progressDialog;
 
@@ -40,17 +38,18 @@ public class FragmentThreeHoursForecast extends Fragment {
         // Required empty public constructor
     }
 
-    public void setConditions (MultipleWeatherForecast multipleWeatherForecast) {
+    public void setConditions (MultipleWeatherForecast multipleWeatherForecast, SettingsProfile settingsProfile) {
         Log.d(TAG, "setConditions");
 
         this.multipleWeatherForecast = multipleWeatherForecast;
+        this.settingsProfile = settingsProfile;
 
         createRecyclerViewAdapter();
     }
 
     public void createRecyclerViewAdapter() {
-        recylerViewAdapter = new RecylerViewAdapter(getActivity(), dataProvider, multipleWeatherForecast, RecylerViewAdapter.THREE_HOUR_FORECAST);
-        recyclerView.setAdapter(recylerViewAdapter);
+        adapterForecastRecyclerView = new AdapterForecastRecyclerView(getActivity(), multipleWeatherForecast, settingsProfile, AdapterForecastRecyclerView.THREE_HOUR_FORECAST);
+        recyclerView.setAdapter(adapterForecastRecyclerView);
 
         progressDialog.dismiss();
         mainLayout.getForeground().setAlpha(0);

@@ -28,6 +28,19 @@
     <string name="start_dialog_city_empty">Type a city name on the search box</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
+    <string name="my_cities">My cities</string>
+    <string name="settings">Settings</string>
+    <string name="units">Units</string>
+    <string name="metric">Metric</string>
+    <string name="imperial">Imperial</string>
+    <string name="day_format">Day format</string>
+    <string name="day_format_MMDD">MM/DD</string>
+    <string name="day_format_DDMM">DD/MM</string>
+    <string name="hour_format">Hour format</string>
+    <string name="hour_format_24">24 hour</string>
+    <string name="hour_format_12">12 hour</string>
+    <string name="about_this_app">About this app</string>
+    <string name="add_new_city">Add new city...</string>
 
 
 </resources>

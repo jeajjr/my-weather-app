@@ -51,7 +51,11 @@ public class DataParser {
                 completeCityName = citiesJSONArray.getJSONObject(i).getString("name");
 
                 // get country name
-                completeCityName += ", " + citiesJSONArray.getJSONObject(i).getJSONObject("sys").getString("country");
+                String countryName =  citiesJSONArray.getJSONObject(i).getJSONObject("sys").getString("country");
+                if (countryName.toLowerCase().compareTo("united states of america") == 0)
+                    completeCityName += ", " + "USA";
+                else
+                    completeCityName += ", " + countryName;
 
                 Log.d(TAG, "got city: " + completeCityName);
 

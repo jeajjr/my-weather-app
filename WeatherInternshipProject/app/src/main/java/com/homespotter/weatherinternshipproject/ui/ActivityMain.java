@@ -1,20 +1,19 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.content.Context;
-import android.media.Image;
 import android.net.ConnectivityManager;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +24,8 @@ import com.homespotter.weatherinternshipproject.data.FilesHandler;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
 import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
+
+import java.util.ArrayList;
 
 /**
  * Weather app template project.
@@ -42,6 +43,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
 
     private String cityName;
+    private ArrayList<String> cityList;
+
+    private AdapterDrawerMenuRecyclerView recyclerViewAdapter;
 
     private SettingsProfile settingsProfile;
 
@@ -59,7 +63,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         // If currentConditions is already fetched, send it to fragment
         if (currentConditions != null)
-            fragmentCurrentConditions.setConditions(currentConditions);
+            fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
     }
 
     @Override
@@ -68,7 +72,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         // If threeHoursForecast is already fetched, send it to fragment
         if (threeHoursForecast != null)
-            fragmentThreeHoursForecast.setConditions(threeHoursForecast);
+            fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
     private boolean checkInternetAccess() {
@@ -87,6 +91,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                     //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
+                    Log.d(TAG, "fetchCurrentConditions with " + settingsProfile);
 
                     String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
 
@@ -102,7 +107,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                fragmentCurrentConditions.setConditions(currentConditions);
+                                fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
                             }
                         });
                     }
@@ -135,7 +140,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            fragmentThreeHoursForecast.setConditions(threeHoursForecast);
+                            fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
                         }
                     });
                 }
@@ -151,11 +156,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // this activity is only called when there is a saved city, so there is no need to check it
-        cityName = FilesHandler.getInstance().getSavedCity(this);
+        cityList = FilesHandler.getInstance().getSavedCities(this);
+        cityName = cityList.get(0);
         settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
 
         if (settingsProfile == null) {
@@ -183,6 +191,19 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 R.string.open_drawer,
                 R.string.close_drawer);
 
+        RecyclerView drawerList = (RecyclerView) findViewById(R.id.drawer_list);
+        drawerList.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewAdapter =
+                new AdapterDrawerMenuRecyclerView(this, cityList, settingsProfile);
+
+        recyclerViewAdapter.setOnDrawerItemClickListener(new AdapterDrawerMenuRecyclerView.OnDrawerItemClickListener() {
+            @Override
+            public void onItemClick(int uniqueID) {
+                processDrawerClick(uniqueID);
+            }
+        });
+        drawerList.setAdapter(recyclerViewAdapter);
+
         drawerLayout.setDrawerListener(drawerToggle);
         // only open navigation drawer via button on toolbar
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -197,5 +218,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         TextView toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
         toolboxTitle.setText(cityName);
+    }
+
+    public void processDrawerClick(int uniqueID) {
+        Log.d(TAG, "activity received click on item " + uniqueID);
+
+        // if it is a city item
+        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+            Log.d(TAG, "click on city " + uniqueID);
+        }
     }
 }
