@@ -12,6 +12,10 @@
     <string name="warning_loading">Loading</string>
     <string name="warning_network_unavailable">Network service unavailable. Check your internet connection and try again.</string>
     <string name="warning_error_request">An error occurred when accessing the server. Check your internet connection and try again later.</string>
+    <string name="delete_city">Delete city</string>
+    <string name="delete_city_confirmation">Do you want to delete the saved city</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="warning_city_not_found_with_name">No city found with name </string>
     <string name="dialog_search_results">Search results:</string>
     <string name="title_activity_activity_start">StartActivity</string>

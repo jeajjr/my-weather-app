@@ -114,7 +114,7 @@ public class FilesHandler {
 
     }
 
-    public void createCityList(Context context, String cityName) {
+    public void setCityList(Context context, String cityName) {
         Log.d(TAG, "setCityList");
 
         ArrayList<String> cityList = new ArrayList<String>();
@@ -147,8 +147,12 @@ public class FilesHandler {
 
         ArrayList<String> cityList = getSavedCities(context);
 
-        if (cityList != null)
-            return cityList.get(0);
+        if (cityList != null) {
+            if (cityList.size() > 0)
+                return cityList.get(0);
+            else
+                return null;
+        }
         else
             return null;
     }

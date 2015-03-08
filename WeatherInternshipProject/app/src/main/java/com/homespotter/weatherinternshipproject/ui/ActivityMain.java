@@ -1,7 +1,9 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.v4.view.ViewPager;
@@ -26,8 +28,6 @@ import com.homespotter.weatherinternshipproject.data.FilesHandler;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
 import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -230,6 +230,11 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             public void onItemClick(int uniqueID) {
                 processDrawerClick(uniqueID);
             }
+
+            @Override
+            public void onItemLongClick(int uniqueID) {
+                processDrawerLongClick(uniqueID);
+            }
         });
         drawerList.setAdapter(drawerRecyclerViewAdapter);
 
@@ -250,6 +255,46 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     }
 
     private static final int SETTING_REQUEST = 0;
+
+    public void processDrawerLongClick(final int uniqueID) {
+        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+            Log.d(TAG, "long click on city " + uniqueID);
+
+            // Create dialog to delete city
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            alertDialogBuilder.setTitle(getString(R.string.delete_city));
+            alertDialogBuilder.setMessage(getString(R.string.delete_city_confirmation) + " " +
+                                    cityList.get(uniqueID - DrawerItemsLister.ITEM_CITY_MASK) + "?");
+
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.dialog_ok),
+                    new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    cityList.remove(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
+                    FilesHandler.getInstance().setCityList(ActivityMain.this, cityList);
+
+                    if (cityList.size() != 0) {
+                        drawerRecyclerViewAdapter.dataSetChanged(cityList);
+                        changeCurrentCity(0);
+                    }
+                    else {
+                        startActivity(new Intent(ActivityMain.this, ActivityStart.class));
+                    }
+                }
+            });
+
+            alertDialogBuilder.setNeutralButton(getString(R.string.dialog_cancel),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
 
     public void processDrawerClick(int uniqueID) {
         Log.d(TAG, "activity received click on item " + uniqueID);

@@ -47,6 +47,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
 
     public interface OnDrawerItemClickListener {
         public void onItemClick(int uniqueID);
+        public void onItemLongClick(int uniqueID);
     }
 
     public void setOnDrawerItemClickListener(final OnDrawerItemClickListener mItemClickListener) {
@@ -77,6 +78,19 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
 
                     currentItem = getPosition();
                     notifyDataSetChanged();
+                }
+            });
+
+            v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int id = (Integer) itemsSet.get(getPosition()).get("id");
+                    Log.d(TAG, "adapter received long click on city item " + id);
+
+                    if (onDrawerItemClickListener != null)
+                        onDrawerItemClickListener.onItemLongClick(id);
+
+                    return true;
                 }
             });
         }
