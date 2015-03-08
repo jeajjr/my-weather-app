@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:foreground="@drawable/fading_rectangle"
     android:id="@+id/layout"
+    android:background="#ffffff"
     tools:context="com.homespotter.weatherinternshipproject.ui.FragmentThreeHoursForecast">
 
     <android.support.v7.widget.RecyclerView
