@@ -32,8 +32,6 @@ public class FragmentThreeHoursForecast extends Fragment {
     private MultipleWeatherForecast multipleWeatherForecast;
     private SettingsProfile settingsProfile;
 
-    private ProgressDialog progressDialog;
-
     public FragmentThreeHoursForecast() {
         // Required empty public constructor
     }
@@ -51,7 +49,6 @@ public class FragmentThreeHoursForecast extends Fragment {
         adapterForecastRecyclerView = new AdapterForecastRecyclerView(getActivity(), multipleWeatherForecast, settingsProfile, AdapterForecastRecyclerView.THREE_HOUR_FORECAST);
         recyclerView.setAdapter(adapterForecastRecyclerView);
 
-        progressDialog.dismiss();
         mainLayout.getForeground().setAlpha(0);
     }
     @Override
@@ -66,12 +63,6 @@ public class FragmentThreeHoursForecast extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_three_hours_forecast, container, false);
-
-        // show progress dialog while data is being fetched
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
         // fade list while loading
         mainLayout = (FrameLayout) v.findViewById(R.id.layout);

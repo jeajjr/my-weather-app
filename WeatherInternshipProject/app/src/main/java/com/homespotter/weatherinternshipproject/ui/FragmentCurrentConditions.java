@@ -50,9 +50,6 @@ public class FragmentCurrentConditions extends Fragment {
 
     FrameLayout mainLayout;
 
-    // Loading dialog
-    ProgressDialog progressDialog;
-
     // Schedule a refresh for the last update tag
     private int refreshInterval = 60 * 1000; // 60 seconds refresh
     private Handler refreshHandler;
@@ -80,12 +77,6 @@ public class FragmentCurrentConditions extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // show progress dialog while data is being fetched
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
         dataProvider.setCurrentConditionsFragment(this);
     }
@@ -164,8 +155,6 @@ public class FragmentCurrentConditions extends Fragment {
             handlerScheduled = true;
         }
 
-        progressDialog.show();
-
         refreshLastUpdateTag();
 
         icon.setImageResource(DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
@@ -229,7 +218,6 @@ public class FragmentCurrentConditions extends Fragment {
         }
         lastHours.setText(lastHoursText);
 
-        progressDialog.dismiss();
         mainLayout.getForeground().setAlpha(0);
         Log.d(TAG, "updateScreenData done");
     }

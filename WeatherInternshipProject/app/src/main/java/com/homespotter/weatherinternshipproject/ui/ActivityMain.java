@@ -2,6 +2,7 @@ package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 public class ActivityMain extends ActionBarActivity implements DataProviderInterface, DialogFragmentSearchCity.DialogFragmentSearchCityResultListener {
     private final static String TAG = "ActivityMain";
 
-    DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
 
     private CurrentConditions currentConditions = null;
     private MultipleWeatherForecast threeHoursForecast = null;
@@ -60,11 +61,17 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private TextView toolboxTitle;
 
+    private ProgressDialog progressDialog;
+
+    private static final int PROGRESS_DIALOG_STACK_START = 2;
+    private int progressDialogStack;
+
     /*
         Methods of DataProviderInterface
      */
     @Override
     public void setCurrentConditionsFragment(FragmentCurrentConditions fragmentCurrentConditions) {
+        Log.d(TAG, "CurrCond frag is calling to get data");
         this.fragmentCurrentConditions = fragmentCurrentConditions;
 
         // If currentConditions is already fetched, send it to fragment
@@ -74,6 +81,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     @Override
     public void setThreeHoursForecastFragment(FragmentThreeHoursForecast fragmentThreeHoursForecast) {
+        Log.d(TAG, "3Hour frag is calling to get data");
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
@@ -113,23 +121,34 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     }
 
                     Log.d(TAG, "Parsing current conditions");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Check if data is not null
+                            if (currentConditions != null) {
+                                currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                                currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                            }
+                            else {
+                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                            }
 
-                    if (currentConditions != null) {
-                        currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                        currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
-                    }
-
-                    // If fragmentCurrentConditions has been created and is waiting for the data, send it
-                    if (fragmentCurrentConditions != null) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                            // If fragmentCurrentConditions has been created and is waiting for the data, send it
+                            if (fragmentCurrentConditions != null) {
                                 fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
                             }
-                        });
-                    }
+
+                            // decrease dialog stack
+                            progressDialogStack--;
+                            if (progressDialogStack == 0)
+                                progressDialog.dismiss();
+
+                            Log.d(TAG, "thread fetchCurrentConditions is done, dialog stack:" + progressDialogStack);
+                        }
+                    });
+                    Log.d(TAG, "end fetchCurrentConditions");
                 }
             }.start();
         }
@@ -156,23 +175,34 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         }
                     });
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Check if data is not null
+                        if (threeHoursForecast != null) {
+                            threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                    TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                            threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                    SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                        }
+                        else {
+                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                        }
 
-                if (threeHoursForecast != null) {
-                    threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                    threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
-                }
-                
-                // If fragmentCurrentConditions has been created and is waiting for the data, send it
-                if (fragmentCurrentConditions != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                        // If fragmentCurrentConditions has been created and is waiting for the data, send it
+                        if (fragmentCurrentConditions != null) {
                             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
                         }
-                    });
-                }
+
+                        // decrease dialog stack
+                        progressDialogStack--;
+                        if (progressDialogStack == 0)
+                            progressDialog.dismiss();
+
+                        Log.d(TAG, "thread fetchThreeHoursForecast is done, dialog stack:" + progressDialogStack);
+                    }
+                });
+                Log.d(TAG, "end fragmentThreeHoursForecast");
             }
         }.start();
         }
@@ -189,6 +219,12 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
         // this activity is only called when there is a saved city, so there is no need to check it
         cityList = FilesHandler.getInstance().getSavedCities(this);
@@ -254,6 +290,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.show();
+                progressDialogStack = PROGRESS_DIALOG_STACK_START;
+
                 fetchCurrentConditions();
                 fetchThreeHoursForecast();
             }
@@ -339,6 +378,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
             Log.d(TAG,"got settings " + settingsProfile);
 
+            progressDialog.show();
+            progressDialogStack = PROGRESS_DIALOG_STACK_START;
+
             fetchCurrentConditions();
             fetchThreeHoursForecast();
         }
@@ -346,6 +388,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     public void changeCurrentCity(int position) {
         cityName = cityList.get(position);
+
+        progressDialog.show();
+        progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
         fetchCurrentConditions();
         fetchThreeHoursForecast();
