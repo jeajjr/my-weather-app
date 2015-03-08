@@ -28,7 +28,7 @@
                 android:layout_width="100sp"
                 android:layout_height="100sp"
                 android:id="@+id/imageView"
-                android:src="@drawable/sun"
+                android:src="@drawable/d01"
                 android:layout_gravity="center_horizontal"
                 android:background="@android:color/transparent"
                 android:layout_marginTop="20dp" />
