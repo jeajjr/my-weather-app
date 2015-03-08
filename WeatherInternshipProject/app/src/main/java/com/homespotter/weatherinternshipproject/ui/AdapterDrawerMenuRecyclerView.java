@@ -1,6 +1,7 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     private List<Map<String, ?>> itemsSet;
     private ArrayList<String> cityList;
     private OnDrawerItemClickListener onDrawerItemClickListener;
-    private int currentItem;
+    private int currentItem = 3;
     private Context context;
     private SettingsProfile settingsProfile;
 
@@ -87,7 +88,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                     int id = (Integer) itemsSet.get(getPosition()).get("id");
                     Log.d(TAG, "adapter received long click on city item " + id);
 
-                    if (onDrawerItemClickListener != null)
+                    if (onDrawerItemClickListener != null && id != -1)
                         onDrawerItemClickListener.onItemLongClick(id);
 
                     return true;
@@ -108,11 +109,21 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                     name.setText((String) item.get("name"));
                     break;
             }
+            int itemID = (Integer) item.get("id");
+            if ((itemID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK && name != null) {
+                if (currentItem == position) {
+                    name.setTypeface(null, Typeface.BOLD);
+                }
+                else {
+                    name.setTypeface(null, Typeface.NORMAL);
+                }
+            }
         }
     }
 
     public void dataSetChanged(ArrayList<String> cityList) {
         this.cityList = cityList;
+        currentItem = 3;
         this.itemsSet = DrawerItemsLister.createDrawerList(context, cityList);
         this.notifyDataSetChanged();
     }
