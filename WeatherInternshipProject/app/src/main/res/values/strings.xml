@@ -34,14 +34,21 @@
     <string name="units">Units</string>
     <string name="metric">Metric</string>
     <string name="imperial">Imperial</string>
-    <string name="day_format">Day format</string>
-    <string name="day_format_MMDD">MM/DD</string>
-    <string name="day_format_DDMM">DD/MM</string>
+    <string name="units_use_imperial">Use imperial units</string>
+    <string name="date_format">Date format</string>
+    <string name="date_format_MMDD">MM/DD</string>
+    <string name="date_format_DDMM">DD/MM</string>
+    <string name="date_format_MMDD_example">12/31</string>
+    <string name="date_format_DDMM_example">31/12</string>
+    <string name="date_format_use_MMDD">Use MM/DD data format</string>
     <string name="hour_format">Hour format</string>
     <string name="hour_format_24">24 hour</string>
     <string name="hour_format_12">12 hour</string>
+    <string name="hour_format_24_example">13:00</string>
+    <string name="hour_format_12_example">1:00 pm</string>
+    <string name="hour_format_use_12">Use 12-hour format</string>
     <string name="about_this_app">About this app</string>
     <string name="add_new_city">Add new city...</string>
-
+    <string name="title_activity_activity_settings">ActivitySettings</string>
 
 </resources>

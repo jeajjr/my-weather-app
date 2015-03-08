@@ -1,6 +1,8 @@
 package com.homespotter.weatherinternshipproject.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +26,8 @@ import com.homespotter.weatherinternshipproject.data.FilesHandler;
 import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
 import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -95,14 +99,27 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                     Log.d(TAG, "fetchCurrentConditions with " + settingsProfile);
 
-                    String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
+
+                    try {
+                        String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
+                        currentConditions = DataParser.parseCurrentConditions(currentData);
+                    } catch (Exception e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
                     Log.d(TAG, "Parsing current conditions");
-                    currentConditions = DataParser.parseCurrentConditions(currentData);
-                    currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                    currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+
+                    if (currentConditions != null) {
+                        currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                        currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                                SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                    }
 
                     // If fragmentCurrentConditions has been created and is waiting for the data, send it
                     if (fragmentCurrentConditions != null) {
@@ -128,15 +145,25 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, settingsProfile.getUnits());
+                try {
+                    String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, settingsProfile.getUnits());
+                    threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
 
-                Log.d(TAG, "Parsing current conditions");
-                threeHoursForecast = DataParser.parseFiveDaysForecast(data);
-                threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
-
+                if (threeHoursForecast != null) {
+                    threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                            TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
+                    threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
+                            SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                }
+                
                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
                 if (fragmentCurrentConditions != null) {
                     runOnUiThread(new Runnable() {
@@ -154,8 +181,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     }
 
     /*
-        Activity methods
-     */
+            Activity methods
+         */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
@@ -210,7 +237,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         // only open navigation drawer via button on toolbar
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        ImageView drawerButton = (ImageView) findViewById(R.id.imageViewDrawerButton);
+        ImageView drawerButton = (ImageView) findViewById(R.id.imageViewToolboxButton);
         drawerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +248,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
         toolboxTitle.setText(cityName);
     }
+
+    private static final int SETTING_REQUEST = 0;
 
     public void processDrawerClick(int uniqueID) {
         Log.d(TAG, "activity received click on item " + uniqueID);
@@ -237,10 +266,27 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     DialogFragmentSearchCity.newInstance(false).show(getSupportFragmentManager(), null);
                     break;
                 case DrawerItemsLister.SETTINGS:
+                    Intent intent = new Intent(this, ActivitySettings.class);
+                    startActivityForResult(intent, SETTING_REQUEST);
                     break;
                 case DrawerItemsLister.ABOUT_THIS_APP:
                     break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d(TAG, "onActivityResult");
+
+        if (resultCode == Activity.RESULT_OK && requestCode == SETTING_REQUEST) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+            settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
+            Log.d(TAG,"got settings " + settingsProfile);
+
+            fetchCurrentConditions();
+            fetchThreeHoursForecast();
         }
     }
 
