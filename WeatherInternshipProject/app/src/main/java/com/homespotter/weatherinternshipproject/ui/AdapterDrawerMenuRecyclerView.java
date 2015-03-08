@@ -77,8 +77,10 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                     if (onDrawerItemClickListener != null)
                         onDrawerItemClickListener.onItemClick(id);
 
-                    currentItem = getPosition();
-                    notifyDataSetChanged();
+                    if ((id & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+                        currentItem = getPosition();
+                        notifyDataSetChanged();
+                    }
                 }
             });
 
@@ -110,7 +112,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                     break;
             }
             int itemID = (Integer) item.get("id");
-            if ((itemID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK && name != null) {
+            if (((itemID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) && (name != null)) {
                 if (currentItem == position) {
                     name.setTypeface(null, Typeface.BOLD);
                 }
@@ -123,9 +125,12 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
 
     public void dataSetChanged(ArrayList<String> cityList) {
         this.cityList = cityList;
-        currentItem = 3;
         this.itemsSet = DrawerItemsLister.createDrawerList(context, cityList);
         this.notifyDataSetChanged();
+    }
+
+    public void setCurrentCity(int currentCityPosition) {
+        currentItem = 3 + currentCityPosition;
     }
 
     @Override

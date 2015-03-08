@@ -13,9 +13,9 @@ import java.util.Map;
  * Created by José Ernesto on 07/03/2015.
  */
 public class DrawerItemsLister {
-    public static final int ADD_NEW_CITY = 0;
-    public static final int SETTINGS = 1;
-    public static final int ABOUT_THIS_APP = 2;
+    public static final int ADD_NEW_CITY = 1;
+    public static final int SETTINGS = 2;
+    public static final int ABOUT_THIS_APP = 3;
 
     public static final int ITEM_CITY_MASK = 0x100;
 

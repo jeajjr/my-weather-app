@@ -68,7 +68,9 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
 
-                    icon.setImageResource(DataParser.getIconResource((String) data.get(WeatherParameters.weatherIconID)));
+                    String iconString = (String) data.get(WeatherParameters.weatherIconID);
+                    if (iconString != null)
+                        icon.setImageResource(DataParser.getIconResource(iconString));
 
                     Calendar time = (Calendar) data.get(WeatherParameters.forecastDate);
 

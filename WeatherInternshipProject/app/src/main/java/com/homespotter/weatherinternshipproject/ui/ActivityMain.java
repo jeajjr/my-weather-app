@@ -145,7 +145,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                                 }
                             }
                             else {
-                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request)+ " curr", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
                             }
 
                             decreaseProgressDialogStack();
@@ -156,7 +156,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             }.start();
         }
         else {
-            Toast.makeText(this, getString(R.string.warning_network_unavailable) + " curr", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
             decreaseProgressDialogStack();
         }
     }
@@ -197,7 +197,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                             }
                         }
                         else {
-                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request) + " 3hour", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
                         }
 
                         threeHoursForecastDataReady = true;
@@ -340,6 +340,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     FilesHandler.getInstance().setCityList(ActivityMain.this, cityList);
 
                     if (cityList.size() != 0) {
+                        drawerRecyclerViewAdapter.setCurrentCity(0);
                         drawerRecyclerViewAdapter.dataSetChanged(cityList);
                         changeCurrentCity(0);
                     }
@@ -429,6 +430,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         cityList = FilesHandler.getInstance().getSavedCities(this);
         drawerLayout.closeDrawer(Gravity.LEFT);
+        drawerRecyclerViewAdapter.setCurrentCity(cityList.size() - 1);
         drawerRecyclerViewAdapter.dataSetChanged(cityList);
 
         changeCurrentCity(cityList.size()-1);
