@@ -84,7 +84,7 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
                     if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
                         dateFormat += "hh:mm aa";
                     else
-                        dateFormat += "kk:mm";
+                        dateFormat += "HH:mm";
                     SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
                     period.setText(sf.format(time.getTime()));
 

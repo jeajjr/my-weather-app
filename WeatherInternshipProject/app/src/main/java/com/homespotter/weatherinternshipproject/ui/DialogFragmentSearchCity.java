@@ -28,6 +28,7 @@ import com.homespotter.weatherinternshipproject.data.DataParser;
 import com.homespotter.weatherinternshipproject.data.FilesHandler;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -106,7 +107,12 @@ public class DialogFragmentSearchCity extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (cityName.getText().toString().length() != 0) {
-                    searchCity(cityName.getText().toString());
+                    String nameString = cityName.getText().toString();
+                    String normalizedString =
+                            Normalizer.normalize(nameString, Normalizer.Form.NFD)
+                                        .replaceAll("[^\\p{ASCII}]", "");
+
+                    searchCity(normalizedString);
                 }
                 else
                     Toast.makeText(getActivity(), getString(R.string.start_dialog_city_empty), Toast.LENGTH_LONG).show();
@@ -175,7 +181,7 @@ public class DialogFragmentSearchCity extends DialogFragment {
             Toast.makeText(getActivity(), getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
         }
         else if (cityList.size() == 0) {
-            Toast.makeText(getActivity(), getString(R.string.warning_city_not_found_with_name) + citySearched, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.warning_city_not_found_with_name) + " " + citySearched, Toast.LENGTH_LONG).show();
         }
         else if (cityList.size() == 1) {
             // Save the city and open its weather forecast

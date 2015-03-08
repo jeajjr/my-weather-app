@@ -206,7 +206,7 @@ public class FragmentCurrentConditions extends Fragment {
         if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
             sf = new SimpleDateFormat("hh:mm aa");
         else
-            sf = new SimpleDateFormat("kk:mm");
+            sf = new SimpleDateFormat("HH:mm");
 
         sunrise.setText(sf.format(sunriseCal.getTime()));
 

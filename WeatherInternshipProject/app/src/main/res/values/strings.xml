@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Weather Internship Project</string>
+    <string name="app_name">Almas Weather</string>
     <string name="tab_title_current_conditions">Current conditions</string>
     <string name="tab_title_three_hours_forecast">3 hours forecast</string>
     <string name="tab_title_daily_forecast">Daily forecast</string>
