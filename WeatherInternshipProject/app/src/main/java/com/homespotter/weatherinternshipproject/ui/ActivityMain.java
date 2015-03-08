@@ -15,9 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,8 +43,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private CurrentConditions currentConditions = null;
     private boolean currentConditionsDataReady = false;
     private MultipleWeatherForecast threeHoursForecast = null;
-    private boolean threeHoursDataReady = false;
+    private boolean threeHoursForecastDataReady = false;
     private MultipleWeatherForecast dailyForecast = null;
+    private boolean DailyForecastDataReady = false;
 
     private FragmentCurrentConditions fragmentCurrentConditions = null;
     private FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
@@ -91,7 +90,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
-        if (threeHoursForecast != null && threeHoursDataReady)
+        if (threeHoursForecast != null && threeHoursForecastDataReady)
             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
@@ -166,7 +165,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         if (checkInternetAccess()) {
         new Thread() {
             public void run() {
-                threeHoursDataReady = false;
+                threeHoursForecastDataReady = false;
                 Log.d(TAG, "Getting 3 hour forecast");
 
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
@@ -201,7 +200,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                             Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request) + " 3hour", Toast.LENGTH_LONG).show();
                         }
 
-                        threeHoursDataReady = true;
+                        threeHoursForecastDataReady = true;
 
                         decreaseProgressDialogStack();
                     }
@@ -242,13 +241,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         cityName = cityList.get(0);
         settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
 
-        if (settingsProfile == null) {
-            Log.d(TAG, "settingsProfile null");
-        }
-        else {
-            Log.d(TAG, "settingsProfile not null");
-        }
-
+        // check if the device is a tablet or not
         if (findViewById(R.id.container1) == null) {
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
@@ -379,16 +372,21 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             changeCurrentCity(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
         }
         else {
+            Intent intent;
+
             switch (uniqueID) {
                 case DrawerItemsLister.ADD_NEW_CITY:
                     DialogFragmentSearchCity.newInstance(false).show(getSupportFragmentManager(), null);
                     break;
                 case DrawerItemsLister.SETTINGS:
-                    Intent intent = new Intent(this, ActivitySettings.class);
+                    intent = new Intent(this, ActivitySettings.class);
                     startActivityForResult(intent, SETTING_REQUEST);
                     drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case DrawerItemsLister.ABOUT_THIS_APP:
+                    intent = new Intent(this, ActivityAboutApp.class);
+                    startActivityForResult(intent, SETTING_REQUEST);
+                    drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
             }
         }

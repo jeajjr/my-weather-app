@@ -26,7 +26,10 @@
         <activity
             android:name=".ui.ActivitySettings"
             android:label="@string/title_activity_activity_settings" >
-
+        </activity>
+        <activity
+            android:name=".ui.ActivityAboutApp"
+            android:label="@string/title_activity_activity_about_app" >
         </activity>
     </application>
 
