@@ -268,6 +268,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 case DrawerItemsLister.SETTINGS:
                     Intent intent = new Intent(this, ActivitySettings.class);
                     startActivityForResult(intent, SETTING_REQUEST);
+                    drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
                 case DrawerItemsLister.ABOUT_THIS_APP:
                     break;
@@ -281,7 +282,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         Log.d(TAG, "onActivityResult");
 
         if (resultCode == Activity.RESULT_OK && requestCode == SETTING_REQUEST) {
-            drawerLayout.closeDrawer(Gravity.LEFT);
             settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
             Log.d(TAG,"got settings " + settingsProfile);
 

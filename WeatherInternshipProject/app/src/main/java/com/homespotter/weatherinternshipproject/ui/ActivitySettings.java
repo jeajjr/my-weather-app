@@ -42,7 +42,7 @@ public class ActivitySettings extends ActionBarActivity {
         settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ((ImageView) toolbar.findViewById(R.id.imageViewToolboxButton)).setImageResource(R.drawable.gear);
+        ((ImageView) toolbar.findViewById(R.id.imageViewToolboxButton)).setImageResource(R.drawable.gear_light);
         ((TextView) toolbar.findViewById(R.id.textViewToolboxTitle)).setText(getString(R.string.settings));
         setSupportActionBar(toolbar);
     }

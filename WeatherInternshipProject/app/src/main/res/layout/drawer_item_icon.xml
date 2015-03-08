@@ -23,7 +23,7 @@
         android:layout_height="24dp"
         android:id="@+id/itemIcon"
 
-        android:src="@drawable/list_icon"
+        android:src="@drawable/list_icon_dark"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
