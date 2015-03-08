@@ -24,7 +24,7 @@ import com.homespotter.weatherinternshipproject.data.WeatherClient;
 
 import java.util.ArrayList;
 
-public class ActivityStart extends ActionBarActivity {
+public class ActivityStart extends ActionBarActivity implements DialogFragmentSearchCity.DialogFragmentSearchCityResultListener{
     private static final String TAG ="ActivityStart";
 
     ArrayList<String> cityList;
@@ -96,7 +96,7 @@ public class ActivityStart extends ActionBarActivity {
         }
         else if (cityList.size() == 1) {
             // Save the city and open its weather forecast
-            FilesHandler.getInstance().setCityName(getApplicationContext(), cityList.get(0));
+            FilesHandler.getInstance().createCityList(getApplicationContext(), cityList.get(0));
             callMainActivity();
         }
         else {
@@ -115,7 +115,7 @@ public class ActivityStart extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     // Save selected city and open its weather forecast
-                    FilesHandler.getInstance().setCityName(getApplicationContext(), cityList.get(position));
+                    FilesHandler.getInstance().createCityList(getApplicationContext(), cityList.get(position));
                     callMainActivity();
                 }
             });
@@ -163,5 +163,10 @@ public class ActivityStart extends ActionBarActivity {
             Log.d(TAG, "city saved:" + cityName);
             callMainActivity();
         }
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

@@ -23,6 +23,7 @@
     <string name="update_time_hours_ago">hours ago</string>
     <string name="start_dialog_title">Add new city</string>
     <string name="start_dialog_message">It seems that you haven\'t set a location yet. Type the city name and state or country below:</string>
+    <string name="city_search_dialog_message">Type the city name and state or country below:</string>
     <string name="start_dialog_search">Search</string>
     <string name="start_dialog_search_hint">Minneapolis, MN</string>
     <string name="start_dialog_city_empty">Type a city name on the search box</string>

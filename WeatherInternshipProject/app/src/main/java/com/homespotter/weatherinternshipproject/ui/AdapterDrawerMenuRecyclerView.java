@@ -29,14 +29,18 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     private static String TAG = "DrawerRecyclerViewAdapter";
 
     private List<Map<String, ?>> itemsSet;
+    private ArrayList<String> cityList;
     private OnDrawerItemClickListener onDrawerItemClickListener;
     private int currentItem;
+    private Context context;
     private SettingsProfile settingsProfile;
 
     private CompoundButton.OnCheckedChangeListener switchChangeListener;
 
 
     public AdapterDrawerMenuRecyclerView(Context context, ArrayList<String> cityList, SettingsProfile settingsProfile) {
+        this.context = context;
+        this.cityList = cityList;
         this.itemsSet = DrawerItemsLister.createDrawerList(context, cityList);
         this.settingsProfile = settingsProfile;
     }
@@ -91,6 +95,12 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                     break;
             }
         }
+    }
+
+    public void dataSetChanged(ArrayList<String> cityList) {
+        this.cityList = cityList;
+        this.itemsSet = DrawerItemsLister.createDrawerList(context, cityList);
+        this.notifyDataSetChanged();
     }
 
     @Override

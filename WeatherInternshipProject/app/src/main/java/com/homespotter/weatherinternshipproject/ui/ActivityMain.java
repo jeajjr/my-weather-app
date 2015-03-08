@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Weather app template project.
  */
-public class ActivityMain extends ActionBarActivity implements DataProviderInterface {
+public class ActivityMain extends ActionBarActivity implements DataProviderInterface, DialogFragmentSearchCity.DialogFragmentSearchCityResultListener {
     private final static String TAG = "ActivityMain";
 
     DrawerLayout drawerLayout;
@@ -45,7 +45,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private String cityName;
     private ArrayList<String> cityList;
 
-    private AdapterDrawerMenuRecyclerView recyclerViewAdapter;
+    private AdapterDrawerMenuRecyclerView drawerRecyclerViewAdapter;
 
     private SettingsProfile settingsProfile;
 
@@ -53,6 +53,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private final String SPEED_UNIT_METRIC = "km/h";
     private final String TEMPERATURE_UNIT_IMPERIAL = "F";
     private final String TEMPERATURE_UNIT_METRIC = "C";
+
+    private TextView toolboxTitle;
 
     /*
         Methods of DataProviderInterface
@@ -193,16 +195,16 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         RecyclerView drawerList = (RecyclerView) findViewById(R.id.drawer_list);
         drawerList.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAdapter =
+        drawerRecyclerViewAdapter =
                 new AdapterDrawerMenuRecyclerView(this, cityList, settingsProfile);
 
-        recyclerViewAdapter.setOnDrawerItemClickListener(new AdapterDrawerMenuRecyclerView.OnDrawerItemClickListener() {
+        drawerRecyclerViewAdapter.setOnDrawerItemClickListener(new AdapterDrawerMenuRecyclerView.OnDrawerItemClickListener() {
             @Override
             public void onItemClick(int uniqueID) {
                 processDrawerClick(uniqueID);
             }
         });
-        drawerList.setAdapter(recyclerViewAdapter);
+        drawerList.setAdapter(drawerRecyclerViewAdapter);
 
         drawerLayout.setDrawerListener(drawerToggle);
         // only open navigation drawer via button on toolbar
@@ -216,7 +218,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             }
         });
 
-        TextView toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
+        toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
         toolboxTitle.setText(cityName);
     }
 
@@ -226,6 +228,41 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         // if it is a city item
         if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
             Log.d(TAG, "click on city " + uniqueID);
+
+            changeCurrentCity(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
         }
+        else {
+            switch (uniqueID) {
+                case DrawerItemsLister.ADD_NEW_CITY:
+                    DialogFragmentSearchCity.newInstance(false).show(getSupportFragmentManager(), null);
+                    break;
+                case DrawerItemsLister.SETTINGS:
+                    break;
+                case DrawerItemsLister.ABOUT_THIS_APP:
+                    break;
+            }
+        }
+    }
+
+    public void changeCurrentCity(int position) {
+        cityName = cityList.get(position);
+
+        fetchCurrentConditions();
+        fetchThreeHoursForecast();
+
+        toolboxTitle.setText(cityList.get(position));
+
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void onComplete() {
+        Log.d(TAG, "onComplete");
+
+        cityList = FilesHandler.getInstance().getSavedCities(this);
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        drawerRecyclerViewAdapter.dataSetChanged(cityList);
+
+        changeCurrentCity(cityList.size()-1);
     }
 }

@@ -5,12 +5,10 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class will be responsible for handling files saved on the device's internal store.
@@ -103,16 +101,25 @@ public class FilesHandler {
         }
     }
 
-    public void setCityName(Context context, String cityName) {
-        Log.d(TAG, "setCityName");
+    public void addCityName(Context context, String cityName) {
+        Log.d(TAG, "addCityName");
+
+        ArrayList<String> cityList = getSavedCities(context);
+        cityList.add(cityName);
+        setCityList(context, cityList);
+
+    }
+
+    public void createCityList(Context context, String cityName) {
+        Log.d(TAG, "setCityList");
 
         ArrayList<String> cityList = new ArrayList<String>();
         cityList.add(cityName);
-        setCityName(context, cityList);
+        setCityList(context, cityList);
     }
 
-    public void setCityName(Context context, ArrayList<String> cityList) {
-        Log.d(TAG, "setCityName");
+    public void setCityList(Context context, ArrayList<String> cityList) {
+        Log.d(TAG, "setCityList");
 
         try {
             File f = new File(context.getFilesDir().getAbsolutePath() + CITY_FILE);
