@@ -131,9 +131,9 @@ public class DialogFragmentSearchCity extends DialogFragment {
     }
 
     public void searchCity(final String city) {
-        if (checkInternetAccess()) {
-            progressDialog.show();
+        progressDialog.show();
 
+        if (checkInternetAccess()) {
             new Thread() {
                 public void run() {
                     Log.d(TAG, "Searching city: " + city);
