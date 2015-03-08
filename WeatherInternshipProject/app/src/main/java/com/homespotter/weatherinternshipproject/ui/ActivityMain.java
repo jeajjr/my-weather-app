@@ -15,7 +15,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -246,10 +248,24 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         else {
             Log.d(TAG, "settingsProfile not null");
         }
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(viewPagerAdapter);
+        if (findViewById(R.id.container1) == null) {
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+
+            ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
+            mViewPager.setAdapter(viewPagerAdapter);
+        }
+        else {
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container1, new FragmentCurrentConditions())
+                        .commit();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container2, new FragmentThreeHoursForecast())
+                        .commit();
+            }
+        }
 
         fetchCurrentConditions();
         fetchThreeHoursForecast();
