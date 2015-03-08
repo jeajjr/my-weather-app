@@ -105,6 +105,10 @@ public class FilesHandler {
         Log.d(TAG, "addCityName");
 
         ArrayList<String> cityList = getSavedCities(context);
+
+        if (cityList == null)
+            cityList = new ArrayList<String>();
+
         cityList.add(cityName);
         setCityList(context, cityList);
 
