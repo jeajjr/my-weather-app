@@ -8,7 +8,7 @@
 
 2. Open the project with Android Studio
 
-3. Using the SDK Manager (Tools-> Android) download the latest version of Android Support Library
+3. Using the SDK Manager (Tools-> Android) to download the latest version of Android Support Library
 
 4. Hit the "Sync Project with Gradle Files" button
 
