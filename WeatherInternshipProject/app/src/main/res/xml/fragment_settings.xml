@@ -14,7 +14,7 @@
         android:summaryOff="@string/date_format_DDMM_example"/>
 
     <CheckBoxPreference
-        android:key="checkbox_date_format"
+        android:key="checkbox_hour_format"
         android:title="@string/hour_format_use_12"
         android:summaryOn="@string/hour_format_12_example"
         android:summaryOff="@string/hour_format_24_example"/>

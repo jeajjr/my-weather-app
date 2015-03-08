@@ -88,7 +88,7 @@ public class ActivitySettings extends ActionBarActivity {
             else
                 settingsProfile.setDateFormat(SettingsProfile.DATE_FORMAT_DD_MM);
 
-            pref = findPreference("checkbox_date_format");
+            pref = findPreference("checkbox_hour_format");
             check = (CheckBoxPreference) pref;
             if (check.isChecked())
                 settingsProfile.setHourFormat(SettingsProfile.HOUR_FORMAT_12);
