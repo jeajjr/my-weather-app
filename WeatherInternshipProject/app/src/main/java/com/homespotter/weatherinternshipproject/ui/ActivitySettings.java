@@ -1,18 +1,16 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +40,17 @@ public class ActivitySettings extends ActionBarActivity {
         settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ((ImageView) toolbar.findViewById(R.id.imageViewToolboxButton)).setImageResource(R.drawable.gear_light);
+        ImageView returnButton = (ImageView) toolbar.findViewById(R.id.imageViewToolboxLeftButton);
+        returnButton.setImageResource(R.drawable.return_icon);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        ((ImageView) toolbar.findViewById(R.id.imageViewToolboxRefreshButton)).setVisibility(View.INVISIBLE);
+
         ((TextView) toolbar.findViewById(R.id.textViewToolboxTitle)).setText(getString(R.string.settings));
         setSupportActionBar(toolbar);
     }

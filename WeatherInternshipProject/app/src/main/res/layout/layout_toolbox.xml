@@ -6,12 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
     <ImageView
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:id="@+id/imageViewToolboxButton"
+        android:id="@+id/imageViewToolboxLeftButton"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/list_icon_light" />
+        android:src="@drawable/list_icon_light"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,6 +25,21 @@
         android:id="@+id/textViewToolboxTitle"
         android:textSize="24dp"
         android:text="Syracuse, NY"
-        android:layout_marginLeft="20dp"
-        android:textColor="#ffe0e0e0" />
+        android:textColor="#ffe0e0e0"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageViewToolboxLeftButton"
+        android:layout_toEndOf="@+id/imageViewToolboxLeftButton"
+        android:layout_marginLeft="16dp" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageViewToolboxRefreshButton"
+        android:layout_gravity="center_horizontal|end"
+        android:src="@drawable/update_light"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="16dp" />
+    </RelativeLayout>
 </LinearLayout>

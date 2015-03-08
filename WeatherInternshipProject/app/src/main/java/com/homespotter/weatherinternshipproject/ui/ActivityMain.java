@@ -242,11 +242,20 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         // only open navigation drawer via button on toolbar
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        ImageView drawerButton = (ImageView) findViewById(R.id.imageViewToolboxButton);
+        ImageView drawerButton = (ImageView) findViewById(R.id.imageViewToolboxLeftButton);
         drawerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        ImageView refreshButton = (ImageView) findViewById(R.id.imageViewToolboxRefreshButton);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchCurrentConditions();
+                fetchThreeHoursForecast();
             }
         });
 
