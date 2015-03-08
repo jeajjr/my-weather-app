@@ -214,7 +214,8 @@ public class DataParser {
 			System.out.println(e.getMessage());
 			return null;
 		}
-		
+
+        Log.d(TAG, "fiveDaysForecast size: " + fiveDaysForecast.weatherInfoList.size());
 		return fiveDaysForecast;
 	}
 	

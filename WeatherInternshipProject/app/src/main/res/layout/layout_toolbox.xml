@@ -28,8 +28,10 @@
         android:textColor="#ffe0e0e0"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageViewToolboxLeftButton"
-        android:layout_toEndOf="@+id/imageViewToolboxLeftButton"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginLeft="16dp"
+        android:layout_toLeftOf="@+id/imageViewToolboxRefreshButton"
+        android:layout_toStartOf="@+id/imageViewToolboxRefreshButton"
+        android:layout_marginRight="16dp" />
 
     <ImageView
         android:layout_width="32dp"

@@ -53,7 +53,7 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
             super(v);
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
-                    //icon = (ImageView) v.findViewById(R.id.imageViewIcon);
+                    icon = (ImageView) v.findViewById(R.id.imageViewIcon);
                     period = (TextView) v.findViewById(R.id.textViewPeriod);
                     temperature = (TextView) v.findViewById(R.id.textViewTemperature);
                     description = (TextView) v.findViewById(R.id.textViewDescription);
@@ -68,7 +68,7 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
             switch (forecastType) {
                 case THREE_HOUR_FORECAST:
 
-                    //icon.setImageResource(DataParser.getIconResource((String) data.get(WeatherParameters.weatherIconID)));
+                    icon.setImageResource(DataParser.getIconResource((String) data.get(WeatherParameters.weatherIconID)));
 
                     Calendar time = (Calendar) data.get(WeatherParameters.forecastDate);
 
@@ -144,6 +144,4 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
     public int getItemCount() {
         return dataSet.weatherInfoList.size();
     }
-
-
 }

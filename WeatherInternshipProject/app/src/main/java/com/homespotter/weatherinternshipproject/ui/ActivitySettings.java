@@ -95,7 +95,7 @@ public class ActivitySettings extends ActionBarActivity {
             else
                 settingsProfile.setHourFormat(SettingsProfile.HOUR_FORMAT_24);
 
-            Log.d(TAG, "saving profile " + settingsProfile);
+            Log.d(TAG, "saving  profile " + settingsProfile);
             FilesHandler.getInstance().setSettingProfile(getActivity(), settingsProfile);
         }
         
@@ -120,7 +120,7 @@ public class ActivitySettings extends ActionBarActivity {
             else
                 check.setChecked(false);
 
-            pref = findPreference("checkbox_date_format");
+            pref = findPreference("checkbox_hour_format");
             check = (CheckBoxPreference) pref;
             if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
                 check.setChecked(true);

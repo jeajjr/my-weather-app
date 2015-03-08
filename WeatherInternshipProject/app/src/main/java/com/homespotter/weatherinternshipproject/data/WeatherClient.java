@@ -1,6 +1,7 @@
 package com.homespotter.weatherinternshipproject.data;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -9,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WeatherClient {
+    private static final String TAG = "WeatherClient";
+
     // Class instance
     private static WeatherClient instance = null;
 
@@ -39,23 +42,25 @@ public class WeatherClient {
         return sendRequest(BASE_URL + FIND_URL + city );
     }
     public String getCurrentConditionsData(String location, int units) {
-        return sendRequest(BASE_URL + CURRENT_COND_URL + location + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + CURRENT_COND_URL + location + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
     public String getFiveDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
     public String getSixteenDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + (units == SettingsProfile.UNIT_IMPERIAL ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-	public String sendRequest (String requestString) {
+	public synchronized String sendRequest (String requestString) {
 		HttpURLConnection con = null;
 		InputStream is = null;
 
+        Log.d(TAG, "sending request " + requestString);
+
 		try {
-			con = (HttpURLConnection) ( new URL(requestString)).openConnection();
+            con = (HttpURLConnection) ( new URL(requestString)).openConnection();
 			con.setRequestMethod("GET");
 			con.setDoInput(true);
 			con.setDoOutput(true);

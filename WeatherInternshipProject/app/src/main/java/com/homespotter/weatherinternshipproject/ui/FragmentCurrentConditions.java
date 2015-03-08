@@ -106,8 +106,6 @@ public class FragmentCurrentConditions extends Fragment {
         sunset = (TextView) v.findViewById(R.id.textViewCurrSunset);
         lastHours = (TextView) v.findViewById(R.id.textViewCurrLastHours);
 
-
-
         Log.d(TAG, "done onCreateView");
         return v;
     }
@@ -119,7 +117,6 @@ public class FragmentCurrentConditions extends Fragment {
     public void setConditions (CurrentConditions currentConditions, SettingsProfile settingsProfile) {
         Log.d(TAG, "setConditions");
 
-        Log.d(TAG, (String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription));
         this.currentConditions = currentConditions;
         this.settingsProfile = settingsProfile;
 

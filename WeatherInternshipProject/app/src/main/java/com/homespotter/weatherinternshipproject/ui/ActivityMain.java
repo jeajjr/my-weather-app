@@ -41,7 +41,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private DrawerLayout drawerLayout;
 
     private CurrentConditions currentConditions = null;
+    private boolean currentConditionsDataReady = false;
     private MultipleWeatherForecast threeHoursForecast = null;
+    private boolean threeHoursDataReady = false;
     private MultipleWeatherForecast dailyForecast = null;
 
     private FragmentCurrentConditions fragmentCurrentConditions = null;
@@ -75,8 +77,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentCurrentConditions = fragmentCurrentConditions;
 
         // If currentConditions is already fetched, send it to fragment
-        if (currentConditions != null)
+        if (currentConditions != null && currentConditionsDataReady) {
+
             fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
+        }
     }
 
     @Override
@@ -85,7 +89,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
-        if (threeHoursForecast != null)
+        if (threeHoursForecast != null && threeHoursDataReady)
             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
@@ -101,15 +105,16 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         if (checkInternetAccess()) {
             new Thread() {
                 public void run() {
+                    currentConditionsDataReady = false;
                     Log.d(TAG, "Getting current conditions");
 
                     //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
 
-                    Log.d(TAG, "fetchCurrentConditions with " + settingsProfile);
-
+                    Log.d(TAG, "fetchCurrentConditions with " + settingsProfile + " for " + cityName);
 
                     try {
                         String currentData = WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
+                        Log.d(TAG, "Current raw data " + currentData);//TODO
                         currentConditions = DataParser.parseCurrentConditions(currentData);
                     } catch (Exception e) {
                         runOnUiThread(new Runnable() {
@@ -130,36 +135,36 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                                         TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
                                 currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                                         SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+
+                                currentConditionsDataReady = true;
+
+                                // If fragmentCurrentConditions has been created and is waiting for the data, send it
+                                if (fragmentCurrentConditions != null) {
+                                    fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
+                                }
                             }
                             else {
-                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request)+ " curr", Toast.LENGTH_LONG).show();
                             }
 
-                            // If fragmentCurrentConditions has been created and is waiting for the data, send it
-                            if (fragmentCurrentConditions != null) {
-                                fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
-                            }
-
-                            // decrease dialog stack
-                            progressDialogStack--;
-                            if (progressDialogStack == 0)
-                                progressDialog.dismiss();
-
-                            Log.d(TAG, "thread fetchCurrentConditions is done, dialog stack:" + progressDialogStack);
+                            decreaseProgressDialogStack();
                         }
                     });
                     Log.d(TAG, "end fetchCurrentConditions");
                 }
             }.start();
         }
-        else
-            Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, getString(R.string.warning_network_unavailable) + " curr", Toast.LENGTH_LONG).show();
+            decreaseProgressDialogStack();
+        }
     }
 
     public void fetchThreeHoursForecast() {
         if (checkInternetAccess()) {
         new Thread() {
             public void run() {
+                threeHoursDataReady = false;
                 Log.d(TAG, "Getting 3 hour forecast");
 
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
@@ -184,32 +189,36 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                                     TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
                             threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
                                     SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+
+                            // If fragmentCurrentConditions has been created and is waiting for the data, send it
+                            if (fragmentCurrentConditions != null) {
+                                fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
+                            }
                         }
                         else {
-                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request) + " 3hour", Toast.LENGTH_LONG).show();
                         }
 
-                        // If fragmentCurrentConditions has been created and is waiting for the data, send it
-                        if (fragmentCurrentConditions != null) {
-                            fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
-                        }
+                        threeHoursDataReady = true;
 
-                        // decrease dialog stack
-                        progressDialogStack--;
-                        if (progressDialogStack == 0)
-                            progressDialog.dismiss();
-
-                        Log.d(TAG, "thread fetchThreeHoursForecast is done, dialog stack:" + progressDialogStack);
+                        decreaseProgressDialogStack();
                     }
                 });
-                Log.d(TAG, "end fragmentThreeHoursForecast");
+                Log.d(TAG, "end fetchThreeHoursForecast");
             }
         }.start();
         }
-        else
+        else {
             Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
+            decreaseProgressDialogStack();
+        }
     }
 
+    private void decreaseProgressDialogStack() {
+        progressDialogStack--;
+        if (progressDialogStack == 0)
+            progressDialog.dismiss();
+    }
     /*
             Activity methods
          */
