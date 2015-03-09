@@ -49,8 +49,6 @@ public class ActivitySettings extends ActionBarActivity {
             }
         });
 
-        ((ImageView) toolbar.findViewById(R.id.imageViewToolboxRefreshButton)).setVisibility(View.INVISIBLE);
-
         ((TextView) toolbar.findViewById(R.id.textViewToolboxTitle)).setText(getString(R.string.settings));
         setSupportActionBar(toolbar);
     }

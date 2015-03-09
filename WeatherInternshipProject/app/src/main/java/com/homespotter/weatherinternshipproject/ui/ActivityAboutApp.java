@@ -30,7 +30,6 @@ public class ActivityAboutApp extends ActionBarActivity {
             }
         });
 
-        findViewById(R.id.imageViewToolboxRefreshButton).setVisibility(View.INVISIBLE);
         ((TextView) findViewById(R.id.textViewToolboxTitle)).setText(getString(R.string.about_this_app));
 
         findViewById(R.id.imageButtonLinkedIn).setOnClickListener(new View.OnClickListener() {

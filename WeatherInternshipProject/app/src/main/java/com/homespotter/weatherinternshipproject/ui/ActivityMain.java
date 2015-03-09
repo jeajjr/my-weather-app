@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -64,7 +65,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private TextView toolboxTitle;
 
-    private ProgressDialog progressDialog;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final int PROGRESS_DIALOG_STACK_START = 2;
     private int progressDialogStack;
@@ -218,7 +219,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private void decreaseProgressDialogStack() {
         progressDialogStack--;
         if (progressDialogStack == 0)
-            progressDialog.dismiss();
+            mSwipeRefreshLayout.setRefreshing(false);
     }
     /*
             Activity methods
@@ -229,12 +230,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getResources().getString(R.string.warning_loading));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
         // this activity is only called when there is a saved city, so there is no need to check it
         cityList = FilesHandler.getInstance().getSavedCities(this);
@@ -259,9 +254,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         .commit();
             }
         }
-
-        fetchCurrentConditions();
-        fetchThreeHoursForecast();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -304,20 +296,29 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             }
         });
 
-        ImageView refreshButton = (ImageView) findViewById(R.id.imageViewToolboxRefreshButton);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
+        progressDialogStack = PROGRESS_DIALOG_STACK_START;
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                progressDialog.show();
+            public void onRefresh() {
                 progressDialogStack = PROGRESS_DIALOG_STACK_START;
+                mSwipeRefreshLayout.setRefreshing(true);
 
                 fetchCurrentConditions();
                 fetchThreeHoursForecast();
             }
         });
+        mSwipeRefreshLayout.setRefreshing(true);
+        if (mSwipeRefreshLayout != null)
+            Log.d(TAG, "found mSwipeRefreshLayout");
+        else
+            Log.d(TAG, "mSwipeRefreshLayout null");
 
         toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
         toolboxTitle.setText(cityName);
+
+        fetchCurrentConditions();
+        fetchThreeHoursForecast();
     }
 
     private static final int SETTING_REQUEST = 0;
@@ -402,7 +403,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
             Log.d(TAG,"got settings " + settingsProfile);
 
-            progressDialog.show();
+            mSwipeRefreshLayout.setRefreshing(true);
             progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
             fetchCurrentConditions();
@@ -413,7 +414,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     public void changeCurrentCity(int position) {
         cityName = cityList.get(position);
 
-        progressDialog.show();
+        mSwipeRefreshLayout.setRefreshing(true);
         progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
         fetchCurrentConditions();

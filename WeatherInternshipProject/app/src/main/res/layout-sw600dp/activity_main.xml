@@ -26,6 +26,13 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/swipeRefresh"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
         <LinearLayout
             android:baselineAligned="false"
             android:layout_width="fill_parent"
@@ -46,6 +53,7 @@
                 android:layout_height="match_parent">
                 </FrameLayout>
             </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <!-- navigation drawer -->

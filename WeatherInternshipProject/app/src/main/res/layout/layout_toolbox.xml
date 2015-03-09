@@ -29,19 +29,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageViewToolboxLeftButton"
         android:layout_marginLeft="16dp"
-        android:layout_toLeftOf="@+id/imageViewToolboxRefreshButton"
-        android:layout_toStartOf="@+id/imageViewToolboxRefreshButton"
         android:layout_marginRight="16dp" />
 
-    <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:id="@+id/imageViewToolboxRefreshButton"
-        android:layout_gravity="center_horizontal|end"
-        android:src="@drawable/update_light"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="16dp" />
     </RelativeLayout>
 </LinearLayout>
