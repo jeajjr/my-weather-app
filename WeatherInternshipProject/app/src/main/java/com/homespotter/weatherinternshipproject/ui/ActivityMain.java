@@ -39,8 +39,7 @@ import java.util.ArrayList;
 public class ActivityMain extends ActionBarActivity implements DataProviderInterface, DialogFragmentSearchCity.DialogFragmentSearchCityResultListener {
     private final static String TAG = "ActivityMain";
 
-    private DrawerLayout drawerLayout;
-
+    // Weather related data
     private CurrentConditions currentConditions = null;
     private boolean currentConditionsDataReady = false;
     private MultipleWeatherForecast threeHoursForecast = null;
@@ -48,16 +47,21 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private MultipleWeatherForecast dailyForecast = null;
     private boolean DailyForecastDataReady = false;
 
+    // Fragments
     private FragmentCurrentConditions fragmentCurrentConditions = null;
     private FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
 
+    // Current city and cities list
     private String cityName;
     private ArrayList<String> cityList;
 
+    // Navigation drawer
+    private DrawerLayout drawerLayout;
     private AdapterDrawerMenuRecyclerView drawerRecyclerViewAdapter;
 
     private SettingsProfile settingsProfile;
 
+    // Data units strings
     private final String SPEED_UNIT_IMPERIAL = "mph";
     private final String SPEED_UNIT_METRIC = "km/h";
     private final String TEMPERATURE_UNIT_IMPERIAL = "F";
@@ -65,13 +69,18 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private TextView toolboxTitle;
 
+    // Refresh related
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     private static final int PROGRESS_DIALOG_STACK_START = 2;
     private int progressDialogStack;
 
     /*
         Methods of DataProviderInterface
+     */
+
+    /**
+     * Function called by the CurrentConditionsFragment to send its instance to the MainActivty.
+     * @param fragmentCurrentConditions: the CurrentConditionsFragment instance.
      */
     @Override
     public void setCurrentConditionsFragment(FragmentCurrentConditions fragmentCurrentConditions) {
@@ -84,7 +93,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
         }
     }
-
+    /**
+     * Function called by the FragmentThreeHoursForecast to send its instance to the MainActivty.
+     * @param fragmentThreeHoursForecast: the FragmentThreeHoursForecast instance.
+     */
     @Override
     public void setThreeHoursForecastFragment(FragmentThreeHoursForecast fragmentThreeHoursForecast) {
         Log.d(TAG, "3Hour frag is calling to get data");
@@ -95,13 +107,40 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
+
+    /*
+        Methods of dialogFragmentSearchCity.DialogFragmentSearchCityResultListener interface
+     */
+    /**
+     * Callback function of the search city DialogFragment.
+     */
+    @Override
+    public void onComplete() {
+        Log.d(TAG, "onComplete");
+
+        cityList = FilesHandler.getInstance().getSavedCities(this);
+        drawerLayout.closeDrawer(Gravity.LEFT);
+        drawerRecyclerViewAdapter.setCurrentCity(cityList.size() - 1);
+        drawerRecyclerViewAdapter.dataSetChanged(cityList);
+
+        changeCurrentCity(cityList.size()-1);
+    }
+
+    /*
+        Local methods.
+     */
+
+    /**
+     * Check if internet access is available.
+     * @return true if available, false otherwise.
+     */
     private boolean checkInternetAccess() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return (cm.getActiveNetworkInfo() != null);
     }
 
-    /*
-        Local methods.
+    /**
+     * Creates a thread to fetch the current conditions of the current city.
      */
     public void fetchCurrentConditions() {
         if (checkInternetAccess()) {
@@ -162,6 +201,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         }
     }
 
+    /**
+     * Creates a thread to fetch the three hours forecast of the current city.
+     */
     public void fetchThreeHoursForecast() {
         if (checkInternetAccess()) {
         new Thread() {
@@ -216,14 +258,136 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         }
     }
 
+    /**
+     * Decrease the progressDialogStack. When all data fetching thread have done their work, it will
+     * be zero and the loading signs will be hide.
+     */
     private void decreaseProgressDialogStack() {
         progressDialogStack--;
         if (progressDialogStack == 0)
             mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    /**
+     * Process a click on the navigation drawer item with the given uniqueID.
+     * @param uniqueID: uniqueID of the clicked drawer item.
+     */
+    public void processDrawerClick(int uniqueID) {
+        Log.d(TAG, "activity received click on item " + uniqueID);
+
+        // if it is a city item
+        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+            Log.d(TAG, "click on city " + uniqueID);
+
+            changeCurrentCity(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
+        }
+        else {
+            Intent intent;
+
+            switch (uniqueID) {
+                case DrawerItemsLister.ADD_NEW_CITY:
+                    DialogFragmentSearchCity.newInstance(false).show(getSupportFragmentManager(), null);
+                    break;
+                case DrawerItemsLister.SETTINGS:
+                    intent = new Intent(this, ActivitySettings.class);
+                    startActivityForResult(intent, SETTING_REQUEST);
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                    break;
+                case DrawerItemsLister.ABOUT_THIS_APP:
+                    intent = new Intent(this, ActivityAboutApp.class);
+                    startActivityForResult(intent, SETTING_REQUEST);
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Process a long click on the navigation drawer item with the given uniqueID.
+     * @param uniqueID: uniqueID of the long clicked drawer item.
+     */
+    public void processDrawerLongClick(final int uniqueID) {
+        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+            Log.d(TAG, "long click on city " + uniqueID);
+
+            // Create dialog to delete city
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            alertDialogBuilder.setTitle(getString(R.string.delete_city));
+            alertDialogBuilder.setMessage(getString(R.string.delete_city_confirmation) + " " +
+                    cityList.get(uniqueID - DrawerItemsLister.ITEM_CITY_MASK) + "?");
+
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.dialog_ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            cityList.remove(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
+                            FilesHandler.getInstance().setCityList(ActivityMain.this, cityList);
+
+                            if (cityList.size() != 0) {
+                                drawerRecyclerViewAdapter.setCurrentCity(0);
+                                drawerRecyclerViewAdapter.dataSetChanged(cityList);
+                                changeCurrentCity(0);
+                            }
+                            else {
+                                startActivity(new Intent(ActivityMain.this, ActivityStart.class));
+                            }
+                        }
+                    });
+
+            alertDialogBuilder.setNeutralButton(getString(R.string.dialog_cancel),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private static final int SETTING_REQUEST = 0;
+
+    /**
+     * Change the current city which current weather and forecast are being shown.
+     * @param position: position of the city on the ArrayList<String> cityList.
+     */
+    public void changeCurrentCity(int position) {
+        cityName = cityList.get(position);
+
+        progressDialogStack = PROGRESS_DIALOG_STACK_START;
+        mSwipeRefreshLayout.setRefreshing(true);
+
+        fetchCurrentConditions();
+        fetchThreeHoursForecast();
+
+        toolboxTitle.setText(cityList.get(position));
+
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
     /*
-            Activity methods
-         */
+        Activity methods
+     */
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d(TAG, "onActivityResult");
+
+        if (resultCode == Activity.RESULT_OK && requestCode == SETTING_REQUEST) {
+            settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
+            Log.d(TAG,"got settings " + settingsProfile);
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            progressDialogStack = PROGRESS_DIALOG_STACK_START;
+
+            fetchCurrentConditions();
+            fetchThreeHoursForecast();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
@@ -341,121 +505,5 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         fetchCurrentConditions();
         fetchThreeHoursForecast();
-    }
-
-    private static final int SETTING_REQUEST = 0;
-
-    public void processDrawerLongClick(final int uniqueID) {
-        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
-            Log.d(TAG, "long click on city " + uniqueID);
-
-            // Create dialog to delete city
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-            alertDialogBuilder.setTitle(getString(R.string.delete_city));
-            alertDialogBuilder.setMessage(getString(R.string.delete_city_confirmation) + " " +
-                                    cityList.get(uniqueID - DrawerItemsLister.ITEM_CITY_MASK) + "?");
-
-            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.dialog_ok),
-                    new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    cityList.remove(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
-                    FilesHandler.getInstance().setCityList(ActivityMain.this, cityList);
-
-                    if (cityList.size() != 0) {
-                        drawerRecyclerViewAdapter.setCurrentCity(0);
-                        drawerRecyclerViewAdapter.dataSetChanged(cityList);
-                        changeCurrentCity(0);
-                    }
-                    else {
-                        startActivity(new Intent(ActivityMain.this, ActivityStart.class));
-                    }
-                }
-            });
-
-            alertDialogBuilder.setNeutralButton(getString(R.string.dialog_cancel),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        }
-    }
-
-    public void processDrawerClick(int uniqueID) {
-        Log.d(TAG, "activity received click on item " + uniqueID);
-
-        // if it is a city item
-        if ((uniqueID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
-            Log.d(TAG, "click on city " + uniqueID);
-
-            changeCurrentCity(uniqueID - DrawerItemsLister.ITEM_CITY_MASK);
-        }
-        else {
-            Intent intent;
-
-            switch (uniqueID) {
-                case DrawerItemsLister.ADD_NEW_CITY:
-                    DialogFragmentSearchCity.newInstance(false).show(getSupportFragmentManager(), null);
-                    break;
-                case DrawerItemsLister.SETTINGS:
-                    intent = new Intent(this, ActivitySettings.class);
-                    startActivityForResult(intent, SETTING_REQUEST);
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                    break;
-                case DrawerItemsLister.ABOUT_THIS_APP:
-                    intent = new Intent(this, ActivityAboutApp.class);
-                    startActivityForResult(intent, SETTING_REQUEST);
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Log.d(TAG, "onActivityResult");
-
-        if (resultCode == Activity.RESULT_OK && requestCode == SETTING_REQUEST) {
-            settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
-            Log.d(TAG,"got settings " + settingsProfile);
-
-            mSwipeRefreshLayout.setRefreshing(true);
-            progressDialogStack = PROGRESS_DIALOG_STACK_START;
-
-            fetchCurrentConditions();
-            fetchThreeHoursForecast();
-        }
-    }
-
-    public void changeCurrentCity(int position) {
-        cityName = cityList.get(position);
-
-        mSwipeRefreshLayout.setRefreshing(true);
-        progressDialogStack = PROGRESS_DIALOG_STACK_START;
-
-        fetchCurrentConditions();
-        fetchThreeHoursForecast();
-
-        toolboxTitle.setText(cityList.get(position));
-
-        drawerLayout.closeDrawer(Gravity.LEFT);
-    }
-
-    @Override
-    public void onComplete() {
-        Log.d(TAG, "onComplete");
-
-        cityList = FilesHandler.getInstance().getSavedCities(this);
-        drawerLayout.closeDrawer(Gravity.LEFT);
-        drawerRecyclerViewAdapter.setCurrentCity(cityList.size() - 1);
-        drawerRecyclerViewAdapter.dataSetChanged(cityList);
-
-        changeCurrentCity(cityList.size()-1);
     }
 }
