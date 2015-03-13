@@ -48,6 +48,17 @@ public class DrawerItemsLister {
         return item;
     }
 
+    private static HashMap createCityMenuItem(int uniqueID, String name) {
+        HashMap item = new HashMap();
+
+        item.put("id", uniqueID);
+        item.put("name", name);
+        item.put("type", AdapterDrawerMenuRecyclerView.ITEM_CITY);
+
+        return item;
+    }
+
+
     private static HashMap createMenuItemWithIcon(int uniqueID, String name, int drawableID) {
         HashMap item = new HashMap();
 
@@ -68,7 +79,7 @@ public class DrawerItemsLister {
         list.add(createSimpleMenuItem(0, context.getString(R.string.my_cities) + ":"));
 
         for (int i = 0; i < cityList.size(); i++)
-            list.add(createSecondaryMenuItem(ITEM_CITY_MASK | i, cityList.get(i)));
+            list.add(createCityMenuItem(ITEM_CITY_MASK | i, cityList.get(i)));
 
         list.add(createSecondaryMenuItem(ADD_NEW_CITY, context.getString(R.string.add_new_city)));
 

@@ -281,6 +281,28 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             public void onItemLongClick(int uniqueID) {
                 processDrawerLongClick(uniqueID);
             }
+
+            @Override
+            public void onSetMainCity(int position) {
+                Log.d(TAG, "Activity got setMainCity on city " + position);
+
+                int oldPosition = 0;
+                String newMainCity = cityList.get(position);
+
+                for (int i = 0; i < cityList.size(); i++)
+                    if (cityList.get(i).compareTo(cityList.get(position)) == 0) {
+                        oldPosition = i;
+                        break;
+                    }
+
+                cityList.remove(oldPosition);
+                cityList.add(0, newMainCity);
+
+                drawerRecyclerViewAdapter.dataSetChanged(cityList);
+                changeCurrentCity(0);
+
+                //drawerRecyclerViewAdapter.notifyMainCityChanged(oldPosition);
+            }
         });
         drawerList.setAdapter(drawerRecyclerViewAdapter);
 

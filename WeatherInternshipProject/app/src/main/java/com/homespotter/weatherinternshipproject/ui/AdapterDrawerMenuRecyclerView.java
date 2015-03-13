@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.homespotter.weatherinternshipproject.R;
@@ -24,6 +24,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     public static final int ITEM_WITH_ICON = 0;
     public static final int ITEM_SIMPLE = 1;
     public static final int ITEM_SECONDARY = 2;
+    public static final int ITEM_CITY = 3;
     public static final int LINE_SEPARATOR = 4;
     public static final int SPACER = 5;
 
@@ -49,6 +50,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     public interface OnDrawerItemClickListener {
         public void onItemClick(int uniqueID);
         public void onItemLongClick(int uniqueID);
+        public void onSetMainCity(int position);
     }
 
     public void setOnDrawerItemClickListener(final OnDrawerItemClickListener mItemClickListener) {
@@ -58,7 +60,9 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView icon;
         public TextView name;
+        ImageView favorite;
         View currentView;
+        View clickableArea;
 
         public ViewHolder(View v) {
             super(v);
@@ -67,41 +71,60 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
 
             icon = (ImageView) v.findViewById(R.id.itemIcon);
             name = (TextView) v.findViewById(R.id.itemName);
+            favorite = (ImageView) v.findViewById(R.id.itemStar);
+            clickableArea = v.findViewById(R.id.clickableArea);
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id = (Integer) itemsSet.get(getPosition()).get("id");
-                    Log.d(TAG, "adapter received click on city item " + id);
+            currentItem = getFirstCityIndex();
 
-                    if (onDrawerItemClickListener != null)
-                        onDrawerItemClickListener.onItemClick(id);
+            if (favorite != null) {
+                Log.d(TAG, "found favorite");
 
-                    if ((id & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
-                        currentItem = getPosition();
-                        notifyDataSetChanged();
+                favorite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "clicked on favorite");
+
+                        if (onDrawerItemClickListener != null)
+                            onDrawerItemClickListener.onSetMainCity(getPosition() - getFirstCityIndex());
                     }
-                }
-            });
+                });
+            }
 
-            v.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int id = (Integer) itemsSet.get(getPosition()).get("id");
-                    Log.d(TAG, "adapter received long click on city item " + id);
+            if (clickableArea != null) {
+                Log.d(TAG, "found clickableArea");
 
-                    if (onDrawerItemClickListener != null && id != -1)
-                        onDrawerItemClickListener.onItemLongClick(id);
+                clickableArea.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int id = (Integer) itemsSet.get(getPosition()).get("id");
+                        Log.d(TAG, "adapter received click on city item " + id);
 
-                    return true;
-                }
-            });
+                        if (onDrawerItemClickListener != null)
+                            onDrawerItemClickListener.onItemClick(id);
+
+                        if ((id & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) {
+                            currentItem = getPosition();
+                            notifyDataSetChanged();
+                        }
+                    }
+                });
+
+                clickableArea.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        int id = (Integer) itemsSet.get(getPosition()).get("id");
+                        Log.d(TAG, "adapter received long click on city item " + id);
+
+                        if (onDrawerItemClickListener != null && id != -1)
+                            onDrawerItemClickListener.onItemLongClick(id);
+
+                        return true;
+                    }
+                });
+            }
         }
 
         public void bindData (Map<String, ?> item, int position) {
-            currentItem = getFirstCityIndex();
-
-            Log.d(TAG, "currentItem " + currentItem);
 
             switch ((Integer) item.get("type")) {
                 case ITEM_SIMPLE:
@@ -114,15 +137,20 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                 case ITEM_SECONDARY:
                     name.setText((String) item.get("name"));
                     break;
-            }
-            int itemID = (Integer) item.get("id");
-            if (((itemID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK) && (name != null)) {
-                if (currentItem == position) {
-                    name.setTypeface(null, Typeface.BOLD);
-                }
-                else {
-                    name.setTypeface(null, Typeface.NORMAL);
-                }
+                case ITEM_CITY:
+                    name.setText((String) item.get("name"));
+                    if (position == getFirstCityIndex())
+                        favorite.setImageResource(R.drawable.star_filled);
+                    else
+                        favorite.setImageResource(R.drawable.start_empty);
+
+                    if (currentItem == position) {
+                        name.setTypeface(null, Typeface.BOLD);
+                    }
+                    else {
+                        name.setTypeface(null, Typeface.NORMAL);
+                    }
+                    break;
             }
         }
     }
@@ -147,7 +175,11 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     public void setCurrentCity(int currentCityPosition) {
         currentItem = getFirstCityIndex() + currentCityPosition;
     }
-
+/*
+    public void notifyMainCityChanged(int oldPosition) {
+        this.notifyItemMoved(getFirstCityIndex() + oldPosition, getFirstCityIndex());
+    }
+*/
     @Override
     public int getItemViewType(int position) {
         return (Integer) itemsSet.get(position).get("type");
@@ -166,7 +198,10 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
                 break;
             case ITEM_SECONDARY:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_item_secondary, parent, false);
-            break;
+                break;
+            case ITEM_CITY:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_item_city, parent, false);
+                break;
             case LINE_SEPARATOR:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_item_separator, parent, false);
                 break;
