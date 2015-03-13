@@ -22,7 +22,7 @@ public class DrawerItemsLister {
     private static HashMap createOrganizingItem(int type) {
         HashMap item = new HashMap();
 
-        item.put("id", -1);
+        item.put("id", 0);
         item.put("type", type);
 
         return item;
@@ -65,7 +65,7 @@ public class DrawerItemsLister {
         list.add(createOrganizingItem(AdapterDrawerMenuRecyclerView.SPACER));
         list.add(createOrganizingItem(AdapterDrawerMenuRecyclerView.SPACER));
 
-        list.add(createSimpleMenuItem(-1, context.getString(R.string.my_cities) + ":"));
+        list.add(createSimpleMenuItem(0, context.getString(R.string.my_cities) + ":"));
 
         for (int i = 0; i < cityList.size(); i++)
             list.add(createSecondaryMenuItem(ITEM_CITY_MASK | i, cityList.get(i)));

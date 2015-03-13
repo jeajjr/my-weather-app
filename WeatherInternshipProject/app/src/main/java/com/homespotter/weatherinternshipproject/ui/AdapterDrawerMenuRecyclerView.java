@@ -32,7 +32,7 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
     private List<Map<String, ?>> itemsSet;
     private ArrayList<String> cityList;
     private OnDrawerItemClickListener onDrawerItemClickListener;
-    private int currentItem = 3;
+    private int currentItem;
     private Context context;
     private SettingsProfile settingsProfile;
 
@@ -99,6 +99,10 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
         }
 
         public void bindData (Map<String, ?> item, int position) {
+            currentItem = getFirstCityIndex();
+
+            Log.d(TAG, "currentItem " + currentItem);
+
             switch ((Integer) item.get("type")) {
                 case ITEM_SIMPLE:
                     name.setText((String) item.get("name"));
@@ -129,8 +133,19 @@ public class AdapterDrawerMenuRecyclerView extends RecyclerView.Adapter<AdapterD
         this.notifyDataSetChanged();
     }
 
+    public int getFirstCityIndex() {
+        for (int i = 0; i < itemsSet.size(); i++) {
+            int itemID = (Integer) itemsSet.get(i).get("id");
+            if ((itemID & DrawerItemsLister.ITEM_CITY_MASK) == DrawerItemsLister.ITEM_CITY_MASK)
+                return i;
+        }
+
+        return -1;
+    }
+
+
     public void setCurrentCity(int currentCityPosition) {
-        currentItem = 3 + currentCityPosition;
+        currentItem = getFirstCityIndex() + currentCityPosition;
     }
 
     @Override
