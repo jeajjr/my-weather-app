@@ -107,7 +107,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
-
     /*
         Methods of dialogFragmentSearchCity.DialogFragmentSearchCityResultListener interface
      */
@@ -295,7 +294,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     break;
                 case DrawerItemsLister.ABOUT_THIS_APP:
                     intent = new Intent(this, ActivityAboutApp.class);
-                    startActivityForResult(intent, SETTING_REQUEST);
+                    startActivity(intent);
                     drawerLayout.closeDrawer(Gravity.LEFT);
                     break;
             }
