@@ -427,7 +427,16 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 drawerLayout,
                 toolbar,
                 R.string.open_drawer,
-                R.string.close_drawer);
+                R.string.close_drawer) {
+            // Only lock drawer when it is closed
+            public void onDrawerOpened(View view){
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+
+            public void onDrawerClosed(View view) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            }
+        };
 
         RecyclerView drawerList = (RecyclerView) findViewById(R.id.drawer_list);
         drawerList.setLayoutManager(new LinearLayoutManager(this));
@@ -494,6 +503,13 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             }
         });
         mSwipeRefreshLayout.setRefreshing(true);
+        //mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
         if (mSwipeRefreshLayout != null)
             Log.d(TAG, "found mSwipeRefreshLayout");
         else
