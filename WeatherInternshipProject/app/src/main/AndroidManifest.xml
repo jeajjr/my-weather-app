@@ -31,6 +31,15 @@
             android:name=".ui.ActivityAboutApp"
             android:label="@string/title_activity_activity_about_app" >
         </activity>
+
+        <receiver
+            android:name=".ui.ActivityWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget" />
+        </receiver>
     </application>
 
 </manifest>

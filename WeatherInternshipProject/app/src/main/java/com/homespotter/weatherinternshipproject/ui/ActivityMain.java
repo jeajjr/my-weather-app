@@ -2,6 +2,7 @@ package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -357,6 +358,15 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    public void updateWidgets() {
+        Log.d(TAG, "sending update widgets broadcast");
+
+        Intent intent = new Intent(this, ActivityWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = {R.xml.widget};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        sendBroadcast(intent);
+    }
     /**
      * Process a click on the navigation drawer item with the given uniqueID.
      * @param uniqueID: uniqueID of the clicked drawer item.
@@ -567,9 +577,12 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 cityList.remove(oldPosition);
                 cityList.add(0, newMainCity);
 
+                FilesHandler.getInstance().setCityList(ActivityMain.this, cityList);
 
                 drawerRecyclerViewAdapter.dataSetChanged(cityList);
                 changeCurrentCity(0);
+
+                updateWidgets();
             }
         });
         drawerList.setAdapter(drawerRecyclerViewAdapter);
