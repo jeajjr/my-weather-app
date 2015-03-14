@@ -61,12 +61,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private SettingsProfile settingsProfile;
 
-    // Data units strings
-    private final String SPEED_UNIT_IMPERIAL = "mph";
-    private final String SPEED_UNIT_METRIC = "km/h";
-    private final String TEMPERATURE_UNIT_IMPERIAL = "F";
-    private final String TEMPERATURE_UNIT_METRIC = "C";
-
     private TextView toolboxTitle;
 
     // Refresh related
@@ -194,10 +188,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         public void run() {
                             // Check if data is not null
                             if (currentConditions != null) {
-                                currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                                currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                                currentConditions.temperatureUnit = settingsProfile.getTemperatureUnitString();
+                                currentConditions.speedUnit = settingsProfile.getSpeedUnitString();
 
                                 currentConditionsDataReady = true;
 
@@ -257,10 +249,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     public void run() {
                         // Check if data is not null
                         if (threeHoursForecast != null) {
-                            threeHoursForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                    TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                            threeHoursForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                    SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                            threeHoursForecast.temperatureUnit = settingsProfile.getTemperatureUnitString();
+                            threeHoursForecast.speedUnit = settingsProfile.getSpeedUnitString();
 
                             // If fragmentCurrentConditions has been created and is waiting for the data, send it
                             if (fragmentCurrentConditions != null) {
@@ -319,10 +309,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         public void run() {
                             // Check if data is not null
                             if (dailyForecast != null) {
-                                dailyForecast.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                        TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                                dailyForecast.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                                        SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                                dailyForecast.temperatureUnit = settingsProfile.getTemperatureUnitString();
+                                dailyForecast.speedUnit = settingsProfile.getSpeedUnitString();
 
                                 // If fragmentCurrentConditions has been created and is waiting for the data, send it
                                 if (fragmentDailyForecast != null) {
@@ -361,7 +349,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     public void updateWidgets() {
         Log.d(TAG, "sending update widgets broadcast");
 
-        Intent intent = new Intent(this, ActivityWidget.class);
+        Intent intent = new Intent(this, WeatherAppWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = {R.xml.widget};
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
@@ -501,6 +489,11 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         cityList = FilesHandler.getInstance().getSavedCities(this);
         cityName = cityList.get(0);
         settingsProfile = FilesHandler.getInstance().getSettingProfile(this);
+
+        if (settingsProfile == null)
+            Log.d(TAG, "settings null");
+        else
+            Log.d(TAG, "settings null not");
 
         // check if the device is a tablet or not
         if (findViewById(R.id.container1) == null) {

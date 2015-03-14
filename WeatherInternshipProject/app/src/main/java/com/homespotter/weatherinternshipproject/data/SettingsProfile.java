@@ -19,6 +19,11 @@ public class SettingsProfile implements Serializable {
     public static final int HOUR_FORMAT_12 = 0;
     public static final int HOUR_FORMAT_24 = 1;
 
+    private static final String TEMPERATURE_UNIT_IMPERIAL_STRING = "F";
+    private static final String TEMPERATURE_UNIT_METRIC_STRING = "C";
+    private static final String SPEED_UNIT_IMPERIAL_STRING = "mph";
+    private static final String SPEED_UNIT_METRIC_STRING = "km/h";
+
     public SettingsProfile() {
         this.units = UNIT_IMPERIAL;
         this.dateFormat = DATE_FORMAT_MM_DD;
@@ -44,6 +49,18 @@ public class SettingsProfile implements Serializable {
         toString += ( hourFormat == HOUR_FORMAT_12) ? "12 hour" : "24 hour";
 
         return toString;
+    }
+
+    public String getTemperatureUnitString() {
+        return (units == UNIT_IMPERIAL)
+                ? TEMPERATURE_UNIT_IMPERIAL_STRING
+                : TEMPERATURE_UNIT_METRIC_STRING;
+    }
+
+    public String getSpeedUnitString() {
+        return (units == UNIT_IMPERIAL)
+                ? SPEED_UNIT_IMPERIAL_STRING
+                : SPEED_UNIT_METRIC_STRING;
     }
 
     public int getUnits() {

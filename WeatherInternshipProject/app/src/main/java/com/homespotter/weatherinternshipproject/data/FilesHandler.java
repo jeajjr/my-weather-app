@@ -61,6 +61,7 @@ public class FilesHandler {
             return settingsProfile;
 
         } catch (Exception e) {
+            Log.d(TAG, "error getting setting profile", e);
             return null;
         }
     }

@@ -1,21 +1,10 @@
 package com.homespotter.weatherinternshipproject.ui;
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.webkit.WebView.FindListener;
-import android.widget.Button;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.homespotter.weatherinternshipproject.R;
 import com.homespotter.weatherinternshipproject.data.CurrentConditions;
@@ -25,13 +14,8 @@ import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
-public class ActivityWidget extends AppWidgetProvider{
-    private static final String TAG = "ActivityWidget";
-
-    private static final String TEMPERATURE_UNIT_IMPERIAL = "F";
-    private static final String TEMPERATURE_UNIT_METRIC = "C";
-    private static final String SPEED_UNIT_IMPERIAL = "mph";
-    private static final String SPEED_UNIT_METRIC = "km/h";
+public class WeatherAppWidgetProvider extends AppWidgetProvider{
+    private static final String TAG = "WeatherAppWidgetProvider";
 
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager,
@@ -56,10 +40,8 @@ public class ActivityWidget extends AppWidgetProvider{
                     WeatherClient.getInstance().getCurrentConditionsData(cityName, SettingsProfile.UNIT_METRIC);
                     CurrentConditions currentConditions = DataParser.parseCurrentConditions(data);
 
-                    currentConditions.temperatureUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            TEMPERATURE_UNIT_IMPERIAL : TEMPERATURE_UNIT_METRIC;
-                    currentConditions.speedUnit = (settingsProfile.getUnits() == SettingsProfile.UNIT_IMPERIAL) ?
-                            SPEED_UNIT_IMPERIAL : SPEED_UNIT_METRIC;
+                    currentConditions.temperatureUnit = settingsProfile.getTemperatureUnitString();
+                    currentConditions.speedUnit = settingsProfile.getSpeedUnitString();
 
                     for (int i = 0; i < appWidgetIds.length; i++) {
                         int currentWidgetId = appWidgetIds[i];
