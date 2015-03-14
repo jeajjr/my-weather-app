@@ -2,8 +2,10 @@ package com.homespotter.weatherinternshipproject.ui;
 
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +27,8 @@ public class FragmentThreeHoursForecast extends Fragment {
     private RecyclerView recyclerView;
     private AdapterForecastRecyclerView adapterForecastRecyclerView;
 
-    FrameLayout mainLayout;
+    Drawable fadingForeground;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private DataProviderInterface dataProvider;
     private MultipleWeatherForecast multipleWeatherForecast;
@@ -33,6 +36,19 @@ public class FragmentThreeHoursForecast extends Fragment {
 
     public FragmentThreeHoursForecast() {
         // Required empty public constructor
+    }
+
+    public void setRefreshing(boolean refreshing) {
+        Log.d(TAG, "setRefreshing: " + refreshing);
+
+        mSwipeRefreshLayout.setRefreshing(refreshing);
+
+        if (refreshing) {
+            fadingForeground.setAlpha(200);
+        }
+        else {
+            fadingForeground.setAlpha(0);
+        }
     }
 
     public void setConditions (MultipleWeatherForecast multipleWeatherForecast, SettingsProfile settingsProfile) {
@@ -45,11 +61,21 @@ public class FragmentThreeHoursForecast extends Fragment {
     }
 
     public void createRecyclerViewAdapter() {
-        adapterForecastRecyclerView = new AdapterForecastRecyclerView(getActivity(), multipleWeatherForecast, settingsProfile, AdapterForecastRecyclerView.THREE_HOUR_FORECAST);
-        recyclerView.setAdapter(adapterForecastRecyclerView);
+        Log.d(TAG, "createRecyclerViewAdapter");
 
-        mainLayout.getForeground().setAlpha(0);
+        adapterForecastRecyclerView = new AdapterForecastRecyclerView(getActivity(),
+                multipleWeatherForecast, settingsProfile, AdapterForecastRecyclerView.THREE_HOUR_FORECAST);
+        recyclerView.setAdapter(adapterForecastRecyclerView);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mSwipeRefreshLayout.setEnabled(
+                        ((LinearLayoutManager) recyclerView.getLayoutManager())
+                                .findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -64,12 +90,23 @@ public class FragmentThreeHoursForecast extends Fragment {
         View v = inflater.inflate(R.layout.fragment_three_hours_forecast, container, false);
 
         // fade list while loading
-        mainLayout = (FrameLayout) v.findViewById(R.id.layout);
-        mainLayout.getForeground().setAlpha(200);
+        fadingForeground = ((FrameLayout) v.findViewById(R.id.layout)).getForeground();
+        fadingForeground.setAlpha(200);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                dataProvider.requestUpdate();
+
+            }
+        });
 
         dataProvider.setThreeHoursForecastFragment(this);
 

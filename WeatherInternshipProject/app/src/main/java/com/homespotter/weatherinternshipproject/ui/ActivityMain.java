@@ -67,11 +67,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
     private TextView toolboxTitle;
 
-    // Refresh related
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private static final int PROGRESS_DIALOG_STACK_START = 3;
-    private int progressDialogStack;
-
     /*
         Methods of DataProviderInterface
      */
@@ -87,8 +82,11 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         // If currentConditions is already fetched, send it to fragment
         if (currentConditions != null && currentConditionsDataReady) {
-
             fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
+            fragmentCurrentConditions.setRefreshing(false);
+        }
+        else {
+            fragmentCurrentConditions.setRefreshing(true);
         }
     }
 
@@ -102,8 +100,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
-        if (threeHoursForecast != null && threeHoursForecastDataReady)
+        if (threeHoursForecast != null && threeHoursForecastDataReady) {
             fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
+            fragmentThreeHoursForecast.setRefreshing(false);
+        }
+        else {
+            Log.d(TAG, "refresh in set");
+            fragmentThreeHoursForecast.setRefreshing(true);
+        }
     }
 
     /**
@@ -116,8 +120,20 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentDailyForecast = fragmentDailyForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
-        if (dailyForecast != null && dailyForecastDataReady)
+        if (dailyForecast != null && dailyForecastDataReady) {
             fragmentDailyForecast.setConditions(dailyForecast, settingsProfile);
+            fragmentDailyForecast.setRefreshing(false);
+        }
+        else {
+            fragmentDailyForecast.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void requestUpdate() {
+        fetchCurrentConditions();
+        fetchThreeHoursForecast();
+        fetchDailyForecast();
     }
 
     /*
@@ -161,6 +177,16 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             new Thread() {
                 public void run() {
                     currentConditionsDataReady = false;
+                    if (fragmentCurrentConditions != null) {
+                        Log.d(TAG, "refresh in thread");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentCurrentConditions.setRefreshing(true);
+                            }
+                        });
+                    }
+
                     Log.d(TAG, "Getting current conditions");
 
                     Log.d(TAG, "fetchCurrentConditions with " + settingsProfile + " for " + cityName);
@@ -170,10 +196,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         String currentData = "{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"sys\":{\"message\":0.0774,\"country\":\"GB\",\"sunrise\":1426227494,\"sunset\":1426269695},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}],\"base\":\"cmc stations\",\"main\":{\"temp\":278.742,\"temp_min\":278.742,\"temp_max\":278.742,\"pressure\":1029.22,\"sea_level\":1039.72,\"grnd_level\":1029.22,\"humidity\":71},\"wind\":{\"speed\":4.12,\"deg\":54.501},\"clouds\":{\"all\":32},\"dt\":1426282599,\"id\":2643743,\"name\":\"London\",\"cod\":200}";
                         currentConditions = DataParser.parseCurrentConditions(currentData);
 
-                        try {
-                            Thread.sleep(1500 + (long) (Math.random() * 1000.0));
-                        } catch (Exception e) {
-                        }
+                        //try { Thread.sleep(1500 + (long) (Math.random() * 1000.0));} catch (Exception e) {}
                     }
                     else {
                         try {
@@ -211,7 +234,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                                 Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
                             }
 
-                            decreaseProgressDialogStack();
+                            if (fragmentDailyForecast != null) {
+                                fragmentDailyForecast.setRefreshing(false);
+                            }
                         }
                     });
                     Log.d(TAG, "end fetchCurrentConditions");
@@ -220,7 +245,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         }
         else {
             Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
-            decreaseProgressDialogStack();
+            if (fragmentDailyForecast != null) {
+                fragmentDailyForecast.setRefreshing(false);
+            }
         }
     }
 
@@ -232,6 +259,17 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         new Thread() {
             public void run() {
                 threeHoursForecastDataReady = false;
+
+                if (fragmentThreeHoursForecast != null) {
+                    Log.d(TAG, "refresh in thread");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fragmentThreeHoursForecast.setRefreshing(true);
+                        }
+                    });
+                }
+
                 Log.d(TAG, "Getting 3 hour forecast");
 
                 // TODO remove
@@ -241,7 +279,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                             "\"list\":[{\"dt\":1426269600,\"main\":{\"temp\":278.74,\"temp_min\":278.74,\"temp_max\":281.083,\"pressure\":1027.39,\"sea_level\":1037.72,\"grnd_level\":1027.39,\"humidity\":61,\"temp_kf\":-2.34},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":\"broken clouds\",\"icon\":\"04d\"}],\"clouds\":{\"all\":56},\"wind\":{\"speed\":3.92,\"deg\":56.0004},\"rain\":{\"3h\":0},\"sys\":{\"pod\":\"d\"},\"dt_txt\":\"2015-03-13 18:00:00\"},{\"dt\":1426280400,\"main\":{\"temp\":276.52,\"temp_min\":276.52,\"temp_max\":278.742,\"pressure\":1029.22,\"sea_level\":1039.72,\"grnd_level\":1029.22,\"humidity\":71,\"temp_kf\":-2.22},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}],\"clouds\":{\"all\":32},\"wind\":{\"speed\":4.12,\"deg\":54.501},\"rain\":{\"3h\":0},\"sys\":{\"pod\":\"n\"},\"dt_txt\":\"2015-03-13 21:00:00\"}]}";
                     threeHoursForecast = DataParser.parseThreeHourForecast(data);
 
-                    try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
+                    //try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
                 }
                 else {
                     try {
@@ -274,9 +312,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                             Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
                         }
 
+                        if (fragmentThreeHoursForecast != null) {
+                            fragmentThreeHoursForecast.setRefreshing(false);
+                        }
                         threeHoursForecastDataReady = true;
-
-                        decreaseProgressDialogStack();
                     }
                 });
                 Log.d(TAG, "end fetchThreeHoursForecast");
@@ -285,7 +324,9 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         }
         else {
             Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
-            decreaseProgressDialogStack();
+            if (fragmentThreeHoursForecast != null) {
+                fragmentThreeHoursForecast.setRefreshing(false);
+            }
         }
     }
 
@@ -297,11 +338,20 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             new Thread() {
                 public void run() {
                     dailyForecastDataReady = false;
+                    if (fragmentDailyForecast != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentDailyForecast.setRefreshing(true);
+                            }
+                        });
+                    }
+
                     Log.d(TAG, "Getting daily forecast");
 
                     // TODO remove
                     if (debugConnection) {
-                        try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
+                        //try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
 
                         String data = "{\"cod\":\"200\",\"message\":0.6164,\"city\":{\"id\":2643743,\"name\":\"London\",\"coord\":{\"lon\":-0.12574,\"lat\":51.50853},\"country\":\"GB\",\"population\":0,\"sys\":{\"population\":0}},\"cnt\":7,\"list\":[{\"dt\":1426248000,\"temp\":{\"day\":280.85,\"min\":276.51,\"max\":280.85,\"night\":276.51,\"eve\":280.85,\"morn\":280.85},\"pressure\":1031.66,\"humidity\":0,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":4.77,\"deg\":59,\"clouds\":29,\"rain\":1.65},{\"dt\":1426334400,\"temp\":{\"day\":279.7,\"min\":276.46,\"max\":279.92,\"night\":278.16,\"eve\":278.77,\"morn\":276.46},\"pressure\":1037.73,\"humidity\":83,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":5.62,\"deg\":54,\"clouds\":64,\"rain\":0.41},{\"dt\":1426420800,\"temp\":{\"day\":279.76,\"min\":276.62,\"max\":279.89,\"night\":276.62,\"eve\":278.64,\"morn\":277.94},\"pressure\":1035.61,\"humidity\":86,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":6.41,\"deg\":52,\"clouds\":88,\"rain\":0.45},{\"dt\":1426507200,\"temp\":{\"day\":280.51,\"min\":277.43,\"max\":280.82,\"night\":277.43,\"eve\":280.32,\"morn\":277.56},\"pressure\":1030.74,\"humidity\":91,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":3.57,\"deg\":75,\"clouds\":88,\"rain\":0.62},{\"dt\":1426593600,\"temp\":{\"day\":280.69,\"min\":276.12,\"max\":281.54,\"night\":276.93,\"eve\":280.46,\"morn\":276.12},\"pressure\":1036.07,\"humidity\":94,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":2.06,\"deg\":335,\"clouds\":92},{\"dt\":1426680000,\"temp\":{\"day\":282.54,\"min\":272.98,\"max\":282.54,\"night\":275.73,\"eve\":281.42,\"morn\":272.98},\"pressure\":1042.47,\"humidity\":0,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":2.56,\"deg\":75,\"clouds\":10},{\"dt\":1426766400,\"temp\":{\"day\":281.47,\"min\":274.95,\"max\":281.47,\"night\":277.85,\"eve\":281.25,\"morn\":274.95},\"pressure\":1030.88,\"humidity\":0,\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":\"10d\"}],\"speed\":2.75,\"deg\":60,\"clouds\":79,\"rain\":0.62}]}";
                         dailyForecast = DataParser.parseDailyForecast(data);
@@ -321,8 +371,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                         }
                     }
 
-
-                    try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -340,9 +388,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                                 Toast.makeText(ActivityMain.this, getString(R.string.warning_error_request), Toast.LENGTH_LONG).show();
                             }
 
+                            if (fragmentDailyForecast != null) {
+                                fragmentDailyForecast.setRefreshing(false);
+                            }
                             dailyForecastDataReady = true;
-
-                            decreaseProgressDialogStack();
                         }
                     });
                     Log.d(TAG, "end fetchDailyForecast");
@@ -351,18 +400,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         }
         else {
             Toast.makeText(this, getString(R.string.warning_network_unavailable), Toast.LENGTH_LONG).show();
-            decreaseProgressDialogStack();
+            if (fragmentDailyForecast != null) {
+                fragmentDailyForecast.setRefreshing(false);
+            }
         }
-    }
-
-    /**
-     * Decrease the progressDialogStack. When all data fetching thread have done their work, it will
-     * be zero and the loading signs will be hide.
-     */
-    private void decreaseProgressDialogStack() {
-        progressDialogStack--;
-        if (progressDialogStack == 0)
-            mSwipeRefreshLayout.setRefreshing(false);
     }
 
     public void updateWidgets() {
@@ -462,8 +503,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     public void changeCurrentCity(int position) {
         cityName = cityList.get(position);
 
-        progressDialogStack = PROGRESS_DIALOG_STACK_START;
-        mSwipeRefreshLayout.setRefreshing(true);
         drawerRecyclerViewAdapter.setCurrentCity(position);
 
         fetchCurrentConditions();
@@ -487,9 +526,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         if (resultCode == Activity.RESULT_OK && requestCode == SETTING_REQUEST) {
             settingsProfile = (SettingsProfile) data.getSerializableExtra("settings");
             Log.d(TAG,"got settings " + settingsProfile);
-
-            mSwipeRefreshLayout.setRefreshing(true);
-            progressDialogStack = PROGRESS_DIALOG_STACK_START;
 
             fetchCurrentConditions();
             fetchThreeHoursForecast();
@@ -610,31 +646,6 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-
-        progressDialogStack = PROGRESS_DIALOG_STACK_START;
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                progressDialogStack = PROGRESS_DIALOG_STACK_START;
-                mSwipeRefreshLayout.setRefreshing(true);
-
-                fetchCurrentConditions();
-                fetchThreeHoursForecast();
-                fetchDailyForecast();
-            }
-        });
-        //mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
-        if (mSwipeRefreshLayout != null)
-            Log.d(TAG, "found mSwipeRefreshLayout");
-        else
-            Log.d(TAG, "mSwipeRefreshLayout null");
 
         toolboxTitle = (TextView) findViewById(R.id.textViewToolboxTitle);
         toolboxTitle.setText(cityName);

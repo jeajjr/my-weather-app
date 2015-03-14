@@ -1,10 +1,12 @@
 package com.homespotter.weatherinternshipproject.ui;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +49,9 @@ public class FragmentCurrentConditions extends Fragment {
     TextView sunset;
     TextView lastHours;
 
-    FrameLayout mainLayout;
+    Drawable fadingForeground;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     // Schedule a refresh for the last update tag
     private int refreshInterval = 60 * 1000; // 60 seconds refresh
@@ -66,6 +70,18 @@ public class FragmentCurrentConditions extends Fragment {
         // Required empty public constructor
     }
 
+    public void setRefreshing(boolean refreshing) {
+        Log.d(TAG, "setRefreshing: " + refreshing);
+
+        mSwipeRefreshLayout.setRefreshing(refreshing);
+
+        if (refreshing) {
+            fadingForeground.setAlpha(200);
+        }
+        else {
+            fadingForeground.setAlpha(0);
+        }
+    }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -89,8 +105,8 @@ public class FragmentCurrentConditions extends Fragment {
         refreshHandler = new Handler();
 
         // fade list while loading
-        mainLayout = (FrameLayout) v.findViewById(R.id.layout);
-        mainLayout.getForeground().setAlpha(200);
+        fadingForeground = ((FrameLayout) v.findViewById(R.id.layout)).getForeground();
+        fadingForeground.setAlpha(200);
 
         updatedTime = (TextView) v.findViewById(R.id.textViewCurrUpdated);
         icon = (ImageView) v.findViewById(R.id.imageViewCurrIcon);
@@ -104,6 +120,15 @@ public class FragmentCurrentConditions extends Fragment {
         sunrise = (TextView) v.findViewById(R.id.textViewCurrSunrise);
         sunset = (TextView) v.findViewById(R.id.textViewCurrSunset);
         lastHours = (TextView) v.findViewById(R.id.textViewCurrLastHours);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                dataProvider.requestUpdate();
+
+            }
+        });
 
         Log.d(TAG, "done onCreateView");
         return v;
@@ -214,7 +239,7 @@ public class FragmentCurrentConditions extends Fragment {
         }
         lastHours.setText(lastHoursText);
 
-        mainLayout.getForeground().setAlpha(0);
+        setRefreshing(false);
         Log.d(TAG, "updateScreenData done");
     }
 }

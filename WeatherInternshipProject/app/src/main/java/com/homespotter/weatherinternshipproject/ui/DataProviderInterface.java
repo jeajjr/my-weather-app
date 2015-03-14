@@ -12,4 +12,5 @@ public interface DataProviderInterface {
     public void setCurrentConditionsFragment(FragmentCurrentConditions fragmentCurrentConditions);
     public void setThreeHoursForecastFragment(FragmentThreeHoursForecast fragmentThreeHoursForecast);
     public void setDailyForecastFragment(FragmentDailyForecast fragmentDailyForecast);
+    public void requestUpdate();
 }
