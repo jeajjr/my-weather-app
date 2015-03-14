@@ -39,7 +39,7 @@
         </intent-filter>
         <meta-data android:name="android.appwidget.provider"
             android:resource="@xml/widget" />
-    </receiver>
+        </receiver>
     </application>
 
 </manifest>
