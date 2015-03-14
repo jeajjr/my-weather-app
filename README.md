@@ -17,6 +17,12 @@
 6. Run it
 
 ---
+##### Some project highlights:
+
+- Support for multiple cities
+- Settings page to define units, date and hour format
+
+---
 The project uses the [OpenWeatherMap API](http://openweathermap.org/api).
 
 The weather icons used in the project were found [here](http://4vector.com/free-vector/weather-icons-133492).
