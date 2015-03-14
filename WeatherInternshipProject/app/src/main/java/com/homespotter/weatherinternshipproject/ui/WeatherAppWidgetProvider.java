@@ -34,17 +34,12 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
 
                     Log.d(TAG, "getting weather for " + cityName);
 
-                    String data;
                     // TODO remove
-                    if (ActivityMain.debugConnection) {
-                        data = "{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"sys\":{\"message\":0.0774,\"country\":\"GB\",\"sunrise\":1426227494,\"sunset\":1426269695},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}],\"base\":\"cmc stations\",\"main\":{\"temp\":278.742,\"temp_min\":278.742,\"temp_max\":278.742,\"pressure\":1029.22,\"sea_level\":1039.72,\"grnd_level\":1029.22,\"humidity\":71},\"wind\":{\"speed\":4.12,\"deg\":54.501},\"clouds\":{\"all\":32},\"dt\":1426282599,\"id\":2643743,\"name\":\"London\",\"cod\":200}";
+                    String data = //"{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"sys\":{\"message\":0.0774,\"country\":\"GB\",\"sunrise\":1426227494,\"sunset\":1426269695},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}],\"base\":\"cmc stations\",\"main\":{\"temp\":278.742,\"temp_min\":278.742,\"temp_max\":278.742,\"pressure\":1029.22,\"sea_level\":1039.72,\"grnd_level\":1029.22,\"humidity\":71},\"wind\":{\"speed\":4.12,\"deg\":54.501},\"clouds\":{\"all\":32},\"dt\":1426282599,\"id\":2643743,\"name\":\"London\",\"cod\":200}";
 
-                        try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
-                    }
-                    else {
-                        data = WeatherClient.getInstance().getCurrentConditionsData(cityName, SettingsProfile.UNIT_METRIC);
-                    }
+                    WeatherClient.getInstance().getCurrentConditionsData(cityName, settingsProfile.getUnits());
                     CurrentConditions currentConditions = DataParser.parseCurrentConditions(data);
+
                     currentConditions.temperatureUnit = settingsProfile.getTemperatureUnitString();
                     currentConditions.speedUnit = settingsProfile.getSpeedUnitString();
 
@@ -54,6 +49,7 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
 
                         Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
+                        Log.d(TAG, "temp: " + temperature);
                         views.setTextViewText(R.id.textViewWidgetTemperature,
                                 String.format("%.0f", temperature) + "º" + currentConditions.temperatureUnit);
 
@@ -68,10 +64,7 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                         views.setTextViewText(R.id.textViewWidgetDescription,
                                 ((String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription)).toUpperCase());
 
-                        views.setTextViewText(R.id.textViewWidgetCity,
-                                ((String) currentConditions.locationInfo.get(WeatherParameters.cityName)) + ", " +
-                                ((String) currentConditions.locationInfo.get(WeatherParameters.countryName))
-                        );
+                        views.setTextViewText(R.id.textViewWidgetCity, cityName);
 
                         views.setImageViewResource(R.id.imageViewWidgetIcon,
                                 DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));

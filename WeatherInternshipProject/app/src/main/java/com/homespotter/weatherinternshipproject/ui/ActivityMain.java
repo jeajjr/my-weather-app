@@ -530,6 +530,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fetchCurrentConditions();
             fetchThreeHoursForecast();
             fetchDailyForecast();
+
+            updateWidgets();
         }
     }
 
