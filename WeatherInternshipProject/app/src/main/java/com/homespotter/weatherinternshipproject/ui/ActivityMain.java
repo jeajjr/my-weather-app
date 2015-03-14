@@ -502,6 +502,10 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container2, new FragmentThreeHoursForecast())
                         .commit();
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container3, new FragmentDailyForecast())
+                        .commit();
             }
         }
 
