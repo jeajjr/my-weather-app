@@ -225,7 +225,7 @@ public class DataParser {
 	 * @return: a MultipleWeatheForecast instance, where its field weatherInfoList
 	 * is filled with one item from the parsed data.
 	 */
-	public static MultipleWeatherForecast parseSixteenDaysForecast(String data) {
+	public static MultipleWeatherForecast parseDailyForecast(String data) {
 		// ArrayList that will store all data
 		MultipleWeatherForecast fiveDaysForecast = new MultipleWeatherForecast();
 

@@ -32,13 +32,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return new FragmentCurrentConditions();
             case 1:
                 return new FragmentThreeHoursForecast();
+            case 2:
+                return new FragmentDailyForecast();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
