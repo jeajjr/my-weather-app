@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,9 +106,12 @@ public class FragmentDailyForecast extends Fragment {
             @Override
             public void onRefresh() {
                 dataProvider.requestUpdate();
-
             }
         });
+
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeRefreshLayout.setRefreshing(true);
 
         dataProvider.setDailyForecastFragment(this);
 

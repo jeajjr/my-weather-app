@@ -40,7 +40,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private final static String TAG = "ActivityMain";
 
     //TODO remove
-    public static boolean debugConnection = true;
+    public static boolean debugConnection = false;
 
     // Weather related data
     private CurrentConditions currentConditions = null;

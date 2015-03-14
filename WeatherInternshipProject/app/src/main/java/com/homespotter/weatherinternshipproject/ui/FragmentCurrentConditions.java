@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,9 +127,12 @@ public class FragmentCurrentConditions extends Fragment {
             @Override
             public void onRefresh() {
                 dataProvider.requestUpdate();
-
             }
         });
+
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeRefreshLayout.setRefreshing(true);
 
         Log.d(TAG, "done onCreateView");
         return v;
