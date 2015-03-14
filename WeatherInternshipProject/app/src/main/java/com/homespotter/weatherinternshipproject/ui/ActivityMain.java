@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.homespotter.weatherinternshipproject.R;
-import com.homespotter.weatherinternshipproject.data.*;
+import com.homespotter.weatherinternshipproject.data.CurrentConditions;
+import com.homespotter.weatherinternshipproject.data.DataParser;
+import com.homespotter.weatherinternshipproject.data.FilesHandler;
+import com.homespotter.weatherinternshipproject.data.MultipleWeatherForecast;
+import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 
 import java.util.ArrayList;
 
@@ -88,6 +92,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
             fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
         }
     }
+
     /**
      * Function called by the FragmentThreeHoursForecast to send its instance to the MainActivty.
      * @param fragmentThreeHoursForecast: the FragmentThreeHoursForecast instance.
@@ -101,6 +106,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         if (dailyForecast != null && dailyForecastDataReady)
             fragmentThreeHoursForecast.setConditions(dailyForecast, settingsProfile);
     }
+
     /**
      * Function called by the FragmentDailyForecast to send its instance to the MainActivty.
      * @param fragmentDailyForecast: the FragmentDailyForecast instance.
@@ -229,7 +235,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
                 /* TODO
                 try {
-                    String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, settingsProfile.getUnits());
+                    String data = WeatherClient.getInstance().getThreeHoursForecastData(cityName, settingsProfile.getUnits());
                     threeHoursForecast = DataParser.parseFiveDaysForecast(data);
                 } catch (Exception e) {
                     runOnUiThread(new Runnable() {
@@ -292,7 +298,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     //try { Thread.sleep(5000); } catch (Exception e) { Log.d(TAG, "error sleep "); }
                 /* TODO
                 try {
-                    String data = WeatherClient.getInstance().getFiveDaysForecastData(cityName, settingsProfile.getUnits());
+                    String data = WeatherClient.getInstance().getDailyForecastData(cityName, settingsProfile.getUnits());
                     threeHoursForecast = DataParser.parseFiveDaysForecast(data);
                 } catch (Exception e) {
                     runOnUiThread(new Runnable() {

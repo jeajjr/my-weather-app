@@ -4,21 +4,20 @@ import android.util.Log;
 
 import com.homespotter.weatherinternshipproject.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import org.json.*;
 
 /**
- * This class will parse the data String received by the JSON request,
- * returning the parsed data in an appropriate class which implements
- * WeatherInfo.
+ * This class will parse the data String received by the JSON request, returning the parsed data in
+ * an appropriate class which implements WeatherInfo.
  * 
- * It uses part of the package org.json, developed by Douglas Crockford
- * (douglas@crockford.com), found at github.com/douglascrockford/JSON-java
- * 
- * @author José Ernesto
- *
+ * It uses part of the package org.json, developed by Douglas Crockford (douglas@crockford.com),
+ * found at github.com/douglascrockford/JSON-java
  */
 public class DataParser {
     private static String TAG = "DataParser";

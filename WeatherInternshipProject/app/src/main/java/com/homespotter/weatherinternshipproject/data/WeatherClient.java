@@ -1,6 +1,5 @@
 package com.homespotter.weatherinternshipproject.data;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,6 +8,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * This class is used to connect to the OpenWeatherMap API and returns the request's result.
+ */
 public class WeatherClient {
     private static final String TAG = "WeatherClient";
 
@@ -42,15 +44,18 @@ public class WeatherClient {
         return sendRequest(BASE_URL + FIND_URL + city );
     }
     public String getCurrentConditionsData(String location, int units) {
-        return sendRequest(BASE_URL + CURRENT_COND_URL + location + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+        return sendRequest(BASE_URL + CURRENT_COND_URL + location +
+                ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-    public String getFiveDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+    public String getThreeHoursForecastData(String location, int units) {
+        return sendRequest(BASE_URL + FIVE_DAYS_FORECAST_URL + location +
+                ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
-    public String getSixteenDaysForecastData (String location, int units) {
-        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  + ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
+    public String getDailyForecastData(String location, int units) {
+        return sendRequest(BASE_URL + SIXTEEN_DAYS_FORECAST_URL + location + COUNT_URL + COUNT  +
+                ((units == SettingsProfile.UNIT_IMPERIAL) ? IMPERIAL_UNITS_URL : METRIC_UNITS_URL) );
     }
 
 	public synchronized String sendRequest (String requestString) {

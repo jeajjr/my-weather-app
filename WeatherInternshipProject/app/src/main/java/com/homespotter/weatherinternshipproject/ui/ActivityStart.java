@@ -1,26 +1,14 @@
 package com.homespotter.weatherinternshipproject.ui;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.homespotter.weatherinternshipproject.R;
-import com.homespotter.weatherinternshipproject.data.DataParser;
 import com.homespotter.weatherinternshipproject.data.FilesHandler;
-import com.homespotter.weatherinternshipproject.data.WeatherClient;
 
 import java.util.ArrayList;
 
