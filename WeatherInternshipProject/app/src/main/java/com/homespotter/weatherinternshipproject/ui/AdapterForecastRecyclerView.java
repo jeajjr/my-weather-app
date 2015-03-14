@@ -112,7 +112,7 @@ public class AdapterForecastRecyclerView extends RecyclerView.Adapter<AdapterFor
                     wind.setText(windInfo);
 
                     pressure.setText(context.getResources().getString(R.string.weather_pressure) + ": " +
-                            data.get(WeatherParameters.pressure) + " mb");
+                            String.format("%.1f", data.get(WeatherParameters.pressure)) + " mb");
 
                     break;
             }
