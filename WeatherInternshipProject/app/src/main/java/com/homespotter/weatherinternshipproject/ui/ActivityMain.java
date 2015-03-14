@@ -102,8 +102,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         this.fragmentThreeHoursForecast = fragmentThreeHoursForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
-        if (dailyForecast != null && dailyForecastDataReady)
-            fragmentThreeHoursForecast.setConditions(dailyForecast, settingsProfile);
+        if (threeHoursForecast != null && threeHoursForecastDataReady)
+            fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
     }
 
     /**
@@ -112,7 +112,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
      */
     @Override
     public void setDailyForecastFragment(FragmentDailyForecast fragmentDailyForecast) {
-        Log.d(TAG, "3Hour frag is calling to get data");
+        Log.d(TAG, "daily frag is calling to get data");
         this.fragmentDailyForecast = fragmentDailyForecast;
 
         // If threeHoursForecast is already fetched, send it to fragment
@@ -239,14 +239,14 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 if (debugConnection) {
                     String data = "{\"cod\":\"200\",\"message\":9.4357,\"city\":{\"id\":2643743,\"name\":\"London\",\"coord\":{\"lon\":-0.12574,\"lat\":51.50853},\"country\":\"GB\",\"population\":0,\"sys\":{\"population\":0}},\"cnt\":2,\n" +
                             "\"list\":[{\"dt\":1426269600,\"main\":{\"temp\":278.74,\"temp_min\":278.74,\"temp_max\":281.083,\"pressure\":1027.39,\"sea_level\":1037.72,\"grnd_level\":1027.39,\"humidity\":61,\"temp_kf\":-2.34},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":\"broken clouds\",\"icon\":\"04d\"}],\"clouds\":{\"all\":56},\"wind\":{\"speed\":3.92,\"deg\":56.0004},\"rain\":{\"3h\":0},\"sys\":{\"pod\":\"d\"},\"dt_txt\":\"2015-03-13 18:00:00\"},{\"dt\":1426280400,\"main\":{\"temp\":276.52,\"temp_min\":276.52,\"temp_max\":278.742,\"pressure\":1029.22,\"sea_level\":1039.72,\"grnd_level\":1029.22,\"humidity\":71,\"temp_kf\":-2.22},\"weather\":[{\"id\":802,\"main\":\"Clouds\",\"description\":\"scattered clouds\",\"icon\":\"03n\"}],\"clouds\":{\"all\":32},\"wind\":{\"speed\":4.12,\"deg\":54.501},\"rain\":{\"3h\":0},\"sys\":{\"pod\":\"n\"},\"dt_txt\":\"2015-03-13 21:00:00\"}]}";
-                    threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+                    threeHoursForecast = DataParser.parseThreeHourForecast(data);
 
                     try { Thread.sleep(1500 + (long) (Math.random() * 1000.0)); } catch (Exception e) {}
                 }
                 else {
                     try {
                         String data = WeatherClient.getInstance().getThreeHoursForecastData(cityName, settingsProfile.getUnits());
-                        threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+                        threeHoursForecast = DataParser.parseThreeHourForecast(data);
                     } catch (Exception e) {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -266,7 +266,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                             threeHoursForecast.speedUnit = settingsProfile.getSpeedUnitString();
 
                             // If fragmentCurrentConditions has been created and is waiting for the data, send it
-                            if (fragmentCurrentConditions != null) {
+                            if (fragmentThreeHoursForecast != null) {
                                 fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
                             }
                         }
@@ -310,7 +310,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     else {
                         try {
                             String data = WeatherClient.getInstance().getDailyForecastData(cityName, settingsProfile.getUnits());
-                            threeHoursForecast = DataParser.parseFiveDaysForecast(data);
+                            dailyForecast = DataParser.parseDailyForecast(data);
                         } catch (Exception e) {
                             runOnUiThread(new Runnable() {
                                 @Override
