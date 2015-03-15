@@ -21,6 +21,7 @@
 
 - Support for multiple cities
 - Settings page to define units, date and hour format
+- App Widget
 
 ---
 The project uses the [OpenWeatherMap API](http://openweathermap.org/api).
