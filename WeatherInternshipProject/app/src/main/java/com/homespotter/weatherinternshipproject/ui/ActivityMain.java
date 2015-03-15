@@ -97,7 +97,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 break;
 
             case FRAGMENT_STATE_REFRESHING:
-                fragmentCurrentConditions.setRefreshing(false);
+                fragmentCurrentConditions.setRefreshing(true);
                 break;
 
             case FRAGMENT_STATE_ERROR:
@@ -124,7 +124,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 break;
 
             case FRAGMENT_STATE_REFRESHING:
-                fragmentThreeHoursForecast.setRefreshing(false);
+                fragmentThreeHoursForecast.setRefreshing(true);
                 break;
 
             case FRAGMENT_STATE_ERROR:
@@ -151,7 +151,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                 break;
 
             case FRAGMENT_STATE_REFRESHING:
-                fragmentDailyForecast.setRefreshing(false);
+                fragmentDailyForecast.setRefreshing(true);
                 break;
 
             case FRAGMENT_STATE_ERROR:
