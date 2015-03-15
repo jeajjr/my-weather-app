@@ -123,7 +123,6 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
         }
     }
 
-
     // Broadcast receiver for receiving status updates from the IntentService
     private class ResponseReceiver extends BroadcastReceiver {
         private ResponseReceiver() {
