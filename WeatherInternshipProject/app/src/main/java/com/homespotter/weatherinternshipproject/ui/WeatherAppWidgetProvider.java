@@ -1,5 +1,6 @@
 package com.homespotter.weatherinternshipproject.ui;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
@@ -7,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -44,6 +46,19 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
         this.appWidgetManager = appWidgetManager;
         this.appWidgetIds = appWidgetIds;
 
+        // Add intent to open application when touched
+        for (int i = 0; i < appWidgetIds.length; i++) {
+            Intent intent = new Intent("android.intent.action.MAIN");
+            intent.addCategory("android.intent.category.LAUNCHER");
+
+            intent.setComponent(new ComponentName("com.homespotter.weatherinternshipproject",
+                    "com.homespotter.weatherinternshipproject.ui.ActivityStart"));
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    context, 0, intent, 0);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+            views.setOnClickPendingIntent(R.id.mainLayout, pendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+        }
 
         cityList = FilesHandler.getInstance().getSavedCities(context);
         if (cityList != null && cityList.size() != 0) {
