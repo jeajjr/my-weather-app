@@ -3,6 +3,7 @@ package com.homespotter.weatherinternshipproject.ui;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -92,9 +93,10 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                 views.setImageViewResource(R.id.imageViewWidgetIcon,
                         DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
 
-                appWidgetManager.updateAppWidget(currentWidgetId, views);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                appWidgetManager.updateAppWidget(new ComponentName(context, WeatherAppWidgetProvider.class), views);
+                //appWidgetManager.updateAppWidget(currentWidgetId, views);
             }
-
         }
         else {
             String notAvailable = context.getString(R.string.not_available);

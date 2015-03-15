@@ -140,15 +140,18 @@ public class DialogFragmentSearchCity extends DialogFragment {
                 public void run() {
                     Log.d(TAG, "Searching city: " + city);
 
-                    String data = WeatherClient.getInstance().findCity(city);
-
-                    cityList = DataParser.parseCitySearchResults(data);
+                    try {
+                        String data = WeatherClient.getInstance().findCity(city);
+                        cityList = DataParser.parseCitySearchResults(data);
+                    } catch (Exception e) {
+                        cityList = null;
+                    }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
 
+                            progressDialog.dismiss();
                             citySearchDone(city);
                         }
                     });

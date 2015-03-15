@@ -56,6 +56,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     private FragmentThreeHoursForecast fragmentThreeHoursForecast = null;
     private FragmentDailyForecast fragmentDailyForecast = null;
 
+    private boolean weatherDataIsValid;
+
     private static final int FRAGMENT_STATE_IDLE = 0;
     private static final int FRAGMENT_STATE_REFRESHING = 1;
     private static final int FRAGMENT_STATE_ERROR = 2;
@@ -89,7 +91,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         switch (fragmentsState) {
             case FRAGMENT_STATE_IDLE:
                 // If currentConditions is already fetched, send it to fragment
-                if (currentConditions != null) {
+                if (currentConditions != null && weatherDataIsValid) {
                     fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);
                 }
                 break;
@@ -116,7 +118,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         switch (fragmentsState) {
             case FRAGMENT_STATE_IDLE:
                 // If currentConditions is already fetched, send it to fragment
-                if (threeHoursForecast != null) {
+                if (threeHoursForecast != null && weatherDataIsValid) {
                     fragmentThreeHoursForecast.setConditions(threeHoursForecast, settingsProfile);
                 }
                 break;
@@ -143,7 +145,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         switch (fragmentsState) {
             case FRAGMENT_STATE_IDLE:
                 // If currentConditions is already fetched, send it to fragment
-                if (dailyForecast != null) {
+                if (dailyForecast != null && weatherDataIsValid) {
                     fragmentDailyForecast.setConditions(dailyForecast, settingsProfile);
                 }
                 break;
@@ -163,6 +165,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         Log.d(TAG, "requestUpdate");
 
         setFragmentsState(FRAGMENT_STATE_REFRESHING);
+
+        weatherDataIsValid = false;
 
         Intent serviceIntent = new Intent(this, WeatherDataService.class);
         serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
@@ -335,6 +339,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
                     (MultipleWeatherForecast) intent.getExtras().getSerializable(WeatherDataService.ARG_THREE_HOUR_FORECAST);
             dailyForecast =
                     (MultipleWeatherForecast) intent.getExtras().getSerializable(WeatherDataService.ARG_DAILY_FORECAST);
+
+            weatherDataIsValid = true;
 
             if (fragmentCurrentConditions != null)
                 fragmentCurrentConditions.setConditions(currentConditions, settingsProfile);

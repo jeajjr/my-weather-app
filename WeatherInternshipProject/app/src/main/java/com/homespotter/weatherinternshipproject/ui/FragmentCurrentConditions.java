@@ -157,23 +157,25 @@ public class FragmentCurrentConditions extends Fragment {
     }
 
     private void refreshLastUpdateTag() {
-        Calendar updatedTimeCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived);
-        Calendar now = Calendar.getInstance();
-        long difference =  now.getTimeInMillis() - updatedTimeCal.getTimeInMillis();
-        difference /= 1000; // difference is now in seconds
+        if (currentConditions != null) {
+            Calendar updatedTimeCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived);
+            Calendar now = Calendar.getInstance();
+            long difference = now.getTimeInMillis() - updatedTimeCal.getTimeInMillis();
+            difference /= 1000; // difference is now in seconds
 
-        if (isAdded()) {
-            String timeStamp = "";
-            if (difference < 60)
-                timeStamp = getResources().getString(R.string.update_time_less_than_one_minute_ago);
-            else if ((difference /= 60) < 60) // difference is now in minutes
-                timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
-                        getResources().getString(R.string.update_time_minutes_ago);
-            else if ((difference /= 60) < 24) // difference is now in hours
-                timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
-                        getResources().getString(R.string.update_time_hours_ago);
+            if (isAdded()) {
+                String timeStamp = "";
+                if (difference < 60)
+                    timeStamp = getResources().getString(R.string.update_time_less_than_one_minute_ago);
+                else if ((difference /= 60) < 60) // difference is now in minutes
+                    timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
+                            getResources().getString(R.string.update_time_minutes_ago);
+                else if ((difference /= 60) < 24) // difference is now in hours
+                    timeStamp = getResources().getString(R.string.update_updated) + " " + difference + " " +
+                            getResources().getString(R.string.update_time_hours_ago);
 
-            updatedTime.setText(timeStamp);
+                updatedTime.setText(timeStamp);
+            }
         }
     }
 

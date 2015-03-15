@@ -304,6 +304,10 @@ public class DataParser {
 	}
 
     public static int getIconResource(String iconName) {
+
+        //TODO
+        return R.drawable.d01;
+        /*
         switch (iconName) {
             case "01d":
                 return R.drawable.d01;
@@ -344,5 +348,6 @@ public class DataParser {
             default:
                 return R.drawable.d01;
         }
+        */
     }
 }

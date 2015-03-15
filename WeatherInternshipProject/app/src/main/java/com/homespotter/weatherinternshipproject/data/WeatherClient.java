@@ -18,7 +18,7 @@ public class WeatherClient {
     private static WeatherClient instance = null;
 
     // Requests URLs
-	private static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+	private static String BASE_URL = "http://openweathermap.org/data/2.5/";
     private static String FIND_URL = "find?q=";
     private static String CURRENT_COND_URL = "weather?q=";
 	private static String FIVE_DAYS_FORECAST_URL = "forecast?q=";
@@ -81,7 +81,9 @@ public class WeatherClient {
 
 			is.close();
 			con.disconnect();
-			return buffer.toString();
+			String result = buffer.toString();
+            Log.d(TAG, "request result: " + result);
+            return result;
 		}
 		catch(Throwable t) {
 			t.printStackTrace();
