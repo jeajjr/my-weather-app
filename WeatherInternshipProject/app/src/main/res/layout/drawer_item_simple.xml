@@ -12,6 +12,7 @@
         android:textSize="@dimen/drawer_text_size"
         android:paddingLeft="16dp"
         android:id="@+id/itemName"
+        android:textColor="#ffddde"
         android:text="item_name" />
 
 </LinearLayout>

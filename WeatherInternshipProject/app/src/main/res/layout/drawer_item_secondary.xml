@@ -12,6 +12,7 @@
         android:id="@+id/itemName"
         android:text="item_name"
         android:textSize="@dimen/drawer_text_size"
+        android:textColor="#ffddde"
         android:layout_marginLeft="32dp" />
 
 </LinearLayout>

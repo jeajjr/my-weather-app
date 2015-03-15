@@ -85,7 +85,7 @@ public class DrawerItemsLister {
 
         list.add(createOrganizingItem(AdapterDrawerMenuRecyclerView.LINE_SEPARATOR));
 
-        list.add(createMenuItemWithIcon(SETTINGS, context.getString(R.string.settings), R.drawable.gear_dark));
+        list.add(createMenuItemWithIcon(SETTINGS, context.getString(R.string.settings), R.drawable.gear_light));
 
         list.add(createOrganizingItem(AdapterDrawerMenuRecyclerView.LINE_SEPARATOR));
 
