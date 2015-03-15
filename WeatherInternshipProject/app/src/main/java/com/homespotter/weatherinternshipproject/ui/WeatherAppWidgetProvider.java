@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -24,6 +25,7 @@ import com.homespotter.weatherinternshipproject.data.WeatherClient;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class WeatherAppWidgetProvider extends AppWidgetProvider{
     private static final String TAG = "WeatherAppWidgetProvider";
@@ -37,6 +39,18 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
     private AppWidgetManager appWidgetManager;
     private int[] appWidgetIds;
 
+    // Schedule a refresh for the last update tag
+    private int refreshInterval = 60 * 1000; // 60 seconds refresh
+    private Handler refreshHandler = null;
+    private boolean handlerScheduled = false;
+    Runnable refresherRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateLastUpdateTag();
+            refreshHandler.postDelayed(refresherRunnable, refreshInterval);
+            Log.d(TAG, "last update tag updated");
+        }
+    };
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager,
                          final int[] appWidgetIds) {
@@ -45,6 +59,9 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
         this.context = context;
         this.appWidgetManager = appWidgetManager;
         this.appWidgetIds = appWidgetIds;
+
+        if (refreshHandler == null)
+            refreshHandler = new Handler();
 
         // Add intent to open application when touched
         for (int i = 0; i < appWidgetIds.length; i++) {
@@ -71,11 +88,15 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
             LocalBroadcastManager.getInstance(context).registerReceiver(responseReceiver, mStatusIntentFilter);
 
             Log.d(TAG, "calling service for city " + cityName + " and settings " + settingsProfile);
-            Intent serviceIntent = new Intent(context, WeatherDataService.class);
-            serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
-            serviceIntent.putExtra(WeatherDataService.ARG_SETTINGS, settingsProfile);
-            context.startService(serviceIntent);
+            callUpdateIntentService();
         }
+    }
+
+    private void callUpdateIntentService() {
+        Intent serviceIntent = new Intent(context, WeatherDataService.class);
+        serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
+        serviceIntent.putExtra(WeatherDataService.ARG_SETTINGS, settingsProfile);
+        context.startService(serviceIntent);
     }
 
     public void onServiceResult(Intent intent) {
@@ -90,7 +111,6 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                     (CurrentConditions) intent.getExtras().getSerializable(WeatherDataService.ARG_CURRENT_DATA);
 
             for (int i = 0; i < appWidgetIds.length; i++) {
-                int currentWidgetId = appWidgetIds[i];
 
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
 
@@ -115,6 +135,8 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                 views.setImageViewResource(R.id.imageViewWidgetIcon,
                         DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
 
+                views.setTextViewText(R.id.textViewWidgetUpdatedTag, generateLastUpdateTag());
+
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 appWidgetManager.updateAppWidget(new ComponentName(context, WeatherAppWidgetProvider.class), views);
             }
@@ -136,6 +158,42 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
                 appWidgetManager.updateAppWidget(currentWidgetId, views);
             }
         }
+
+        refresherRunnable.run();
+    }
+
+    private void updateLastUpdateTag() {
+        for (int i = 0; i < appWidgetIds.length; i++) {
+
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+            views.setTextViewText(R.id.textViewWidgetUpdatedTag, generateLastUpdateTag());
+
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            appWidgetManager.updateAppWidget(new ComponentName(context, WeatherAppWidgetProvider.class), views);
+        }
+    }
+    private String generateLastUpdateTag() {
+        if (currentConditions != null) {
+            Calendar updatedTimeCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.dateReceived);
+            Calendar now = Calendar.getInstance();
+            long difference = now.getTimeInMillis() - updatedTimeCal.getTimeInMillis();
+            difference /= 1000; // difference is now in seconds
+
+            String timeStamp = "";
+            if (difference < 60)
+                timeStamp = context.getResources().getString(R.string.update_time_less_than_one_minute_ago);
+            else if ((difference /= 60) < 60) // difference is now in minutes
+                timeStamp = context.getResources().getString(R.string.update_updated) + " " + difference + " " +
+                        context.getResources().getString(R.string.update_time_minutes_ago);
+            else if ((difference /= 60) < 24) // difference is now in hours
+                timeStamp = context.getResources().getString(R.string.update_updated) + " " + difference + " " +
+                        context.getResources().getString(R.string.update_time_hours_ago);
+
+            return timeStamp;
+        }
+
+        return "";
     }
 
     // Broadcast receiver for receiving status updates from the IntentService
