@@ -43,18 +43,6 @@ public class ActivityStart extends ActionBarActivity implements DialogFragmentSe
         progressDialog.setMessage(getResources().getString(R.string.warning_loading));
         progressDialog.setCancelable(false);
 
-        //TODO: remove
-//        FilesHandler.getInstance().removeSavedCities(this);
-/*
-        ArrayList<String> cities = new ArrayList<>();
-        cities.add("NYC");
-        cities.add("Sao Carlos, Brazil");
-        cities.add("Syracuse, NY");
-
-        FilesHandler.getInstance().setCityList(this, cities);
-        callMainActivity();
-*/
-
         // If no file directory was found, a new city must be added. Otherwise, open
         // forecast of main city.
         String cityName = FilesHandler.getInstance().getFirstSavedCity(this);

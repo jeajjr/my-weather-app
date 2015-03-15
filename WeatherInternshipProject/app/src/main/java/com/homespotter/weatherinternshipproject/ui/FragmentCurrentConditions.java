@@ -189,66 +189,66 @@ public class FragmentCurrentConditions extends Fragment {
 
         refreshLastUpdateTag();
 
-        icon.setImageResource(DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
+        if (currentConditions != null) {
+            icon.setImageResource(DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
 
-        description.setText( ((String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription)).toUpperCase());
+            description.setText(((String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription)).toUpperCase());
 
-        Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
-        currentTemperature.setText(String.format("%.0f", temperature) + "º" + currentConditions.temperatureUnit);
+            Double temperature = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperature);
+            currentTemperature.setText(String.format("%.0f", temperature) + "º" + currentConditions.temperatureUnit);
 
-        Double temperatureMax = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMax);
-        maxTemperature.setText(String.format("%.0f", temperatureMax) + "º" + currentConditions.temperatureUnit);
+            Double temperatureMax = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMax);
+            maxTemperature.setText(String.format("%.0f", temperatureMax) + "º" + currentConditions.temperatureUnit);
 
-        Double temperatureMin = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMin);
-        minTemperature.setText(String.format("%.0f", temperatureMin) + "º" + currentConditions.temperatureUnit);
+            Double temperatureMin = (Double) currentConditions.weatherInfo.get(WeatherParameters.temperatureMin);
+            minTemperature.setText(String.format("%.0f", temperatureMin) + "º" + currentConditions.temperatureUnit);
 
-        Double windSpeed = (Double) currentConditions.weatherInfo.get(WeatherParameters.windSpeed);
-        Double windDirection = (Double) currentConditions.weatherInfo.get(WeatherParameters.windDegrees);
-        Double windGusts = (Double) currentConditions.weatherInfo.get(WeatherParameters.windGusts);
+            Double windSpeed = (Double) currentConditions.weatherInfo.get(WeatherParameters.windSpeed);
+            Double windDirection = (Double) currentConditions.weatherInfo.get(WeatherParameters.windDegrees);
+            Double windGusts = (Double) currentConditions.weatherInfo.get(WeatherParameters.windGusts);
 
-        String windInfo = getResources().getString(R.string.weather_wind) + ": ";
-        windInfo += String.format("%.0f", windSpeed) + " " + currentConditions.speedUnit;
-        windInfo += ", " + String.format("%.0f", windDirection) + "º";
-        // Some locations may not support detailed information
-        if (windGusts != null) {
-            windInfo += ", " + String.format("%.0f", windGusts) + " " + currentConditions.speedUnit;
-        }
-        wind.setText(windInfo);
-
-        int humidityInt = (int) currentConditions.weatherInfo.get(WeatherParameters.humidity);
-        humidity.setText(getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");
-
-        pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + String.format("%.1f",
-                currentConditions.weatherInfo.get(WeatherParameters.pressure)) + " mb");
-
-        Calendar sunriseCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise);
-        SimpleDateFormat sf;
-
-        if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
-            sf = new SimpleDateFormat("hh:mm aa");
-        else
-            sf = new SimpleDateFormat("HH:mm");
-
-        sunrise.setText(sf.format(sunriseCal.getTime()));
-
-        Calendar sunsetCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset);
-        sunset.setText(sf.format(sunsetCal.getTime()));
-
-        String lastHoursText = getResources().getString(R.string.weather_last_three_hours) + ": ";
-        Integer rain = (Integer) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
-        if (rain != null) {
-            lastHoursText += rain + " mm of rain";
-        }
-        else {
-            Integer snow = (Integer) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
-            if (snow != null) {
-                lastHoursText += snow + " mm of snow";
+            String windInfo = getResources().getString(R.string.weather_wind) + ": ";
+            windInfo += String.format("%.0f", windSpeed) + " " + currentConditions.speedUnit;
+            windInfo += ", " + String.format("%.0f", windDirection) + "º";
+            // Some locations may not support detailed information
+            if (windGusts != null) {
+                windInfo += ", " + String.format("%.0f", windGusts) + " " + currentConditions.speedUnit;
             }
-            else {
-                lastHoursText = "";
+            wind.setText(windInfo);
+
+            int humidityInt = (int) currentConditions.weatherInfo.get(WeatherParameters.humidity);
+            humidity.setText(getResources().getString(R.string.weather_humidity) + ": " + humidityInt + "%");
+
+            pressure.setText(getResources().getString(R.string.weather_pressure) + ": " + String.format("%.1f",
+                    currentConditions.weatherInfo.get(WeatherParameters.pressure)) + " mb");
+
+            Calendar sunriseCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunrise);
+            SimpleDateFormat sf;
+
+            if (settingsProfile.getHourFormat() == SettingsProfile.HOUR_FORMAT_12)
+                sf = new SimpleDateFormat("hh:mm aa");
+            else
+                sf = new SimpleDateFormat("HH:mm");
+
+            sunrise.setText(sf.format(sunriseCal.getTime()));
+
+            Calendar sunsetCal = (Calendar) currentConditions.weatherInfo.get(WeatherParameters.sunset);
+            sunset.setText(sf.format(sunsetCal.getTime()));
+
+            String lastHoursText = getResources().getString(R.string.weather_last_three_hours) + ": ";
+            Integer rain = (Integer) currentConditions.weatherInfo.get(WeatherParameters.rainPrecipitation);
+            if (rain != null) {
+                lastHoursText += rain + " mm of rain";
+            } else {
+                Integer snow = (Integer) currentConditions.weatherInfo.get(WeatherParameters.snowPrecipitation);
+                if (snow != null) {
+                    lastHoursText += snow + " mm of snow";
+                } else {
+                    lastHoursText = "";
+                }
             }
+            lastHours.setText(lastHoursText);
         }
-        lastHours.setText(lastHoursText);
 
         setRefreshing(false);
         Log.d(TAG, "updateScreenData done");

@@ -43,9 +43,6 @@ import java.util.ArrayList;
 public class ActivityMain extends ActionBarActivity implements DataProviderInterface, DialogFragmentSearchCity.DialogFragmentSearchCityResultListener {
     private final static String TAG = "ActivityMain";
 
-    //TODO remove
-    public static boolean debugConnection = false;
-
     // Weather related data
     private CurrentConditions currentConditions = null;
     private MultipleWeatherForecast threeHoursForecast = null;
