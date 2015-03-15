@@ -21,10 +21,13 @@ import com.homespotter.weatherinternshipproject.data.SettingsProfile;
 import com.homespotter.weatherinternshipproject.data.WeatherClient;
 import com.homespotter.weatherinternshipproject.data.WeatherParameters;
 
+import java.util.ArrayList;
+
 public class WeatherAppWidgetProvider extends AppWidgetProvider{
     private static final String TAG = "WeatherAppWidgetProvider";
 
     private String cityName;
+    private ArrayList<String> cityList;
     private SettingsProfile settingsProfile;
     private CurrentConditions currentConditions;
 
@@ -41,19 +44,23 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
         this.appWidgetManager = appWidgetManager;
         this.appWidgetIds = appWidgetIds;
 
-        cityName = FilesHandler.getInstance().getSavedCities(context).get(0);
-        settingsProfile = FilesHandler.getInstance().getSettingProfile(context);
 
-        // Registers the ResponseReceiver
-        IntentFilter mStatusIntentFilter = new IntentFilter(WeatherDataService.BROADCAST_ACTION);
-        ResponseReceiver responseReceiver = new ResponseReceiver();
-        LocalBroadcastManager.getInstance(context).registerReceiver(responseReceiver, mStatusIntentFilter);
+        cityList = FilesHandler.getInstance().getSavedCities(context);
+        if (cityList != null && cityList.size() != 0) {
+            cityName = cityList.get(0); // get main city
+            settingsProfile = FilesHandler.getInstance().getSettingProfile(context);
 
-        Log.d(TAG, "calling service for city " + cityName + " and settings " + settingsProfile);
-        Intent serviceIntent = new Intent(context, WeatherDataService.class);
-        serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
-        serviceIntent.putExtra(WeatherDataService.ARG_SETTINGS, settingsProfile);
-        context.startService(serviceIntent);
+            // Registers the ResponseReceiver
+            IntentFilter mStatusIntentFilter = new IntentFilter(WeatherDataService.BROADCAST_ACTION);
+            ResponseReceiver responseReceiver = new ResponseReceiver();
+            LocalBroadcastManager.getInstance(context).registerReceiver(responseReceiver, mStatusIntentFilter);
+
+            Log.d(TAG, "calling service for city " + cityName + " and settings " + settingsProfile);
+            Intent serviceIntent = new Intent(context, WeatherDataService.class);
+            serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
+            serviceIntent.putExtra(WeatherDataService.ARG_SETTINGS, settingsProfile);
+            context.startService(serviceIntent);
+        }
     }
 
     public void onServiceResult(Intent intent) {
@@ -95,7 +102,6 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                 appWidgetManager.updateAppWidget(new ComponentName(context, WeatherAppWidgetProvider.class), views);
-                //appWidgetManager.updateAppWidget(currentWidgetId, views);
             }
         }
         else {
