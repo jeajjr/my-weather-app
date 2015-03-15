@@ -504,8 +504,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
     }
 
     // Broadcast receiver for receiving status updates from the IntentService
-    private class ResponseReceiver extends BroadcastReceiver
-    {
+    private class ResponseReceiver extends BroadcastReceiver {
         private ResponseReceiver() {
         }
         // Called when the BroadcastReceiver gets an Intent it's registered to receive
