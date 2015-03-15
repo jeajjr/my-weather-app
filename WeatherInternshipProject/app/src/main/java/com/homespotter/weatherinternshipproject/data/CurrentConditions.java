@@ -1,5 +1,6 @@
 package com.homespotter.weatherinternshipproject.data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.HashMap;
  * @author José Ernesto
  *
  */
-public class CurrentConditions {
+public class CurrentConditions implements Serializable {
 	public HashMap<String, Object> locationInfo;
 	public HashMap<String, Object>  weatherInfo;
     public String temperatureUnit;

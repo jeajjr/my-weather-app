@@ -1,5 +1,6 @@
 package com.homespotter.weatherinternshipproject.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +15,7 @@ import java.util.HashMap;
  * @author José Ernesto
  *
  */
-public class MultipleWeatherForecast {
+public class MultipleWeatherForecast implements Serializable {
 	public HashMap<String, Object> locationInfo;
 	public ArrayList<HashMap<String, ?>> weatherInfoList;
 	public String temperatureUnit;

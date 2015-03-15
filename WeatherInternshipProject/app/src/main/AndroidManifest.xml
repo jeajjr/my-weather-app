@@ -41,6 +41,10 @@
             android:previewImage="@drawable/widget_preview_4_1"
             android:resource="@xml/widget" />
         </receiver>
+
+        <service
+            android:name=".ui.WeatherDataService"
+            android:exported="false"/>
     </application>
 
 </manifest>

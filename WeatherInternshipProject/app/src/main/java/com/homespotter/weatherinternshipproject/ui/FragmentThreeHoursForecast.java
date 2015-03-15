@@ -39,6 +39,11 @@ public class FragmentThreeHoursForecast extends Fragment {
         // Required empty public constructor
     }
 
+    public void setError() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        fadingForeground.setAlpha(200);
+    }
+
     public void setRefreshing(boolean refreshing) {
         Log.d(TAG, "setRefreshing: " + refreshing);
 
