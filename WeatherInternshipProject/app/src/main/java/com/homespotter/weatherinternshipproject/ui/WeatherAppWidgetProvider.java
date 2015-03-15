@@ -90,6 +90,19 @@ public class WeatherAppWidgetProvider extends AppWidgetProvider{
             Log.d(TAG, "calling service for city " + cityName + " and settings " + settingsProfile);
             callUpdateIntentService();
         }
+        else {
+            Log.d(TAG, "city not found, calling main app");
+
+            Intent intent = new Intent("android.intent.action.MAIN");
+            intent.addCategory("android.intent.category.LAUNCHER");
+
+            intent.setComponent(new ComponentName("com.homespotter.weatherinternshipproject",
+                    "com.homespotter.weatherinternshipproject.ui.ActivityStart"));
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    context, 0, intent, 0);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
 
     private void callUpdateIntentService() {

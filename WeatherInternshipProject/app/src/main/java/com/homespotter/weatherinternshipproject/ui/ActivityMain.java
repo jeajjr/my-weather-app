@@ -169,6 +169,8 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
         serviceIntent.putExtra(WeatherDataService.ARG_CITYNAME, cityName);
         serviceIntent.putExtra(WeatherDataService.ARG_SETTINGS, settingsProfile);
         startService(serviceIntent);
+
+        updateWidgets();
     }
 
     /*
