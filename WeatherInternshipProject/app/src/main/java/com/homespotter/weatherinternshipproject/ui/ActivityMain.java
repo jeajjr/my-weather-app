@@ -327,7 +327,7 @@ public class ActivityMain extends ActionBarActivity implements DataProviderInter
 
         int result = intent.getExtras().getInt(WeatherDataService.ARG_RESULT);
 
-        if (result == WeatherDataService.SERVICE_RESULT_OK) {
+        if (result == WeatherDataService.SERVICE_RESULT_OK && fragmentsState != FRAGMENT_STATE_IDLE) {
             Log.d(TAG, "service returned result OK");
 
             currentConditions =

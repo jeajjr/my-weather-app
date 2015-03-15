@@ -189,7 +189,7 @@ public class FragmentCurrentConditions extends Fragment {
 
         refreshLastUpdateTag();
 
-        if (currentConditions != null) {
+        if (currentConditions != null && isAdded()) {
             icon.setImageResource(DataParser.getIconResource((String) currentConditions.weatherInfo.get(WeatherParameters.weatherIconID)));
 
             description.setText(((String) currentConditions.weatherInfo.get(WeatherParameters.weatherDescription)).toUpperCase());
