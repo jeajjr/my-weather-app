@@ -43,6 +43,7 @@
 ![SS3](https://github.com/jeajjr/my-weather-app/blob/master/Screen%20shots/3.png)
 ![SS4](https://github.com/jeajjr/my-weather-app/blob/master/Screen%20shots/4.png)
 ![SS5](https://github.com/jeajjr/my-weather-app/blob/master/Screen%20shots/5.png)
+![SS9](https://github.com/jeajjr/my-weather-app/blob/master/Screen%20shots/8.png)
 ![SS8](https://github.com/jeajjr/my-weather-app/blob/master/Screen%20shots/nexus%209.PNG)
 
 ---
